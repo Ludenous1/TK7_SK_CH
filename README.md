@@ -39,7 +39,7 @@ Going over each module on the panel from the bottom up:
  ### Skeleton Simplifier ###
   ![image](https://user-images.githubusercontent.com/99399209/188228986-e0612fcd-f521-4875-a69b-b1ea0e18eb0a.png)
 
-Simplifies the active skeleton and cleans up the material slots for all the unhidden children meshes of that active skeleton. For those who are familiar with my very first Tekken blender script, this does the same thing just for non-Tekken skeletons too and cleans up the material slots as well. Shout out to Reborn for the extra alpha blend functionality.
+Simplifies the active skeleton and cleans up the material slots for all the unhidden children meshes of that active skeleton. For those who are familiar with my very first Tekken blender script, this does the same thing just for non-Tekken skeletons too and cleans up the material slots as well. Shout out to Reborn for the extra alpha blend functionality. Depending on how complicated the model and how many bones need to be merged, it might take some time to finish the process. 
 
 ![SK_Simp](https://user-images.githubusercontent.com/99399209/188280415-2795bca8-f86d-48d0-8497-6449ca6a575b.gif)
 
@@ -216,3 +216,4 @@ These include some tools that are commonly used throughout the modding process.
 * Sep-9-22 and Sep-10-22: 
    * Added a condition for the T-poser on the Readme. Kind of forgot to mention it earlier.
    * Clarified some details about the Pose Snapper on the Readme.
+   * Added a general comment about the runtime for the Simplifier on the Readme.
