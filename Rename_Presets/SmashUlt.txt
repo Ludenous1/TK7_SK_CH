@@ -1,0 +1,74 @@
+import bpy
+
+def rename_bones():
+    
+    dict = {
+	
+"Hip" : "Hip",
+"Waist" : "Spine1",
+"Bust" : "Spine2",
+"Neck" : "Neck",
+"Head" : "Head",
+"LegL" : "L_UpLeg",
+"KneeL" : "L_Leg",
+"FootL" : "L_Foot",
+"ToeL" : "L_Toe",
+"LegR" : "R_UpLeg",
+"KneeR" : "R_Leg",
+"FootR" : "R_Foot",
+"ToeR" : "R_Toe",
+"ClavicleR" : "R_Shoulder",
+"ShoulderR" : "R_Arm",
+"ArmR" : "R_ForeArm",
+"HandR" : "R_Hand",
+"FingerR10" : "R_FingerBase",
+"FingerR11" : "R_Index1",
+"FingerR12" : "R_Index2",
+"FingerR13" : "R_Index3",
+"FingerR20" : "R_Middle",
+"FingerR21" : "R_Middle1",
+"FingerR22" : "R_Middle2",
+"FingerR23" : "R_Middle3",
+"FingerR30" : "R_Ring",
+"FingerR31" : "R_Ring1",
+"FingerR32" : "R_Ring2",
+"FingerR33" : "R_Ring3",
+"FingerR40" : "R_Pinky",
+"FingerR41" : "R_Pinky1",
+"FingerR42" : "R_Pinky2",
+"FingerR43" : "R_Pinky3",
+"FingerR51" : "R_Thumb1",
+"FingerR52" : "R_Thumb2",
+"FingerR53" : "R_Thumb3",
+"ClavicleL" : "L_Shoulder",
+"ShoulderL" : "L_Arm",
+"ArmL" : "L_ForeArm",
+"HandL" : "L_Hand",
+"FingerL10" : "L_FingerBase",
+"FingerL11" : "L_Index1",
+"FingerL12" : "L_Index2",
+"FingerL13" : "L_Index3",
+"FingerL20" : "L_Middle",
+"FingerL21" : "L_Middle1",
+"FingerL22" : "L_Middle2",
+"FingerL23" : "L_Middle3",
+"FingerL30" : "L_Ring",
+"FingerL31" : "L_Ring1",
+"FingerL32" : "L_Ring2",
+"FingerL33" : "L_Ring3",
+"FingerL40" : "L_Pinky",
+"FingerL41" : "L_Pinky1",
+"FingerL42" : "L_Pinky2",
+"FingerL43" : "L_Pinky3",
+"FingerL51" : "L_Thumb1",
+"FingerL52" : "L_Thumb2",
+"FingerL53" : "L_Thumb3"
+
+
+    }
+    
+    for b in bpy.context.object.data.bones:
+        if b.name in dict.keys():
+            b.name = dict[b.name]
+
+rename_bones()
