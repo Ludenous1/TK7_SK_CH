@@ -29,7 +29,7 @@ class Character_Modding(Tekke7Panel, Panel):
         r1c1 = r.column(align=True) #start a column
         r1c1.operator("object.tk7_scene_setup", text='Scene setup', icon='PREFERENCES')
         r1c2 = r.column(align=True)
-        r1c2.operator('object.tk7_export', text='FBX Export', icon='EXPORT')
+#         r1c2.operator('object.tk7_export', text='FBX Export', icon='EXPORT')
         
 
         # row.label(text="", icon='ERROR')
