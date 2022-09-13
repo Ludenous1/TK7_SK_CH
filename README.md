@@ -17,7 +17,7 @@ Also, I owe a huge debt of gratitude to the Blender pythonites who helped me und
 | Compatible | :negative_squared_cross_mark:| :heavy_check_mark:  | :heavy_check_mark: | :heavy_check_mark: |
 
 Versions not listed on the table were not tested yet.
-For the ones tested, I've used 2.93.4 , 3.0.1 ,  and 3.2.2
+For the ones tested, I've used 2.91.2, 2.93.4 , 3.0.1 ,  and 3.2.2
 
 
  - - - -
@@ -219,5 +219,5 @@ These include some tools that are commonly used throughout the modding process.
    * Added a general comment about the runtime for the Simplifier on the Readme.
 
 * Sep-13-22: 
-   * Changed compatibility table on the ReadMe into something more accurate (2.9 changed to 2.93).
+   * Changed compatibility table on the ReadMe into something more accurate.
 
