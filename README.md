@@ -12,9 +12,9 @@ Also, I owe a huge debt of gratitude to the Blender pythonites who helped me und
 
 # Compatibility
 
-| Blender version  | 2.93 | 3.0 |  3.2 |
-| ------------- | ------------- | ------------- | ------------- |
-| Compatible | :heavy_check_mark:  | :heavy_check_mark: | :heavy_check_mark: |
+| Blender version | 2.91 | 2.93 | 3.0 |  3.2 |
+| ------------- | ------------- | ------------- | ------------- |------------- |
+| Compatible | :negative_squared_cross_mark:| :heavy_check_mark:  | :heavy_check_mark: | :heavy_check_mark: |
 
 Versions not listed on the table were not tested yet.
 For the ones tested, I've used 2.93.4 , 3.0.1 ,  and 3.2.2
