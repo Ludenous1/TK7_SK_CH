@@ -217,3 +217,7 @@ These include some tools that are commonly used throughout the modding process.
    * Added a condition for the T-poser on the Readme. Kind of forgot to mention it earlier.
    * Clarified some details about the Pose Snapper on the Readme.
    * Added a general comment about the runtime for the Simplifier on the Readme.
+
+* Sep-13-22: 
+   * Changed compatibility table on the ReadMe into something more accurate (2.9 changed to 2.93).
+
