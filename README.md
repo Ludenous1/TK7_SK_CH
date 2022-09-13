@@ -12,7 +12,7 @@ Also, I owe a huge debt of gratitude to the Blender pythonites who helped me und
 
 # Compatibility
 
-| Blender version  | 2.9 | 3.0 |  3.2 |
+| Blender version  | 2.93 | 3.0 |  3.2 |
 | ------------- | ------------- | ------------- | ------------- |
 | Compatible | :heavy_check_mark:  | :heavy_check_mark: | :heavy_check_mark: |
 
