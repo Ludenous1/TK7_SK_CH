@@ -37,7 +37,7 @@ If this is your first time installing the addon skip this (update) section. But 
 
 ![image](https://user-images.githubusercontent.com/99399209/190016274-7aabacbf-3421-4678-92d3-e7b84cf9c025.jpg)
 
-Once you're done. Follow the installation instructions again.
+Once you're done. Follow the installation instructions again. Note that the version should say 0.0.1 on your end.
 
 
 :exclamation: Warning: If you have multiple instances of this addon installed on the same Blender version, some of the addon features will not work. Particularly, the Skeleton Generator and the Bone Renamer modules won't work.
