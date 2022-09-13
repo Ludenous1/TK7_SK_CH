@@ -31,6 +31,18 @@ Now open up Blender and navigate to Edit->Preferences->Addons. Click on Install,
 
 :exclamation: Warning: If you have multiple instances of this addon installed on the same Blender version, some of the addon features will not work. Particularly, the Skeleton Generator and the Bone Renamer modules won't work.
 
+
+# Update:
+If this is your first time installing the addon skip this (update) section. But if you've already installed the addon before, you need to remove it first by heading to Edit->Preferences->Addons again and searching "TK7_SK_CK". Even if it is unchecked make sure you expand it and click on remove.
+
+![image](https://user-images.githubusercontent.com/99399209/190016274-7aabacbf-3421-4678-92d3-e7b84cf9c025.jpg)
+
+Once you're done. Follow the installation instructions again.
+
+
+:exclamation: Warning: If you have multiple instances of this addon installed on the same Blender version, some of the addon features will not work. Particularly, the Skeleton Generator and the Bone Renamer modules won't work.
+
+
  - - - -
  - - - -
 
