@@ -29,7 +29,7 @@ class Character_Modding(Tekke7Panel, Panel):
         r1c1 = r.column(align=True) #start a column
         r1c1.operator("object.tk7_scene_setup", text='Scene setup', icon='PREFERENCES')
         r1c2 = r.column(align=True)
-#         r1c2.operator('object.tk7_export', text='FBX Export', icon='EXPORT')
+        r1c2.operator('object.tk7_export', text='FBX Export', icon='EXPORT')
         
 
         # row.label(text="", icon='ERROR')
@@ -40,7 +40,7 @@ class Character_Modding(Tekke7Panel, Panel):
         row = layout.row(align=True)
         row.operator('object.sk_bonemerger', text='Merge bones to ', icon = 'GROUP_BONE')
 
-        row.prop(context.scene, "Bone_Mrg_enum", text="")
+        row.prop(context.scene, "bone_mrg_enum", text="")
 
         # layout.separator()
 
@@ -50,7 +50,25 @@ class Character_Modding(Tekke7Panel, Panel):
         row.operator('object.sk_bonefix', text='Fix bones', icon = 'MODIFIER_OFF')
 
 
+        if context.scene.bone_isolation_switch == False:
+            Dsblr_State = 'Off'
+        else:
+            Dsblr_State = 'On'
+
+        Dsblr_condition = False
+        if context.active_object != None:
+            if context.active_object.type == 'ARMATURE':
+                if (not context.scene.bone_isolation_switch and context.scene.sk_to_isolate == None) or (context.scene.bone_isolation_switch and context.active_object == context.scene.sk_to_isolate):
+                    Dsblr_condition = True
+
+        row = layout.row(align=True)
+        row.enabled = Dsblr_condition
+        row.prop(context.scene, "bone_isolation_switch" ,text = 'Disable hierarchy: '+Dsblr_State, toggle=True)
+        sub = row.row(align=True)
+        sub.enabled = False
+        sub.prop(context.scene, "sk_to_isolate" , icon='ARMATURE_DATA')
         
+
 
 
         # r = col.row(align=True)
@@ -211,7 +229,8 @@ class SK_TPOSER_PT_PANEL(Tekke7Panel, Panel):
 
         
         sub = row.row(align=True)
-        sub.active = context.scene.tp_fix_armature
+        # sub.active = context.scene.tp_fix_armature
+        sub.enabled = context.scene.tp_fix_armature
         # sub.prop(arm, "axes_position", text="Position")
 
         # row.active == context.scene.tp_fix_armature
@@ -340,7 +359,7 @@ class RENAMER_PT_PANEL(Tekke7Panel, Panel):
 
         if len(scene.bone_rename_list)>0:
             row = layout.row(align=True)
-            row.prop(context.scene, 'bone_R_Mrg', text='Merge bones with same/similar new names')
+            row.prop(context.scene, 'bone_r_mrg', text='Merge bones with same / similar new names')
             row = layout.row(align=True)
             row.operator('object.sk_bonerename', text='Rename', icon = 'COLOR_RED')
         ####____________________________________________
@@ -434,7 +453,7 @@ class SIMPLIFIER_PT_PANEL(Tekke7Panel, Panel):
         scene = context.scene
 
         row = layout.row(align=True)
-        row.label(text='Merge bones containing the following to their parents:')
+        row.label(text='Keywords: (ex: "offset", "null",...)')
 
         row = layout.row()
         row.template_list("MY_UL_BoneSubstringList", "The_other_List", scene,
@@ -460,9 +479,7 @@ class SIMPLIFIER_PT_PANEL(Tekke7Panel, Panel):
         row = layout.row()
         row.prop(context.scene, 'mesh_join', text='join meshes')
         row = layout.row()
-        row.prop(context.scene, 'clr_trnspc', text='Change alpha blend to HASHED')
-
-
+        row.prop(context.scene, 'clr_trnspc', text='XPS')
 
         col = layout.column()
         r = col.row(align=True)

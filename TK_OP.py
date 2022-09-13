@@ -13,7 +13,7 @@ from.TK_PROP_FX import *
 # from.TK_UI import *
 
 class SK_CH_BlenderScene(Operator):
-    """Clears out all objects and adjusts the scene settings for character meshes"""
+    """Changes the scene units to centimeters and the unit scale to 0.01 as in the original custom mesh modding tutorial and adjusts the clip start and clip end settings. """
     bl_idname = "object.tk7_scene_setup"
     bl_label = "Scene setup"
     bl_options = {'REGISTER', 'UNDO'}
@@ -32,7 +32,7 @@ class SK_CH_BlenderScene(Operator):
    
     
 class SK_CH_Export(Operator):
-    """Applies the correct export settings for character meshes"""
+    """Applies the proper export settings for a selected armature. The blender file needs to be saved and the armature should be the only skeleton on the scene. The FBX with be at the same location as the project's blend file"""
     bl_idname = "object.tk7_export"
     bl_label = "Character Export"
     # bl_options = {'REGISTER', 'UNDO'}
@@ -104,7 +104,7 @@ class SK_CH_Test(Operator):
 
 
 class SK_CH_ApplyPose(Operator):
-    """Applies the pose of the current active skeleton"""
+    """Applies the pose of the current active skeleton do that it becomes the default pose seen in edit mode."""
     bl_idname = "object.sk_applypose"
     bl_label = "Apply pose"
     bl_options = {'REGISTER', 'UNDO'}
@@ -130,7 +130,7 @@ class SK_CH_ApplyPose(Operator):
 
 
 class SK_CH_Tposer(Operator):
-    """T-poses the current active skeleton according Tekken 7's bone naming convention"""
+    """Puts the current active skeleton into T-pose as long as the bone names match Tekken 7's."""
     bl_idname = "object.sk_tposer"
     bl_label = "T-Poser"
     bl_options = {'REGISTER', 'UNDO'}
@@ -138,11 +138,13 @@ class SK_CH_Tposer(Operator):
     @classmethod
     def poll(cls, context):
         obj = context.active_object
+        obtypes = [ob.type for ob in context.selected_objects if ob.type=='ARMATURE']
 
         if obj is not None:
             if obj.type == 'ARMATURE':
-                if obj.mode == 'OBJECT':
-                    if len(context.selected_objects)==1:
+                if obj.mode == 'OBJECT' or obj.mode == 'POSE':
+                    # if len(context.selected_objects)==1:
+                    if len(obtypes)==1:
                         return True
         
 
@@ -166,11 +168,13 @@ class SK_CH_Pose_Snapper(Operator):
     @classmethod
     def poll(cls, context):
         obj = context.active_object
+        obtypes = [ob.type for ob in context.selected_objects if ob.type=='ARMATURE']
 
         if obj is not None:
             if obj.type == 'ARMATURE':
-                if obj.mode == 'OBJECT':
-                    if len(context.selected_objects)==2:
+                if obj.mode == 'OBJECT' or obj.mode == 'POSE':
+                    # if len(context.selected_objects)==2:
+                    if len(obtypes)==2:
                         return True
         
 
@@ -185,7 +189,7 @@ class SK_CH_Pose_Snapper(Operator):
 
 
 class SK_CH_BoneFix(Operator):
-    """Matches the active skeleton with the selected skeleton in edit mode and adds a few main bones if needed"""
+    """Morphes the last selected skeleton so it matches the other selected skeleton in edit mode. Copies all the properties of each bone in edit mode."""
     bl_idname = "object.sk_bonefix"
     bl_label = "Fix bones"
     bl_options = {'REGISTER', 'UNDO'}
@@ -193,11 +197,13 @@ class SK_CH_BoneFix(Operator):
     @classmethod
     def poll(cls, context):
         obj = context.active_object
+        obtypes = [ob.type for ob in context.selected_objects if ob.type=='ARMATURE']
 
         if obj is not None:
             if obj.type == 'ARMATURE':
                 if obj.mode == 'OBJECT' or obj.mode == 'EDIT':
-                    if len(context.selected_objects)==2:
+                    # if len(context.selected_objects)==2:
+                    if len(obtypes)==2:
                         return True
         
 
@@ -265,7 +271,7 @@ class SK_CH_BoneFix(Operator):
 
 
 class SK_CH_BoneMerge(Operator):
-    """Merges the selected bones and merges their weights either to their parents or to the active bone (last selected bone) """
+    """Merges the weights of the selected bones either to their parents or to the active bone (last selected bone) """
     bl_idname = "object.sk_bonemerger"
     bl_label = "Bone Merger"
     bl_options = {'REGISTER', 'UNDO'}
@@ -273,12 +279,14 @@ class SK_CH_BoneMerge(Operator):
     @classmethod
     def poll(cls, context): #Skeleton edit mode poll for one selected object
         obj = context.active_object
+        obtypes = [ob.type for ob in context.selected_objects if ob.type=='ARMATURE']
+
 
         if obj is not None:
             if obj.type == 'ARMATURE':
                 if obj.mode == 'EDIT':
-                    if len(context.selected_objects)==1:
-                        if (context.scene.Bone_Mrg_enum == '1' and len(context.selected_bones)>1) or (context.scene.Bone_Mrg_enum == '0' and len(context.selected_bones)!=0):
+                    if len(obtypes)==1:
+                        if (context.scene.bone_mrg_enum == '1' and len(context.selected_bones)>1) or (context.scene.bone_mrg_enum == '0' and len(context.selected_bones)!=0):
                             return True
         
 
@@ -286,10 +294,10 @@ class SK_CH_BoneMerge(Operator):
 
 
     def execute(self, context):
-        if context.scene.Bone_Mrg_enum == '0':
+        if context.scene.bone_mrg_enum == '0':
             print("parent")
             BoneMergeParent()
-        elif context.scene.Bone_Mrg_enum == '1':
+        elif context.scene.bone_mrg_enum == '1':
             print("active")
             BoneMergeActive()
         # Simplifier()
@@ -408,7 +416,7 @@ class SK_CH_SK_Generator(Operator):
 #______________Bone renamer list_________________________
 
 class Bone_Renamer_Preset_Load_Operator(bpy.types.Operator):
-    """Loads the stored preset files."""
+    """Loads the stored preset renaming lists."""
     bl_idname = "bone_renamer_preset.load"
     bl_label = "Load"
     # bl_options = {'REGISTER', 'UNDO'}
@@ -459,7 +467,7 @@ class Bone_Renamer_Preset_Add_Operator(bpy.types.Operator):
 
 
 class Bone_Renamer_Preset_Remove_Operator(bpy.types.Operator):
-    """Remove an entire renaming list."""
+    """Delete an entire renaming list. Deleted list won't be retrievable"""
     bl_idname = "bone_renamer_preset.remove"
     bl_label = "Remove bone renamer preset"
     # bl_options = {'REGISTER', 'UNDO'}
@@ -485,7 +493,7 @@ class Bone_Renamer_Preset_Remove_Operator(bpy.types.Operator):
 
 #Test Operators for lists
 class LIST_OT_BoneRename_NewItem(Operator):
-    """Add a new bone rename line to the list."""
+    """Add a new line to the rename list."""
 
     bl_idname = "bone_rename_list.new_item"
     bl_label = "Add a new bone rename line"
@@ -506,7 +514,7 @@ class LIST_OT_BoneRename_NewItem(Operator):
         return{'FINISHED'}
 
 class LIST_OT_BoneRename_DeleteItem(Operator):
-    """Delete the selected bone rename line from the list."""
+    """Remove the current selected line from the rename list."""
 
     bl_idname = "bone_rename_list.delete_item"
     bl_label = "Deletes bone rename line"
@@ -568,7 +576,7 @@ class LIST_OT_BoneRename_DeleteItem(Operator):
 
 
 class SK_CH_BoneRenamer(Operator):
-    """Moves auxiliary bones to other layers and enlarges primary bones without affecting how the mesh loads inside Tekken"""
+    """Rename the bones of the current active armature according to the current chosen list and merge them (if applicable)."""
     bl_idname = "object.sk_bonerename"
     bl_label = "Test functions"
     bl_options = {'REGISTER', 'UNDO'}
@@ -579,7 +587,7 @@ class SK_CH_BoneRenamer(Operator):
 
         if obj is not None and obj in bpy.context.selected_objects:
             if obj.type == 'ARMATURE':
-                if obj.mode == 'OBJECT':
+                if obj.mode == 'OBJECT' or obj.mode == 'EDIT':
                     if context.scene.preset_enum   != '' and CheckPresetNameMatch():
                     # if len(context.selected_objects)==2:
                         return True
@@ -598,7 +606,7 @@ class SK_CH_BoneRenamer(Operator):
 
 
 class SK_CH_BoneRenamerListPopulate(Operator):
-    """Auto populates the rename list based on the selected skeleton's structure as long as the skeleton type is supported"""
+    """Autofill the current chosen bone rename list based on the selected skeleton's structure as long as the skeleton type is supported"""
     bl_idname = "bone_rename_list.populate"
     bl_label = "Auto bone matching"
     bl_options = {'REGISTER', 'UNDO'}
@@ -609,7 +617,7 @@ class SK_CH_BoneRenamerListPopulate(Operator):
 
         if obj is not None and obj in bpy.context.selected_objects:
             if obj.type == 'ARMATURE':
-                if obj.mode == 'OBJECT':
+                if obj.mode == 'OBJECT' or obj.mode == 'EDIT':
                     if context.scene.preset_enum   != '' and CheckPresetNameMatch():
                     # if len(context.selected_objects)==2:
                         return True
@@ -631,7 +639,7 @@ class SK_CH_BoneRenamerListPopulate(Operator):
 
 
 class LIST_OT_Substrng_NewItem(Operator):
-    """Add a new item to the list."""
+    """Add a new keyword to search for within the bone names."""
 
     bl_idname = "bone_substrng_list.new_item"
     bl_label = "Add a new item"
@@ -654,7 +662,7 @@ class LIST_OT_Substrng_NewItem(Operator):
         return{'FINISHED'}
 
 class LIST_OT_Substrng_DeleteItem(Operator):
-    """Delete the selected item from the list."""
+    """Delete the current selected keyword to from the list."""
 
     bl_idname = "bone_substrng_list.delete_item"
     bl_label = "Deletes an item"
@@ -678,7 +686,7 @@ class LIST_OT_Substrng_DeleteItem(Operator):
         return{'FINISHED'}
 
 class SK_CH_Simplify(Operator):
-    """Moves auxiliary bones to other layers and enlarges primary bones without affecting how the mesh loads inside Tekken"""
+    """Merges bones with names containing the keywords to their parents, connects the main bones, and cleans up the material slots """
     bl_idname = "object.sk_simplify"
     bl_label = "Merges bones and adjusts the skeleton"
     bl_options = {'REGISTER', 'UNDO'}

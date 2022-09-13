@@ -23,7 +23,7 @@ bl_info = {
     "author" : "Ludenous",
     "description" : "",
     "blender" : (2, 80, 0),
-    "version" : (0, 0, 1),
+    "version" : (0, 0, 2),
     "location" : "View3D",
     "warning" : "",
     "category" : "Object"
@@ -107,6 +107,9 @@ classes = (
     MY_UL_BoneSubstringList,
 
     # ____PropertyGroups_______
+    BoneParent,
+
+
     BoneRenameListItem,
     Rename_Preset,
 
@@ -120,13 +123,20 @@ classes = (
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)
-
-
 #__________________Main tools_________________________
-    bpy.types.Scene.Bone_Mrg_enum = EnumProperty(items=Generate_Enum_for_BoneMerger)
+    bpy.types.Scene.bone_mrg_enum = EnumProperty(items=Generate_Enum_for_BoneMerger)
 
+    bpy.types.Scene.sk_to_isolate = PointerProperty(
+        name='',
+        description='the skeleton that you want to isolate the bones of',
+        type=bpy.types.Object,
+        poll=SK_hierarchy_disabler_poll
+        # update=SK_hierarchy_disabler_update
+        )
 
+    bpy.types.Scene.bone_isolation_switch = BoolProperty(default = False, update=SK_hierarchy_disabler_Switch_update)
 
+    bpy.types.Scene.bone_parent_list = CollectionProperty(type = BoneParent)
 
 #__________________SK Generator_________________________
     bpy.types.Scene.sk_gen_char_enum = EnumProperty(items=Generate_Enum_for_Chars)
@@ -158,7 +168,7 @@ def register():
     bpy.types.Scene.preset_enum = EnumProperty(items=Generate_Enum_from_Rename_Preset_Collection,update=BoneRenamerPresetSelection)
     bpy.types.Scene.preset_collection = CollectionProperty(type=Rename_Preset)
     
-    bpy.types.Scene.bone_R_Mrg = BoolProperty(default = False)
+    bpy.types.Scene.bone_r_mrg = BoolProperty(default = False)
 
 
 #____________________Simplifier_________________________
@@ -172,10 +182,25 @@ def register():
     bpy.types.Scene.mesh_join = BoolProperty(default = False)
     bpy.types.Scene.clr_trnspc = BoolProperty(default = True)
 
-def unregister():
-#________________Main tools______________________________
-    del bpy.types.Scene.Bone_Mrg_enum 
 
+    if not check_ob_in_scene in bpy.app.handlers.depsgraph_update_post:
+        bpy.app.handlers.depsgraph_update_post.append(check_ob_in_scene)
+
+
+def unregister():
+
+    if check_ob_in_scene in bpy.app.handlers.depsgraph_update_post:
+        bpy.app.handlers.depsgraph_update_post.remove(check_ob_in_scene)
+
+#________________Main tools______________________________
+   
+    del bpy.types.Scene.bone_mrg_enum 
+
+    del bpy.types.Scene.sk_to_isolate
+
+    del bpy.types.Scene.bone_isolation_switch 
+
+    del bpy.types.Scene.bone_parent_list 
 
 #_________________SK Generator___________________________
     del bpy.types.Scene.sk_gen_char_enum 
@@ -197,7 +222,7 @@ def unregister():
     del bpy.types.Scene.preset_enum 
     del bpy.types.Scene.preset_collection
 
-    del bpy.types.Scene.bone_R_Mrg 
+    del bpy.types.Scene.bone_r_mrg 
 
 
 #____________________Simplifier_________________________

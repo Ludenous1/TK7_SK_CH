@@ -105,6 +105,31 @@ class BoneSubstrngListItem(PropertyGroup):
            #update=BoneNameUpdateFunction)
 
 
+#________________Pose Isolator__________________________
+
+# class SK_Hierarchy_Disabler(PropertyGroup):
+#     """Group of properties representing an item in the list."""
+
+#     ArmatureName: PointerProperty(
+#            name="SK",
+#            description='Select the skeleton that you want to isolate the bones of',
+#            poll="",
+#            update=BoneNameUpdateFunction)
+
+
+class BoneParent(PropertyGroup):
+    """Group of properties representing an item in the list."""
+
+    Bone_Name: StringProperty(
+           name="Bone name",
+           description="The current name of the bone/vertex group",
+           default="")
+
+    Bone_Parent: StringProperty(
+           name="Bone parent name",
+           description="The name you wish to rename your bone/vertex group to",
+           default="")#,#)#,
+        #    update=BoneNameUpdateFunction)
 
 
 

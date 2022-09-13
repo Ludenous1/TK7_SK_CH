@@ -8,6 +8,9 @@ import bpy
 import re
 import os
 import addon_utils
+
+import time
+
 # from bpy.types import PropertyGroup
 # from bpy.props import EnumProperty, PointerProperty, StringProperty, IntProperty
 
@@ -15,7 +18,7 @@ from.TK_FX import *
 
 
 
-
+# SK_copy = None
 
 # def lol():
 #     print("Update!!!!")
@@ -190,6 +193,118 @@ def Generate_Enum_for_BoneMerger(self, context):
         Enums.append(item)
         
     return Enums
+
+
+# def SK_hierarchy_disabler_update(self, context):
+#     #set boolproperty back to false and let it do all the rest
+#     # context.scene.bone_isolation_switch = False
+#     print("Whatever")
+    
+#     #(restore armature hierarchy back to default
+#     #adjust the pose of each bone correctly)
+
+def SK_hierarchy_disabler_poll(self, object):
+    return object.type == 'ARMATURE'
+
+
+def check_ob_in_scene(scene):
+    ob = scene.sk_to_isolate
+
+    if ob is not None:
+        if ob.name not in scene.objects:
+            scene.sk_to_isolate = None
+            scene.bone_isolation_switch = False
+            scene.bone_parent_list.clear()
+
+def Store_SK_hierarchy_data(SK):
+
+    bpy.ops.object.mode_set(mode='OBJECT')
+
+    for indx,bone in enumerate(SK.data.bones):
+        bpy.context.scene.bone_parent_list.add()
+        bpy.context.scene.bone_parent_list[indx].Bone_Name = bone.name
+        if bone.parent != None:
+            bpy.context.scene.bone_parent_list[indx].Bone_Parent = bone.parent.name
+        else:
+            bpy.context.scene.bone_parent_list[indx].Bone_Parent = ''
+
+    bpy.ops.object.mode_set(mode='OBJECT')
+
+def Disable_SK_hierarchy_data(SK):
+
+    bpy.ops.object.mode_set(mode='EDIT')
+
+    for bone in SK.data.edit_bones:
+        bone.parent = None
+
+    bpy.ops.object.mode_set(mode='OBJECT')
+
+def Update_SK_hierarchy_data(SK):
+    
+    SKDict = {bone.name: bone for bone in  SK.data.edit_bones}
+
+    for indx1,item1 in enumerate(bpy.context.scene.bone_parent_list):
+        if item1.Bone_Name not in SKDict:
+            for indx2,item2 in enumerate(bpy.context.scene.bone_parent_list):
+                if item2.Bone_Parent == item1.Bone_Name:
+                    item2.Bone_Parent = item1.Bone_Parent
+
+            item1.Bone_Name = ''
+
+def Restore_SK_hierarchy_data(SK):
+
+    bpy.ops.object.mode_set(mode='EDIT')
+
+    Update_SK_hierarchy_data(SK)
+
+    for item in bpy.context.scene.bone_parent_list:
+        if item.Bone_Name != '':
+            if item.Bone_Parent == '':
+                Parent = None
+            else:
+                Parent = SK.data.edit_bones[item.Bone_Parent]
+
+            SK.data.edit_bones[item.Bone_Name].parent = Parent
+
+
+    bpy.ops.object.mode_set(mode='OBJECT')
+
+
+def SK_hierarchy_disabler_Switch_update(self, context):
+    
+    OgMode = context.mode
+    
+    if context.scene.bone_isolation_switch == True:
+        self.sk_to_isolate = bpy.context.active_object
+        Store_SK_hierarchy_data(self.sk_to_isolate)
+        Disable_SK_hierarchy_data(self.sk_to_isolate)
+        # SK_copy = bpy.context.active_object.data.copy()
+
+    elif context.scene.bone_isolation_switch == False:
+        #Return the Sk to normal before changing it to None and clearing its copied data
+        if self.sk_to_isolate != None:
+            Restore_SK_hierarchy_data(self.sk_to_isolate)
+            bpy.context.scene.bone_parent_list.clear()
+            # print(SK_copy)
+            self.sk_to_isolate = None
+
+    print(context.scene.bone_isolation_switch,self.sk_to_isolate)
+    # pass
+
+    if bpy.context.active_object == None:
+        pass
+    
+    else:
+        if 'EDIT' in OgMode:
+            bpy.ops.object.mode_set(mode='EDIT')
+        elif 'OBJECT' in OgMode:
+            bpy.ops.object.mode_set(mode='OBJECT')
+        elif 'POSE' in OgMode:
+            bpy.ops.object.mode_set(mode='POSE')
+
+
+
+
 #________________________________________________________
 
 
@@ -509,22 +624,29 @@ def LineInfoConverterForRenamerPresets(line):
     return ConvertedLine
 
 def ClearBoneRenameList():
-    for indx ,item in enumerate(bpy.context.scene.bone_rename_list):
-            my_list = bpy.context.scene.bone_rename_list
-            # bpy.context.scene.bone_rename_list_index = indx
-            index = 0
-            # print("Clear:" ,index, my_list, item.Current_Name)
-            my_list.remove(index)
+    my_list = bpy.context.scene.bone_rename_list
+    # for indx ,item in enumerate(bpy.context.scene.bone_rename_list):
+    #         my_list = bpy.context.scene.bone_rename_list
+    #         # bpy.context.scene.bone_rename_list_index = indx
+    #         index = 0
+    #         # print("Clear:" ,index, my_list, item.Current_Name)
+    #         my_list.remove(index)
+
+    my_list.clear()
 
 
 def InitializeRenameList(Defaul_List):
 
+
     ClearBoneRenameList()
+
+    # bpy.context.scene.bone_rename_list.append(len(Defaul_List))
 
     for indx,bonename in enumerate(Defaul_List):
         bpy.context.scene.bone_rename_list.add()
         bpy.context.scene.bone_rename_list[indx].Current_Name = ''
         bpy.context.scene.bone_rename_list[indx].New_Name = bonename
+
 
 
 def RenamerListPopulate():

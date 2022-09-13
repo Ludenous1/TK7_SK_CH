@@ -108,7 +108,12 @@ def TekkenFBXexporter():
 def ApplyPose():
     
     SK = bpy.context.active_object # Skeleton of the object. Context can only be accessed through these set of functions
+    
+    OgMode = SK.mode
+
     AplPose(SK)
+
+    bpy.ops.object.mode_set(mode=OgMode)
 
 
 def Simplifier(PrsvBones = False, BoneSubstrgList = ["adj", "unused", "ctr", "roll" , "ROLL", "offset", "twist", "fix", "joint", "null"], Removebones = True, MergeMeshes = False, Remove_Trans = True):#SK = bpy.context.active_object ,TkState = 0, BonesEndingWith = ["adj", "unused", "ctr", "roll", "offset", "twist", "fix", "joint", "null"] ):
@@ -121,6 +126,8 @@ def Simplifier(PrsvBones = False, BoneSubstrgList = ["adj", "unused", "ctr", "ro
 
     SK = bpy.context.active_object # Skeleton of the object. Context can only be accessed through these set of functions
 
+    OgMode = SK.mode
+    
     # objectcheck(SK, 'ARMATURE')
 
     # bpy.ops.wm.console_toggle()
@@ -157,6 +164,7 @@ def Simplifier(PrsvBones = False, BoneSubstrgList = ["adj", "unused", "ctr", "ro
     if Remove_Trans == True:
         ChangeBlendMode(SK, blndmode = 'HASHED')
 
+    bpy.ops.object.mode_set(mode=OgMode)
 
 def FixBones():
     
@@ -273,14 +281,18 @@ def Renamer():
     #     if obj != SK:
     #         ref = obj
 
+    OgMode = SK.mode
+
     # ref = bpy.context.scene.objects["SK_CH_mar_bdf_higeuncle"]
     renamelist = bpy.context.scene.bone_rename_list
 
     BoneRenamer(SK, renamelist)
     
-    if bpy.context.scene.bone_R_Mrg:
+    if bpy.context.scene.bone_r_mrg:
         List = BoneRenamerMerger(SK)
         TekkenExtraBoneRemover(SK, List)
+
+    bpy.ops.object.mode_set(mode=OgMode)
     
 def TestAdjuster():
     SK = bpy.context.active_object
@@ -301,7 +313,7 @@ def BonPosMove():
 
     # ref = SK_CH_mar_bdf_higeuncle
     for obj in bpy.context.selected_objects:
-        if obj != SK:
+        if obj != SK and obj.type == 'ARMATURE':
             ref = obj
 
     # ref = bpy.context.scene.objects["SK_CH_mar_bdf_higeuncle"]
@@ -364,6 +376,8 @@ def RenamerListPopulateFx():
 
     SK = bpy.context.active_object
 
+    OgMode = SK.mode
+
     tolerance = SK_Tolerance(SK)
     print(tolerance)
 
@@ -373,11 +387,13 @@ def RenamerListPopulateFx():
 
     print(UpdatedMatches)
 
+    bpy.ops.object.mode_set(mode=OgMode)
+
     return UpdatedMatches
         
 
 def T_Poser(FixArmature, FixFingerTips, Tpose_Spine):
-    
+       
     X_axis = mathutils.Vector((1,0,0))
     Z_axis = mathutils.Vector((0,0,1))
 
@@ -441,6 +457,10 @@ def T_Poser(FixArmature, FixFingerTips, Tpose_Spine):
 
     SK = bpy.context.active_object
 
+    OgMode = SK.mode
+
+    bpy.ops.object.mode_set(mode='OBJECT')
+
     bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
 
     # AplPose(SK) #I don't trust people to do the write thing
@@ -456,6 +476,7 @@ def T_Poser(FixArmature, FixFingerTips, Tpose_Spine):
     Armature_Thumb_pose(SK, Left_Thumb, Right_Thumb)
 
 
+    bpy.ops.object.mode_set(mode=OgMode)
 
 
 
@@ -471,7 +492,7 @@ def T_Poser(FixArmature, FixFingerTips, Tpose_Spine):
 
 
 def Pose_Snapper(autoscale, mode_enum):
-
+    
     Triade = ["Neck",'L_Shoulder','R_Shoulder']
 
     Left_Hand_Bones = ['L_Hand', 
@@ -555,17 +576,15 @@ def Pose_Snapper(autoscale, mode_enum):
     # #TekkenFBXexporter(context)
 
 
-
-
-
-
     SK = bpy.context.active_object
+
+    OgMode = SK.mode
 
     AplPose(SK) #I don't trust people to do the write thing
 
     # ref = SK_CH_mar_bdf_higeuncle
     for obj in bpy.context.selected_objects:
-        if obj != SK:
+        if obj != SK and obj.type == 'ARMATURE':
             refSK = obj
 
     if autoscale == True:
@@ -582,11 +601,18 @@ def Pose_Snapper(autoscale, mode_enum):
         ArmaturePosePoints(SK, refSK,Triade, SnapBones, SmartSnapBonesBrief,  Fingers_Bases, Fingers_No_Bases)
 
 
+    bpy.ops.object.mode_set(mode=OgMode)
+
+
 def ArmatureMatchFixer():
     SK = bpy.context.active_object
 
+    OgMode = SK.mode
+
     for obj in bpy.context.selected_objects:
-        if obj != SK:
+        if obj != SK and obj.type == 'ARMATURE':
             refSK = obj
         
     Armature_OverHall(SK,refSK)
+
+    bpy.ops.object.mode_set(mode=OgMode)
