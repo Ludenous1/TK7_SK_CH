@@ -33,7 +33,7 @@ Now open up Blender and navigate to Edit->Preferences->Addons. Click on Install,
 
 
 # Update:
-If this is your first time installing the addon skip this (update) section. But if you've already installed the addon before, you need to remove it first by heading to Edit->Preferences->Addons again and searching "TK7_SK_CK". Even if it is unchecked make sure you expand it and click on remove.
+If this is your first time installing the addon skip this (update) section. But if you've already installed the addon before, you need to remove the older version first by heading to Edit->Preferences->Addons again and searching "TK7_SK_CK". Even if it is unchecked, make sure you expand it and click on remove.
 
 ![image](https://user-images.githubusercontent.com/99399209/190016274-7aabacbf-3421-4678-92d3-e7b84cf9c025.jpg)
 
