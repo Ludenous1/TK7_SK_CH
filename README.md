@@ -180,7 +180,7 @@ Puts the armature into T pose as long as the name of the bones matches up with t
  ### Skeleton Generator ###
  ![image](https://user-images.githubusercontent.com/99399209/188228602-94363f1f-8538-4151-913e-09d6573976ca.png)
  
- Generate skeletons that work in Tekken 7. You need to select the appropriate type of export settings depending on the type of skeleton (gLTF or PSK) you're using. Big thanks to Saiki (and by extension to Ressen) for the bone roll fix guide[^2] which helped lead to the development of this module.
+ Generate skeletons that work in Tekken 7. You need to select the appropriate type of export settings depending on the type of skeleton you're using (gLTF or PSK). Big thanks to Saiki (and by extension to Ressen) for the bone roll fix guide[^2] which helped lead to the development of this module.
 
 ![Sk_gen](https://user-images.githubusercontent.com/99399209/188280510-d6884bc1-e1f6-496b-94b7-e8743fd81711.gif)
 
@@ -234,6 +234,12 @@ These include some tools that are commonly used throughout the modding process.
 
  - - - -
 
+# Usage demo:
+
+https://youtu.be/kA3ey4t1XMg
+
+ - - - -
+
 # Update log:
 
 * Sep-3-22: 
@@ -250,6 +256,11 @@ These include some tools that are commonly used throughout the modding process.
    * Changed the description on most of the ui buttons so that it explains what they do a bit more.
    * Changed compatibility table on the ReadMe into something more accurate.
    * Added references to the ReadMe.
+
+* Sep-25-22: 
+   * Added usage demo video without narration. A more detailed video with narration is in the works.
+
+
 
 
 [^1]: The word "skeleton" and "armature" is used interchangeably. They both mean the same thing here which is the structure that holds all the bones together in a 3D model.
