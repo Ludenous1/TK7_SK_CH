@@ -236,7 +236,7 @@ These include some tools that are commonly used throughout the modding process.
 
 # Usage demo:
 
-[![image](https://user-images.githubusercontent.com/99399209/192145961-e3c3dff3-e64b-4959-81e9-6c0d3e0c0e39.png)]([https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE](https://youtu.be/kA3ey4t1XMg))
+[![image](https://user-images.githubusercontent.com/99399209/192145961-e3c3dff3-e64b-4959-81e9-6c0d3e0c0e39.png)](https://www.youtube.com/watch?v=kA3ey4t1XMg)
 
 
  - - - -
