@@ -33,7 +33,7 @@ Now open up Blender and navigate to Edit->Preferences->Addons. Click on Install,
 
 
 # Update:
-If this is your first time installing the addon skip this (update) section. But if you've already installed the addon before, you need to remove the older version first by heading to Edit->Preferences->Addons again and searching "TK7_SK_CK". Even if it is unchecked, make sure you expand it and click on remove.
+If this is your first time installing the addon skip this (update) section. But if you've already installed the addon before, you need to remove the older version first by heading to Edit->Preferences->Addons again and searching "TK7_SK_CH". Even if it is unchecked, make sure you expand it and click on remove.
 
 ![image](https://user-images.githubusercontent.com/99399209/190016274-7aabacbf-3421-4678-92d3-e7b84cf9c025.jpg)
 
@@ -236,7 +236,8 @@ These include some tools that are commonly used throughout the modding process.
 
 # Usage demo:
 
-https://youtu.be/kA3ey4t1XMg
+[![image](https://user-images.githubusercontent.com/99399209/192145961-e3c3dff3-e64b-4959-81e9-6c0d3e0c0e39.png)]([https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE](https://youtu.be/kA3ey4t1XMg))
+
 
  - - - -
 
@@ -259,6 +260,8 @@ https://youtu.be/kA3ey4t1XMg
 
 * Sep-25-22: 
    * Added usage demo video without narration. A more detailed video with narration is in the works.
+   * Fixed some mistakes on the ReadMe
+
 
 
 
