@@ -131,7 +131,7 @@ Going over each module on the panel from the bottom up:
    Options:
    * - [x] **Fix armature**: &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Connects the limb bones together in edit mode to make the skeleton ready for T posing (Optional, On by default).
    * - [ ] **Fix finger tips**: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; Rotates the finger tip bones so that they're pointing in the direction of the mesh they control (Optional, Off by default).
-   * - [ ] **Apply to spine bones**: &nbsp; &nbsp; &nbsp; Attemps to make the spine bones line up vertically in pose mode (Optional).
+   * - [ ] **Apply to spine bones**: &nbsp; &nbsp; &nbsp; Attemps to make the spine bones line up vertically in pose mode (Optional, Off by default).
 
   Conditions for proper activation:
   * Object mode or pose mode.
