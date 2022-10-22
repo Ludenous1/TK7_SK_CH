@@ -1,5 +1,5 @@
 # TK7_SK_CH
-This Blender addon is meant to speed up the process of modding characters particularly for Tekken 7. It has a set of modules that would modify a custom skeleton[^1] and its mesh to make it ready for Tekken quickly.
+This Blender addon is meant to speed up the process of modding characters particularly for Tekken 7. It has a set of modules that would modify a custom skeleton[^1] and its mesh to make it ready for Tekken quickly. It also includes some more generic skeleton related tools.
 
  - - - -
 
@@ -33,11 +33,11 @@ Now open up Blender and navigate to Edit->Preferences->Addons. Click on Install,
 
 
 # Update:
-If this is your first time installing the addon skip this (update) section. But if you've already installed the addon before, you need to remove the older version first by heading to Edit->Preferences->Addons again and searching "TK7_SK_CH". Even if it is unchecked, make sure you expand it and click on remove.
+If this is your first time installing the addon skip this update section. But if you've already installed the addon before, you need to remove the older version first by heading to Edit->Preferences->Addons again and searching "TK7_SK_CH". Even if it is unchecked, make sure you expand it and click on `remove`.
 
 ![image](https://user-images.githubusercontent.com/99399209/190016274-7aabacbf-3421-4678-92d3-e7b84cf9c025.jpg)
 
-The version should say 0.0.1 on your end. Once you've removed the old version, follow the installation instructions. It should say version 0.0.2 afterwards which means the update was successful.
+The version should say 0.0.1 on your end. Once you've removed the old version, just follow the installation instructions. It should say version 0.0.2 afterwards which means the update was successful.
 
 
  - - - -
@@ -46,12 +46,12 @@ The version should say 0.0.1 on your end. Once you've removed the old version, f
 # Modules
 Going over each module on the panel from the bottom up:
  ### Skeleton Simplifier ###
-  ![image](https://user-images.githubusercontent.com/99399209/190009039-07c216a1-0d38-4d49-9402-1ed87c7006a2.png)
-
-
-Simplifies the active skeleton by merging bones that have the keywords listed and cleans up the material slots for all the unhidden children meshes of that active skeleton. For those who are familiar with my very first Tekken blender script, this does the same thing just for non-Tekken skeletons too and cleans up the material slots as well. Shout out to Reborn for the extra alpha blend functionality (XPS checkmark). Depending on how complicated the model is and how many bones need to be merged, it might take some time to finish the whole process. 
+ 
+ &nbsp; &nbsp; &nbsp; Simplifies the active skeleton by merging bone weights (or mesh Vertex Groups) that have the keywords listed and cleans up the material slots for all the unhidden children meshes of that active skeleton. For those who are familiar with my very first Tekken blender script, this does the same thing just for non-Tekken skeletons too and cleans up the material slots as well. Shout out to Reborn for the code to change the alpha blend mode on the materials to *Hashed* (XPS checkmark). Depending on how complicated the model is and how many bones need to be merged, it might take some time to finish the whole process. 
 
 ![SK_Simp](https://user-images.githubusercontent.com/99399209/188280415-2795bca8-f86d-48d0-8497-6449ca6a575b.gif)
+
+![image](https://user-images.githubusercontent.com/99399209/190009039-07c216a1-0d38-4d49-9402-1ed87c7006a2.png)
 
 <details>
   <summary>Details</summary>
@@ -62,10 +62,10 @@ Simplifies the active skeleton by merging bones that have the keywords listed an
   * Removes duplicate materials with different names but the exact same shader properties (material slot clean up). 
   
   Options:
-  * Keep bone orientation: tries to preserve the bones' general direction while connecting them. 
-  * remove bones: removes all the bones that contain listed strings (ex: "ctr", "null", "offset",  ...) in their name from the skeleton after they've got merged (Optional).
-  * Join meshes: Joins the children meshes or separate them according to the materials (Either join or separate by material slots).
-  * XPS: Cleans up the alpha blend settings of your mesh (Optional).
+  *  - [ ] **Keep bone orientation**:  &nbsp; Tries to preserve the bones' general direction while connecting them.
+  *  - [x] **remove bones**: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Removes all the bones that contain listed keywords (ex: "ctr", "null", "offset",  ...) in their name from the skeleton after they've got merged (Optional, On by default).
+  * - [ ] **Join meshes**: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  Joins the children meshes or separates them according to the materials (Optional, Off by default so it will separate them according to the material slots if left unchecked)
+  * - [x] **XPS**: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Changes the alpha blend mode settings on every material on all the meshes attached to the skeleton to *Hashed* (Optional, On by default).
   
 
   Conditions for proper activation:
@@ -80,12 +80,12 @@ Simplifies the active skeleton by merging bones that have the keywords listed an
  - - - -
 
  ### Bone Renamer ###
-
-![image](https://user-images.githubusercontent.com/99399209/190012511-8fcbf0b8-a24b-4fbe-8ca5-6ae5754cfce9.png)
-
-Renames the bones for the active skeleton according to the current selected preset list. For those who are familiar with Reborn's original bone renamer script, this does exactly the same thing just with the ability to merge bones, store templates, and autofill the list (last feature is still unstable and experimental). There are several presets already added on the renamer thanks to Reborn, Ressen, and WTails358.
+ 
+ &nbsp; &nbsp; &nbsp; Renames the bones for the active skeleton according to the current selected preset list. For those who are familiar with Reborn's original bone renamer script, this does exactly the same thing just with the ability to merge bones, store templates, and autofill the list (last feature is still unstable and experimental). There are several presets already added on the renamer thanks to Reborn, Ressen, and WTails358.
 
 ![BoneRenamer](https://user-images.githubusercontent.com/99399209/188280431-c323d60a-8c8a-4529-ac34-47806fc8ce36.gif)
+
+![image](https://user-images.githubusercontent.com/99399209/190012511-8fcbf0b8-a24b-4fbe-8ca5-6ae5754cfce9.png)
 
 
 <details>
@@ -97,13 +97,14 @@ Renames the bones for the active skeleton according to the current selected pres
    * Allows modifying the renaming list through the UI.
    
    Options:
-   * Auto bone matching: Autofills the list based on detected matching bones (Optional, Experimental, and only works for custom skeleton structures with certain features).
-   * Merge bones with same / similar weights: merges bone weights for the bones that end up with the a same or similar name (Optional). The parent would be the first renamed bone if the new bone names are identical. 
+   * ![image](https://user-images.githubusercontent.com/99399209/197341581-9fd7be25-c5d5-47dd-ab80-22fccc1482cf.png)
+`Auto bone matching` :  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Autofills the selected list based on detected matching bones (Optional and Experimental. It only works for custom skeleton structures with certain features).
+   * - [ ] **Merge bones with same / similar weights**:  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Merges bone weights for the bones that end up with the a same or similar name. The parent would be the first renamed bone if the new bone names are identical. If the new bone name is the same as that of an existing bone, the bone weights are still going to get merged even if they're aren't both shown on the list (Optional, Off by default)
 
   Conditions for proper activation:
   * Object mode or edit mode.
   * Applied on a single active armature on the viewport.
-  * All the viewport transfroms should be applied on the skeleton (Ctrl + A ---> All tranforms) as well as the pose for the auto-populate to function properly. 
+  * All the viewport transfroms should be applied on the skeleton (Ctrl + A ---> All tranforms) as well as the pose for the *Auto bone matching* to function properly. 
 
 
 
@@ -112,11 +113,13 @@ Renames the bones for the active skeleton according to the current selected pres
  - - - -
 
  ### T-Poser ###
- ![image](https://user-images.githubusercontent.com/99399209/188228392-31d948dc-9207-40eb-a8fb-095c5b9d74ff.png)
-
-Puts the armature into T pose as long as the name of the bones matches up with the Tekken 7 bone names. Most of the main Tekken 7 bones need to be on the skeleton to avoid any errors.
  
+&nbsp; &nbsp; &nbsp; Puts the armature into T pose as long as the name of the bones matches up with the Tekken 7 bone names. Most of the main Tekken 7 bones need to be on the skeleton to avoid any errors.
+
 ![Tposer](https://user-images.githubusercontent.com/99399209/188280453-fd3c1dfc-930a-4846-aaa4-749f2d9dc532.gif)
+ 
+![image](https://user-images.githubusercontent.com/99399209/188228392-31d948dc-9207-40eb-a8fb-095c5b9d74ff.png)
+
 
  
  <details>
@@ -126,14 +129,14 @@ Puts the armature into T pose as long as the name of the bones matches up with t
    * T-poses most of the main bones in a skeleton as long as the bone names follow Tekken 7's naming convetion (except for the head bone).
 
    Options:
-   * Fix armature: connects the limb bones together in edit mode to make the skeleton ready for T posing (Optional).
-   * Fix finger tips: rotates the finger tip bones so that they're pointing in the direction of the mesh they control (Optional).
-   * Apply to spine bones: Attemps to make the spine bones line up vertically in pose mode (Optional).
+   * - [x] **Fix armature**: &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Connects the limb bones together in edit mode to make the skeleton ready for T posing (Optional, On by default).
+   * - [ ] **Fix finger tips**: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; Rotates the finger tip bones so that they're pointing in the direction of the mesh they control (Optional, Off by default).
+   * - [ ] **Apply to spine bones**: &nbsp; &nbsp; &nbsp; Attemps to make the spine bones line up vertically in pose mode (Optional).
 
   Conditions for proper activation:
   * Object mode or pose mode.
   * Applied on a single active armature on the viewport.
-  * Most of the main Tekken 7 bones need to be present (Hand bones, spine bones, limb bones, and Neck)
+  * Most of the main Tekken 7 bones need to be present and following the same naming convention as Tekken 7 (Hand bones, spine bones, limb bones, and Neck).
   * All the viewport transfroms should be applied on the skeleton (Ctrl + A ---> All tranforms) as well as the pose (i.e. pose needs to be applied too).
   * The bones need to be already in the correct position so that the T-poser can rotate them properly.
 
@@ -145,30 +148,33 @@ Puts the armature into T pose as long as the name of the bones matches up with t
  
  
  ### Pose Snapper ###
- ![image](https://user-images.githubusercontent.com/99399209/188228550-4b498802-29fa-4ab8-a8d9-7e95b75fb20c.png)
+ &nbsp; &nbsp; &nbsp; Moves the bones of the active armature (last selected) to the positions of the bones of the armature selected beforehand as long as the bone names match up. 
  
- Snaps bones of the active armature (last selected) to the armature selected beforehand as long as the bone names match up. The bones need to be named according to the Tekken 7 bone naming convention.
  
 ![PoseSnapper](https://user-images.githubusercontent.com/99399209/188280485-e8303403-6532-4200-bb5a-4fafcbf9e09d.gif)
+ 
+![image](https://user-images.githubusercontent.com/99399209/188228550-4b498802-29fa-4ab8-a8d9-7e95b75fb20c.png)
+ 
 
  
   <details>
   <summary>Details</summary>
   
    What it does:
-   * Snaps bones with matching names in pose mode to their corresponding psotion on the other selected armature.
-   * Moves individual bones in pose mode sp that they line up.
+   * Moves bones with matching names in pose mode to their corresponding psotion on the other selected armature.
+   * Doesn't change the rotation of the bones, just their position.
+
    
    Options:
-   * Autoscale: scales the entire skeleton so that the Spine1 bones line up (Optional).
-   * Simple mode: moves individual bones locations in pose mode so bones with identical names between the 2 selected skeleton line up.
-   * Advanced mode: moves and scales individual bones in pose mode so bones with identical names between the 2 selected skeleton line up (Experimental).
+   * - [x] **Autoscale**: &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; Scales the entire skeleton so that the Spine1 bones in both skeletons line up (Optional).
+   * `Simple`: &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Moves individual bones locations in pose mode so bones with identical names between the 2 selected skeleton line up.
+   * `Advanced`: &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; Moves and scales individual bones in pose mode so bones with identical names between the 2 selected skeleton line up (Experimental).
 
 
   Conditions for proper activation:
   * Object mode or pose mode.
   * Applied when exactly 2 selected armatures are selected and the adjustments will be applied to the one selected last as long as the bone names match up.
-  * Most of the main Tekken 7 bones need to be present (Hand bones, spine bones, limb bones, and Neck)
+  * Most of the main Tekken 7 bones need to be present and following the same naming convention as Tekken 7 (Only required if *advanced* mode is used)
   * All the viewport transfroms should be applied on the skeleton (Ctrl + A ---> All tranforms) as well as the pose (i.e. pose needs to be applied too). 
 
 
@@ -178,19 +184,27 @@ Puts the armature into T pose as long as the name of the bones matches up with t
  - - - -
   
  ### Skeleton Generator ###
- ![image](https://user-images.githubusercontent.com/99399209/188228602-94363f1f-8538-4151-913e-09d6573976ca.png)
+  Generate skeletons that work in Tekken 7. You need to select the appropriate type of export settings depending on the type of skeleton you're using (gLTF or PSK). Big thanks to Saiki (and by extension to Ressen) for the bone roll fix guide[^2] which helped lead to the development of this module.
  
- Generate skeletons that work in Tekken 7. You need to select the appropriate type of export settings depending on the type of skeleton you're using (gLTF or PSK). Big thanks to Saiki (and by extension to Ressen) for the bone roll fix guide[^2] which helped lead to the development of this module.
-
 ![Sk_gen](https://user-images.githubusercontent.com/99399209/188280510-d6884bc1-e1f6-496b-94b7-e8743fd81711.gif)
+
+![image](https://user-images.githubusercontent.com/99399209/188228602-94363f1f-8538-4151-913e-09d6573976ca.png)
+
+
 
   <details>
   <summary>Details</summary>
   
    What it does:
-   * Generate the skeletons for the Tekken 7 cast that work in Tekken 7 (only the skeletons without the meshes).
-   * Genrates gLTF and PSK variants of the skeletons.
-   * Genrates skeleton variants that have all the bones or the main bones only (any bone that doesn't have "offset" or "null" in its name)
+   * It generates the skeletons for the Tekken 7 cast except for Noctis and Geese. 
+   * The bones in the generated skeleton have the correct roll and are in the correct position (I've tested it on about 13 characters).
+   * It only generates the skeletons for the characters selected without any meshes.
+
+
+   Options:
+   * `Char`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The abreviation for the character you want to generate the skeleton of (Set to `aki` or Armor King by default).
+   * `Type`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Specifies the type of skeleton generates whether it's in `glTF` or `PSK` format (Set to `glTF` by default).
+   * `Bones included`: &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Specifies what bones to include in the generated skeleton. `All bones` generates all staple bones within a character's skeleton while `Main bones only` just generates the bones that don't have "offset" or "null" in their name (Set to `All bones` by default).
 
 
   Conditions for proper activation:
@@ -212,12 +226,12 @@ These include some tools that are commonly used throughout the modding process.
 <details>
   <summary>Details</summary>
   
-* Scene setup: adjusts the scene units based on the info Dennis provided on the original custom mesh guide[^3]. It also changes the clip settings of the viewport.
-* FBX Export: Exports an active armature with the appropriate export settings for Tekken7 as long as the blend file is saved and there's one armature in the scene.
-* Merge bones to: merges the weights of the bones to each bones' parent or to the last selected bone (active bone). The bones need to selected in edit mode.
-* Apply Pose: applies the pose (go figure) of the active armature. 
-* Fix bones: snaps the bones of the last selected armature (active armature) to the armature selected before it in edit mode and adds bones if needed and corrects the bone hierarchy.
-* Disable hierarchy: temporarily disables the bone hierarchy allowing isolated movement / adjustment of bones in pose mode.
+* `Scene setup`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Adjusts the scene units based on the info Dennis provided on the original custom mesh guide[^3]. It also changes the clip settings of the viewport.
+* `FBX Export`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Exports an active armature with the appropriate export settings for Tekken7 as long as the blend file is saved and there's only one armature on the scene.
+* `Merge bones to`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Merges the weights of the bones to each bones' `parents` or to the `active` bone (the last selected bone). The bones need to be selected in edit mode.
+* `Apply Pose`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Applies the pose of the active armature. 
+* `Fix bones`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Snaps the bones of the last selected armature (active armature) to the armature selected before it in edit mode and adds bones if needed and corrects the bone hierarchy.
+* `Disable hierarchy`: &nbsp; &nbsp; &nbsp; Temporarily disables the bone hierarchy for the active skeleton allowing isolated movement / adjustment of bones in pose mode.
  
 
 </details>
@@ -262,6 +276,10 @@ These include some tools that are commonly used throughout the modding process.
 * Sep-25-22: 
    * Added usage demo video without narration. A more detailed video with narration is in the works.
    * Fixed some mistakes on the ReadMe
+   
+* Oct-22-22: 
+   * Made the ReadMe a bit more fancy and easier on the eyes
+
 
 
 
