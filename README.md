@@ -174,7 +174,7 @@ Going over each module on the panel from the bottom up:
   Conditions for proper activation:
   * Object mode or pose mode.
   * Applied when exactly 2 selected armatures are selected and the adjustments will be applied to the one selected last as long as the bone names match up.
-  * Most of the main Tekken 7 bones need to be present and following the same naming convention as Tekken 7 (Only required if *advanced* mode is used)
+  * Most of the main Tekken 7 bones need to be present and following the same naming convention as Tekken 7 (Only required if *Autoscale* or `advanced` mode )
   * All the viewport transfroms should be applied on the skeleton (Ctrl + A ---> All tranforms) as well as the pose (i.e. pose needs to be applied too). 
 
 
