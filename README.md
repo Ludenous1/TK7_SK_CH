@@ -203,7 +203,7 @@ Going over each module on the panel from the bottom up:
 
    Options:
    * `Char`: &nbsp; &nbsp; &nbsp; &nbsp;  The abreviation for the character you want to generate the skeleton of (Set to `aki` or Armor King by default).
-   * `Type`: &nbsp; &nbsp; &nbsp; &nbsp; Specifies the type of skeleton generates whether it's in `glTF` or `PSK` format (Set to `glTF` by default).
+   * `Type`: &nbsp; &nbsp; &nbsp; &nbsp; Specifies the type of skeleton generated whether it's in `glTF` or `PSK` format (Set to `glTF` by default).
    * `Bones included`: &nbsp; &nbsp; &nbsp; &nbsp; Specifies what bones to include in the generated skeleton. `All bones` generates all staple bones within a character's skeleton while `Main bones only` just generates the bones that don't have "offset" or "null" in their name (Set to `All bones` by default).
 
 
