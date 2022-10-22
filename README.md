@@ -242,7 +242,7 @@ These include some tools that are commonly used throughout the modding process.
 # Known issues:
 
 * The bone renamer glitches at initial load and when the last preset gets removed. The preset has to be selected again for it to properly show up. 
-* Some of the modules have slow runtime before they actually get executed. An issue that doesn't seem to be salient for Blender 2.9 as it is for the newer versions.
+* Some of the modules have slow runtime before they actually get executed. An issue that doesn't seem to be salient for Blender 2.9 as it is for the newer versions. I'm very close to fixing this for most of the slow modules but I can't give any dates as to when I'll actually release the performance improvements.
 * Most modules don't take facial bones into consideration. The only exception to this is the Skeleton Generator which can generate the facial bones with the correct positions and rolls
 
  
