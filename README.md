@@ -47,7 +47,7 @@ The version should say 0.0.1 on your end. Once you've removed the old version, j
 Going over each module on the panel from the bottom up:
  ### Skeleton Simplifier ###
  
- &nbsp; &nbsp; &nbsp; Simplifies the active skeleton by merging bone weights (or mesh Vertex Groups) that have the keywords listed and cleans up the material slots for all the unhidden children meshes of that active skeleton. For those who are familiar with my very first Tekken blender script, this does the same thing just for non-Tekken skeletons too and cleans up the material slots as well. Shout out to Reborn for the code to change the alpha blend mode on the materials to *Hashed* (XPS checkmark). Depending on how complicated the model is and how many bones need to be merged, it might take some time to finish the whole process. 
+ &nbsp; &nbsp; &nbsp; Simplifies the active skeleton by merging bone weights (or mesh Vertex Groups) that have the keywords listed and cleans up the material slots for all the unhidden children meshes of that active skeleton. It also connects the bones together. For those who are familiar with my very first Tekken blender script, this does the same thing just for non-Tekken skeletons too and cleans up the material slots as well. Shout out to Reborn for the code to change the alpha blend mode on the materials to *Hashed* (XPS checkmark). Depending on how complicated the model is and how many bones need to be merged, it might take some time to finish the whole process. 
 
 ![SK_Simp](https://user-images.githubusercontent.com/99399209/188280415-2795bca8-f86d-48d0-8497-6449ca6a575b.gif)
 
