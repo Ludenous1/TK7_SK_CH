@@ -184,7 +184,7 @@ Going over each module on the panel from the bottom up:
  - - - -
   
  ### Skeleton Generator ###
-  Generate skeletons that work in Tekken 7. You need to select the appropriate type of export settings depending on the type of skeleton you're using (gLTF or PSK). Big thanks to Saiki (and by extension to Ressen) for the bone roll fix guide[^2] which helped lead to the development of this module.
+ &nbsp; &nbsp; &nbsp; Generate skeletons that work in Tekken 7. You need to select the appropriate type of export settings depending on the type of skeleton you're using (gLTF or PSK). Big thanks to Saiki (and by extension to Ressen) for the bone roll fix guide[^2] which helped lead to the development of this module.
  
 ![Sk_gen](https://user-images.githubusercontent.com/99399209/188280510-d6884bc1-e1f6-496b-94b7-e8743fd81711.gif)
 
