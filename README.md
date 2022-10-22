@@ -98,7 +98,7 @@ Going over each module on the panel from the bottom up:
    
    Options:
    * ![image](https://user-images.githubusercontent.com/99399209/197341581-9fd7be25-c5d5-47dd-ab80-22fccc1482cf.png)
-`Auto bone matching` :  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Autofills the selected list based on detected matching bones (Optional and Experimental. It only works for custom skeleton structures with certain features).
+`Auto bone matching`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Autofills the selected list based on detected matching bones (Optional and Experimental. It only works for custom skeleton structures with certain features).
    * - [ ] **Merge bones with same / similar weights**:  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Merges bone weights for the bones that end up with the a same or similar name. The parent would be the first renamed bone if the new bone names are identical. If the new bone name is the same as that of an existing bone, the bone weights are still going to get merged even if they're aren't both shown on the list (Optional, Off by default)
 
   Conditions for proper activation:
@@ -166,7 +166,7 @@ Going over each module on the panel from the bottom up:
 
    
    Options:
-   * - [x] **Autoscale**: &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; Scales the entire skeleton so that the Spine1 bones in both skeletons line up (Optional).
+   * - [x] **Autoscale**:  &nbsp; &nbsp; &nbsp; Scales the entire skeleton so that the Spine1 bones in both skeletons line up (Optional).
    * `Simple`: &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Moves individual bones locations in pose mode so bones with identical names between the 2 selected skeleton line up.
    * `Advanced`: &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; Moves and scales individual bones in pose mode so bones with identical names between the 2 selected skeleton line up (Experimental).
 
@@ -202,9 +202,9 @@ Going over each module on the panel from the bottom up:
 
 
    Options:
-   * `Char`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; The abreviation for the character you want to generate the skeleton of (Set to `aki` or Armor King by default).
-   * `Type`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Specifies the type of skeleton generates whether it's in `glTF` or `PSK` format (Set to `glTF` by default).
-   * `Bones included`: &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Specifies what bones to include in the generated skeleton. `All bones` generates all staple bones within a character's skeleton while `Main bones only` just generates the bones that don't have "offset" or "null" in their name (Set to `All bones` by default).
+   * `Char`: &nbsp; &nbsp; &nbsp; &nbsp;  The abreviation for the character you want to generate the skeleton of (Set to `aki` or Armor King by default).
+   * `Type`: &nbsp; &nbsp; &nbsp; &nbsp; Specifies the type of skeleton generates whether it's in `glTF` or `PSK` format (Set to `glTF` by default).
+   * `Bones included`: &nbsp; &nbsp; &nbsp; &nbsp; Specifies what bones to include in the generated skeleton. `All bones` generates all staple bones within a character's skeleton while `Main bones only` just generates the bones that don't have "offset" or "null" in their name (Set to `All bones` by default).
 
 
   Conditions for proper activation:
