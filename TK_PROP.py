@@ -98,7 +98,7 @@ class Rename_Preset(PropertyGroup):
 class BoneSubstrngListItem(PropertyGroup):
     """Group of properties representing an item in the list."""
 
-    Substrng: StringProperty(
+    Keyword: StringProperty(
            name="Substring",
            description="The name, or part of the name, of the bone(s) to be merged to their parents",
            default="")#,
