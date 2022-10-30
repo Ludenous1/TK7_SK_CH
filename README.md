@@ -33,13 +33,14 @@ Now open up Blender and navigate to Edit->Preferences->Addons. Click on Install,
 
 
 # Update:
-If this is your first time installing the addon skip this update section. But if you've already installed the addon before, chances are you don't have the latest version (which is `Version 0.1.3`). You need to follow the steps below for a smooth update transition:
+![image](https://user-images.githubusercontent.com/99399209/190016274-7aabacbf-3421-4678-92d3-e7b84cf9c025.jpg)
+If this is your first time installing the addon skip this update section. But if you've already installed the addon before, chances are you don't have the latest version (which is currently `Version 0.1.3`). You need to follow the steps below for a smooth update transition:
 
 If you **didn't** make any changes you want to keep for the Bone Renamer:
 1. Head to `Edit`->`Preferences` and then to the `add-ons` tab
 2. Use the search box at the top right corner to search for `TK7_SK_CH` if it's not already on the list and expand it as shown in the image. Your version would currently be either `0.0.1` or `0.0.2`.
 3. Click on `remove`
-4. Follow the installation steps. The version should say `0.1.3` now and there should be only 1 `object:TK7_SK_CH` shown on your addon preferences screen which means the update was successful.
+4. Follow the installation steps. The version should say `0.1.3` now and there should be only 1 `object:TK7_SK_CH` shown on your addon preferences tab which means the update was successful.
 
 
 But if you **did** make any changes you want to keep for the Bone Renamer:
@@ -48,16 +49,9 @@ But if you **did** make any changes you want to keep for the Bone Renamer:
 3. Open up the `file` location with a file explorer. Don't open up `__initi__.py`, just go to where it's located on your machine.
 5. Copy the `Rename_Presets` folder to a temporary location (ex: Desktop).
 6. Head back to Blender and click on `remove` to remove the older version now that you have made a backup of the presets.
-7. Follow the installation steps. The version should say `0.1.3` now and there should be only 1 `object:TK7_SK_CH` shown on your addon preferences screen which means the update was successful but there's one final step needed to recover the presets that were on the older Bone Renamer.
-8. Copy the `Rename_Presets` folder from step `5` back into the addon is installed. It should be the exact same location as before unless you changed your Blender version.
+7. Follow the installation steps. The version should say `0.1.3` now and there should be only 1 `object:TK7_SK_CH` shown on your addon preferences tab which means the update was successful but there's one final step needed to recover the presets that were on the older Bone Renamer.
+8. Copy the `Rename_Presets` folder from step `5` back into the location where the addon got installed. It should be the exact same location as before unless you changed your Blender version but you can find it just by looking at the `file` location on the addon preference tab.
 9. Done. Have fun
-
-
-You need to remove the older versions first by heading to Edit->Preferences->Addons again and searching "TK7_SK_CH". Even if it is unchecked, make sure you expand it and click on `remove`.
-
-![image](https://user-images.githubusercontent.com/99399209/190016274-7aabacbf-3421-4678-92d3-e7b84cf9c025.jpg)
-
-The version should say 0.1.3 on your end. Once you've removed the old version, just follow the installation instructions. It should say version 0.0.2 afterwards which means the update was successful.
 
 
  - - - -
