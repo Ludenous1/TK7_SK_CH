@@ -59,11 +59,6 @@ But if you **did** make any changes you want to keep for the Bone Renamer:
 <details>
   <summary>Steps</summary> 
  
-   1. Head to `Edit`->`Preferences` and then to the `add-ons` tab
-   2. Use the search box at the top right corner to search for `TK7_SK_CH` if it's not already on the list and expand it as shown in the image. Your version would currently be either `0.0.1` or `0.0.2`.
-   3. Click on `remove`
-   4. Follow the installation steps. The version should say `0.1.3` now and there should be only 1 `object:TK7_SK_CH` shown on your addon preferences tab which means the update was successful.
- 
     1. Head to `Edit`->`Preferences` and then to the `add-ons` tab
     2. Use the search box at the top right corner to search for `TK7_SK_CH` if it's not already on the list and expand it as shown in the image. Your version would currently be either `0.0.1` or `0.0.2`.
     3. Open up the `file` location with a file explorer. Don't open up `__initi__.py`, just go to where it's located on your machine.
