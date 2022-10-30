@@ -87,10 +87,10 @@ Going over each module on the panel from the bottom up:
 
 ![SK_Simp](https://user-images.githubusercontent.com/99399209/188280415-2795bca8-f86d-48d0-8497-6449ca6a575b.gif)
 
-![image](https://user-images.githubusercontent.com/99399209/198875863-e7423e48-835f-40f7-ab7d-a54b1686495e.png)
-
 <details>
   <summary>Details</summary>
+  
+  ![image](https://user-images.githubusercontent.com/99399209/198875863-e7423e48-835f-40f7-ab7d-a54b1686495e.png)
   
    What it does:
   * Merges all bones weights that have the keywords listed in their names (ex: "ctr", "null", "offset",  ...) to thier parents (or ancestors).
@@ -121,11 +121,13 @@ Going over each module on the panel from the bottom up:
 
 ![BoneRenamer](https://user-images.githubusercontent.com/99399209/188280431-c323d60a-8c8a-4529-ac34-47806fc8ce36.gif)
 
-![image](https://user-images.githubusercontent.com/99399209/190012511-8fcbf0b8-a24b-4fbe-8ca5-6ae5754cfce9.png)
+
 
 
 <details>
   <summary>Details</summary>
+  
+  ![image](https://user-images.githubusercontent.com/99399209/190012511-8fcbf0b8-a24b-4fbe-8ca5-6ae5754cfce9.png)
   
    What it does:
    * Renames the bones of an active armature.
@@ -154,12 +156,12 @@ Going over each module on the panel from the bottom up:
 
 ![Tposer](https://user-images.githubusercontent.com/99399209/188280453-fd3c1dfc-930a-4846-aaa4-749f2d9dc532.gif)
  
-![image](https://user-images.githubusercontent.com/99399209/198875887-e7723dc0-53b8-4193-ad40-29d50a0c60b7.png)
-
 
  
  <details>
   <summary>Details</summary>
+  
+  ![image](https://user-images.githubusercontent.com/99399209/198875887-e7723dc0-53b8-4193-ad40-29d50a0c60b7.png)
   
    What it does:
    * T-poses most of the main bones in a skeleton as long as the bone names follow Tekken 7's naming convetion (except for the head bone).
@@ -189,12 +191,12 @@ Going over each module on the panel from the bottom up:
  
 ![PoseSnapper](https://user-images.githubusercontent.com/99399209/188280485-e8303403-6532-4200-bb5a-4fafcbf9e09d.gif)
  
-![image](https://user-images.githubusercontent.com/99399209/188228550-4b498802-29fa-4ab8-a8d9-7e95b75fb20c.png)
- 
 
  
   <details>
   <summary>Details</summary>
+  
+  ![image](https://user-images.githubusercontent.com/99399209/188228550-4b498802-29fa-4ab8-a8d9-7e95b75fb20c.png)
   
    What it does:
    * Moves bones with matching names in pose mode to their corresponding psotion on the other selected armature.
@@ -224,12 +226,11 @@ Going over each module on the panel from the bottom up:
  
 ![Sk_gen](https://user-images.githubusercontent.com/99399209/188280510-d6884bc1-e1f6-496b-94b7-e8743fd81711.gif)
 
-![image](https://user-images.githubusercontent.com/99399209/188228602-94363f1f-8538-4151-913e-09d6573976ca.png)
-
-
 
   <details>
   <summary>Details</summary>
+  
+  ![image](https://user-images.githubusercontent.com/99399209/188228602-94363f1f-8538-4151-913e-09d6573976ca.png)
   
    What it does:
    * It generates the skeletons for the Tekken 7 cast except for Noctis and Geese. 
