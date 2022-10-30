@@ -33,7 +33,10 @@ Now open up Blender and navigate to Edit->Preferences->Addons. Click on Install,
 
 
 # Update:
-![image](https://user-images.githubusercontent.com/99399209/190016274-7aabacbf-3421-4678-92d3-e7b84cf9c025.jpg)
+
+![190016274-7aabacbf-3421-4678-92d3-e7b84cf9c025update](https://user-images.githubusercontent.com/99399209/198876019-3e03bb01-99e5-4284-a55c-be3561c9b72e.jpg)
+
+
 If this is your first time installing the addon skip this update section. But if you've already installed the addon before, chances are you don't have the latest version (which is currently `Version 0.1.3`). You need to follow the steps below for a smooth update transition:
 
 If you **didn't** make any changes you want to keep for the Bone Renamer:
@@ -65,7 +68,7 @@ Going over each module on the panel from the bottom up:
 
 ![SK_Simp](https://user-images.githubusercontent.com/99399209/188280415-2795bca8-f86d-48d0-8497-6449ca6a575b.gif)
 
-![image](https://user-images.githubusercontent.com/99399209/190009039-07c216a1-0d38-4d49-9402-1ed87c7006a2.png)
+![image](https://user-images.githubusercontent.com/99399209/198875863-e7423e48-835f-40f7-ab7d-a54b1686495e.png)
 
 <details>
   <summary>Details</summary>
@@ -76,7 +79,7 @@ Going over each module on the panel from the bottom up:
   * Removes duplicate materials with different names but the exact same shader properties (material slot clean up). 
   
   Options:
-  *  - [ ] **connect main bones**:  &nbsp; Tries to preserve the bones' general direction while connecting them.
+  *  - [x] **connect main bones**:  &nbsp; Connect the main limb bones and the spine bones in edit mode (Optional, On by default).
   *  - [x] **remove bones**: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Removes all the bones that contain listed keywords (ex: "ctr", "null", "offset",  ...) in their name from the skeleton after they've got merged (Optional, On by default).
   * - [ ] **Join meshes**: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  Joins the children meshes or separates them according to the materials (Optional, Off by default so it will separate them according to the material slots if left unchecked)
   * - [x] **XPS**: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Changes the alpha blend mode settings on every material on all the meshes attached to the skeleton to *Hashed* (Optional, On by default).
@@ -132,7 +135,7 @@ Going over each module on the panel from the bottom up:
 
 ![Tposer](https://user-images.githubusercontent.com/99399209/188280453-fd3c1dfc-930a-4846-aaa4-749f2d9dc532.gif)
  
-![image](https://user-images.githubusercontent.com/99399209/188228392-31d948dc-9207-40eb-a8fb-095c5b9d74ff.png)
+![image](https://user-images.githubusercontent.com/99399209/198875887-e7723dc0-53b8-4193-ad40-29d50a0c60b7.png)
 
 
  
