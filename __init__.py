@@ -23,7 +23,7 @@ bl_info = {
     "author" : "Ludenous",
     "description" : "",
     "blender" : (2, 80, 0),
-    "version" : (0, 0, 2),
+    "version" : (0, 1, 3),
     "location" : "View3D",
     "warning" : "",
     "category" : "Object"
@@ -63,7 +63,7 @@ classes = (
     # ____operators_______
     SK_CH_BlenderScene,
     SK_CH_Export,
-    SK_CH_Test,
+    # SK_CH_Test,
     SK_CH_Simplify,
     SK_CH_ApplyPose,
 
@@ -152,7 +152,9 @@ def register():
 
 #__________________T Poser_________________________
 
-    bpy.types.Scene.tp_fix_armature = BoolProperty(default = True)
+    
+    bpy.types.Scene.tp_fix_armature = BoolProperty(default = False)
+    bpy.types.Scene.tp_connect_bones = BoolProperty(default = True)
     bpy.types.Scene.tp_fix_fingertips = BoolProperty(default = False)
     bpy.types.Scene.tp_tpose_spine = BoolProperty(default = False)
 
@@ -177,7 +179,8 @@ def register():
     bpy.types.Scene.bone_substrng_list_index = IntProperty(name = "Index for bone_substrng_list",
                                              default = 0)
     
-    bpy.types.Scene.bone_prsv = BoolProperty(default = False)
+    bpy.types.Scene.bone_simp_connect = BoolProperty(default = True)
+    # bpy.types.Scene.bone_prsv = BoolProperty(default = False)
     bpy.types.Scene.bone_remv = BoolProperty(default = True)
     bpy.types.Scene.mesh_join = BoolProperty(default = False)
     bpy.types.Scene.clr_trnspc = BoolProperty(default = True)
@@ -209,6 +212,7 @@ def unregister():
 
 #__________________T Poser_________________________
 
+    del bpy.types.Scene.tp_connect_bones
     del bpy.types.Scene.tp_fix_armature 
     del bpy.types.Scene.tp_fix_fingertips 
     del bpy.types.Scene.tp_tpose_spine 
@@ -230,7 +234,8 @@ def unregister():
     del bpy.types.Scene.bone_substrng_list
     del bpy.types.Scene.bone_substrng_list_index 
 
-    del bpy.types.Scene.bone_prsv
+    del bpy.types.Scene.bone_simp_connect
+    # del bpy.types.Scene.bone_prsv
     del bpy.types.Scene.bone_remv 
     del bpy.types.Scene.mesh_join 
     del bpy.types.Scene.clr_trnspc

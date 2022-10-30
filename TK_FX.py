@@ -12,6 +12,7 @@ import bpy
 # from bpy import context
 from pathlib import Path
 import mathutils
+import time
 
 from.TK_SK_CH import *
 
@@ -116,8 +117,10 @@ def ApplyPose():
     bpy.ops.object.mode_set(mode=OgMode)
 
 
-def Simplifier(PrsvBones = False, BoneSubstrgList = ["adj", "unused", "ctr", "roll" , "ROLL", "offset", "twist", "fix", "joint", "null"], Removebones = True, MergeMeshes = False, Remove_Trans = True):#SK = bpy.context.active_object ,TkState = 0, BonesEndingWith = ["adj", "unused", "ctr", "roll", "offset", "twist", "fix", "joint", "null"] ):
+def Simplifier(ConnectBones = True, BoneSubstrgList = ["adj", "unused", "ctr", "roll" , "ROLL", "offset", "twist", "fix", "joint", "null"], Removebones = True, MergeMeshes = False, Remove_Trans = True):#SK = bpy.context.active_object ,TkState = 0, BonesEndingWith = ["adj", "unused", "ctr", "roll", "offset", "twist", "fix", "joint", "null"] ):
     
+    print("Simplifying...")
+    startTime = time.time() 
     # print('ARMATURE')
     
     # PreserveBones = 1
@@ -136,33 +139,40 @@ def Simplifier(PrsvBones = False, BoneSubstrgList = ["adj", "unused", "ctr", "ro
     MeshObjectJoiner(SK)    
 
     # bpy.context.view_layer.objects.active = SK      # Make the skeleton the active object again
+    print(time.time() - startTime, " After joining the meshes")
 
+    if BoneSubstrgList!=[]:
+        VertexGroupMerger(SK, BoneSubstrgList)
+        print(time.time() - startTime, " After merging VGs")
 
-
-    VertexGroupMerger(SK, BoneSubstrgList)
-
-    if Removebones == True:
+    if Removebones == True and BoneSubstrgList!=[]:
         TekkenExtraBoneRemover(SK, BoneSubstrgList)
+        print(time.time() - startTime, " After removing bones")
 
 
     # TekkenExtraBoneAnnihilater(SK, BoneSubstrgList)
 
 
     #bpy.ops.object.mode_set(mode='OBJECT')
-
-    ArmatureStructureFixer(SK,PrsvBones)
+    if ConnectBones == True:
+        PrsvBones = False
+        ArmatureStructureFixer(SK,PrsvBones)
+        print(time.time() - startTime, " After connecting bones")
 
     #bpy.ops.object.mode_set(mode='OBJECT')
     
 
     MatSlotCombine(SK)
+    print(time.time() - startTime, " After combining mats")
 
     if MergeMeshes == False:
         print("DONT JOIN!")
         MeshObjectSeparator(SK)
+        print(time.time() - startTime, " After separating mesh")
 
     if Remove_Trans == True:
         ChangeBlendMode(SK, blndmode = 'HASHED')
+        print(time.time() - startTime, " After changing blend mode")
 
     bpy.ops.object.mode_set(mode=OgMode)
 
@@ -218,6 +228,8 @@ def BoneMergeActive():
     
     #TODO: test if bones belong to the same object--->Done through operator poll
     SK = bpy.context.active_object
+    OgMode = SK.mode
+
     ActiveBone = bpy.context.object.data.edit_bones.active #active in edit mode
     
     Bonelst = bpy.context.selected_bones
@@ -235,7 +247,10 @@ def BoneMergeActive():
     BoneActiveMerger(BoneNmlst, ActiveBone)
 
     TekkenExtraBoneRemover(SK, BoneNmlst)
+    
     # Adjuster(SK, ref)
+
+    bpy.ops.object.mode_set(mode=OgMode)
 
 
 def BoneMergeParent():
@@ -254,6 +269,8 @@ def BoneMergeParent():
     
     #TODO: test if bones belong to the same object--->Done through operator poll
     SK = bpy.context.active_object
+    OgMode = SK.mode
+
     ActiveBone = bpy.context.object.data.edit_bones.active #active in edit mode
     
     Bonelst = bpy.context.selected_bones
@@ -271,6 +288,8 @@ def BoneMergeParent():
 
     TekkenExtraBoneRemover(SK, BoneNmlst)
     # Adjuster(SK, ref)
+
+    bpy.ops.object.mode_set(mode=OgMode)
 
 
 def Renamer():
@@ -392,8 +411,10 @@ def RenamerListPopulateFx():
     return UpdatedMatches
         
 
-def T_Poser(FixArmature, FixFingerTips, Tpose_Spine):
-       
+def T_Poser(FixArmature, Connect_Bones, FixFingerTips, Tpose_Spine):
+    print("Tposing...")
+    startTime = time.time() 
+
     X_axis = mathutils.Vector((1,0,0))
     Z_axis = mathutils.Vector((0,0,1))
 
@@ -433,8 +454,14 @@ def T_Poser(FixArmature, FixFingerTips, Tpose_Spine):
     'R_UpLeg', 'R_Leg', 'R_Foot', 'R_Toe', 'R_Toe1_null']
 
 
-    LimbJoints = ['L_Shoulder', 'L_Arm', 'L_ForeArm', 
-    'R_Shoulder', 'R_Arm', 'R_ForeArm', 
+    # LimbJoints = ['L_Shoulder', 'L_Arm', 'L_ForeArm', 
+    # 'R_Shoulder', 'R_Arm', 'R_ForeArm', 
+
+    # 'L_Leg', 
+    # 'R_Leg']
+
+    LimbJoints = ['L_Shoulder', 'L_ForeArm', 
+    'R_Shoulder', 'R_ForeArm', 
 
     'L_Leg', 
     'R_Leg']
@@ -445,10 +472,10 @@ def T_Poser(FixArmature, FixFingerTips, Tpose_Spine):
     elif Tpose_Spine == True:
         Neck_Spines = ["Neck", "Spine1", "Spine2"]
 
-    if FixFingerTips == True:
-        FingerTips = ['R_Thumb3','R_Pinky3','R_Ring3','R_Middle3', 'R_Index3', 'L_Thumb3', 'L_Pinky3', 'L_Ring3', 'L_Middle3', 'L_Index3']
-    else:
-        FingerTips =[]
+#    if FixFingerTips == True: 
+    FingerTips = ['R_Thumb3','R_Pinky3','R_Ring3','R_Middle3', 'R_Index3', 'L_Thumb3', 'L_Pinky3', 'L_Ring3', 'L_Middle3', 'L_Index3']
+    # else:
+    #     FingerTips =[]
     
 
     # AllMainBones = (Left_Arm_Bones_No_Thumb+Left_Thumb+Right_Arm_Bones_No_Thumb+Right_Thumb, Left_Leg_Bones+Right_Leg_Bones)
@@ -461,20 +488,24 @@ def T_Poser(FixArmature, FixFingerTips, Tpose_Spine):
 
     bpy.ops.object.mode_set(mode='OBJECT')
 
-    bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
 
-    # AplPose(SK) #I don't trust people to do the write thing
-    
-
+    print(time.time() - startTime, " After defining all list")
+    #_____I don't trust people to do the write thing so I'll apply stuff for them
+    # bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+    # AplPose(SK) 
     if FixArmature == True:
-        ArmatureBoneTailFix(SK, All_bones, FingerTips)
+        ArmatureBoneHeadFix(SK, LimbJoints)
+        #Move bone heads to a more accurate position
 
-    Armature_T_Poser(SK, X_axis, Z_axis, Neck_Spines, Left_Arm_Bones_No_Thumb, Right_Arm_Bones_No_Thumb, Leg_Bones)
+    if Connect_Bones == True:
+        ArmatureBoneTailFix(SK,  All_bones)
 
-    Armature_Tp_Roll_Fix(SK)
+    if FixFingerTips == True:
+        ArmatureFingerTipTailFix(SK, FingerTips)
 
-    Armature_Thumb_pose(SK, Left_Thumb, Right_Thumb)
+    Armature_T_Poser(SK, X_axis, Z_axis, Neck_Spines, Left_Arm_Bones_No_Thumb, Right_Arm_Bones_No_Thumb, Leg_Bones, Left_Thumb, Right_Thumb)
 
+    print(time.time() - startTime, " After Armature_T_Poser")
 
     bpy.ops.object.mode_set(mode=OgMode)
 

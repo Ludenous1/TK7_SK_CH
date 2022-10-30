@@ -1252,63 +1252,84 @@ def VertexGroupMerger(SK, BoneSubstrgList):
     bpy.ops.object.mode_set(mode='OBJECT')
 
     ArmatureA = SK #bpy.context.active_object #self.Skeleton
+    
 
     for bone in reversed(ArmatureA.data.bones):
 
+        Influence = True # Assume that the bone has direct influence on the mesh
         BoneName = bone.name
 
+        for name in BoneSubstrgList:
+            if name == "" or name.isspace():
+                continue
+
+            # if bone.name.lower().find(name)!=-1 and (bone.parent != None):
+            elif bone.name.find(name)!=-1 and (bone.parent != None):
+                print(bone.name , "------->", bone.parent.name)
         
-        for mesh in ArmatureA.children:
-            
-
-#                mesh.select_set(True)
-            bpy.context.view_layer.objects.active = mesh
-
-            # print(bone.name)
-  
-            verts = mesh.data.vertices
-            NumVerts = len(verts)
-            VertIndices = range (NumVerts)
-            
-            try:
-                GroupA = mesh.vertex_groups[bone.parent.name]
-            except:
-                try: #to bypass the root bone cause it has no parent
-                    GA = mesh.vertex_groups.new(name=bone.parent.name) 
-                    GA.add(VertIndices, 0, 'ADD')
-                    #Generate the group A
-                except:
-                    pass
-            try:
-                GroupB = mesh.vertex_groups[BoneName]
-            except:
-                GB = mesh.vertex_groups.new(name=bone.name) 
-                GB.add(VertIndices, 0, 'ADD')
-               #Generate the group B
-                
-            
-            for name in BoneSubstrgList:
-                # if bone.name.lower().find(name)!=-1 and (bone.parent != None):
-                if bone.name.find(name)!=-1 and (bone.parent != None):
-#                if fnmatch.fnmatchcase(bone.name, name):#"*offset") or fnmatch.fnmatchcase(bone.name, "*null") or fnmatch.fnmatchcase(bone.name, "*group") or fnmatch.fnmatchcase(bone.name, "*BASE"):
-#                        VGmerge(bone.parent.name, bone.name)
-                    print(bone.name , "------->", bone.parent.name)
-                    bpy.ops.object.modifier_add(type='VERTEX_WEIGHT_MIX')
+                for mesh in ArmatureA.children:
                     
-                    modname = bpy.context.object.modifiers.active.name
+
+        #                mesh.select_set(True)
+                    bpy.context.view_layer.objects.active = mesh
+
+                    # print(bone.name)
+        
+                    verts = mesh.data.vertices
+                    NumVerts = len(verts)
+                    VertIndices = range (NumVerts)
                     
-                    bpy.context.object.modifiers[modname].vertex_group_a = bone.parent.name
-                    bpy.context.object.modifiers[modname].vertex_group_b = bone.name
-                    bpy.context.object.modifiers[modname].mix_mode = 'ADD'
-                    bpy.context.object.modifiers[modname].mix_set = 'ALL'
 
-                    bpy.ops.object.modifier_move_to_index(modifier=modname, index=0)
-
-                    bpy.ops.object.modifier_apply(modifier=modname)
+                    try:
+                        GroupA = mesh.vertex_groups[bone.parent.name]
+                    except:
+                        try: #to bypass the root bone cause it has no parent
+                            GA = mesh.vertex_groups.new(name=bone.parent.name) 
+                            GA.add(VertIndices, 0, 'ADD')
+                            #Generate the group A
+                        except:
+                            pass
+                    try:
+                        GroupB = mesh.vertex_groups[BoneName]
+                    except:
+                        GB = mesh.vertex_groups.new(name=bone.name) 
+                        GB.add(VertIndices, 0, 'ADD')
+                        Influence = False
+                    #Generate the group B
+                        
                     
-                    break
+        #             for name in BoneSubstrgList:
+        #                 # if bone.name.lower().find(name)!=-1 and (bone.parent != None):
+        #                 if bone.name.find(name)!=-1 and (bone.parent != None):
+        # #                if fnmatch.fnmatchcase(bone.name, name):#"*offset") or fnmatch.fnmatchcase(bone.name, "*null") or fnmatch.fnmatchcase(bone.name, "*group") or fnmatch.fnmatchcase(bone.name, "*BASE"):
+        # #                        VGmerge(bone.parent.name, bone.name)
+                    # print(bone.name , "------->", bone.parent.name)
+                        
 
-    bpy.context.view_layer.objects.active = SK 
+                    #Check if VG has any influence on the mesh
+                    # if Influence == True: #Thoroughly test for vertex influence on the mesh
+                    #     Verts = [vert for vert in mesh.data.vertices if (mesh.vertex_groups[bone.name].index in [i.group for i in vert.groups if i.weight != 0])] # Contains all the verts belonging to a particular group
+                    #     if len(Verts)!=0: 
+                    #         Influence == True
+
+                    if Influence == True:
+                        bpy.ops.object.modifier_add(type='VERTEX_WEIGHT_MIX')
+                        
+                        modname = bpy.context.object.modifiers.active.name
+                        
+                        bpy.context.object.modifiers[modname].vertex_group_a = bone.parent.name
+                        bpy.context.object.modifiers[modname].vertex_group_b = bone.name
+                        bpy.context.object.modifiers[modname].mix_mode = 'ADD'
+                        bpy.context.object.modifiers[modname].mix_set = 'ALL'
+
+                        bpy.ops.object.modifier_move_to_index(modifier=modname, index=0)
+
+                        bpy.ops.object.modifier_apply(modifier=modname)
+                    
+                break
+                        
+
+            bpy.context.view_layer.objects.active = SK 
 
 
 def ArmatureStructureFixer(SK, PrsvState):
@@ -1336,7 +1357,7 @@ def ArmatureStructureFixer(SK, PrsvState):
                 Cntstatus = WildChild.use_connect
                 if Cntstatus == True:
                     Connected = True
-                    print(bone.name, "----->", WildChild.name)
+                    # print(bone.name, "Connect to", WildChild.name)
                     break
             except:
                 pass
@@ -1422,7 +1443,7 @@ def ArmatureStructureFixer(SK, PrsvState):
 
 
 
-def VGmerge(GroupA, GroupB):
+def VGmerge(GroupA, GroupB):#Not even used for the most part
     bpy.ops.object.modifier_add(type='VERTEX_WEIGHT_MIX')
     
     modname = bpy.context.object.modifiers.active.name
@@ -1448,16 +1469,18 @@ def TekkenExtraBoneRemover(SK, BoneSubstrgList):
         
         BoneName = bone
         for name in BoneSubstrgList:
-            try:
-#                print(bone)
-                # if bone.name.lower().find(name)!=-1:
-                if bone.name.find(name)!=-1:#"*offset") or fnmatch.fnmatchcase(bone.name, "*null") or fnmatch.fnmatchcase(bone.name, "*group") or fnmatch.fnmatchcase(bone.name, "*BASE"):
-#                if fnmatch.fnmatchcase(bone.name, name):#"*offset") or fnmatch.fnmatchcase(bone.name, "*null") or fnmatch.fnmatchcase(bone.name, "*group") or fnmatch.fnmatchcase(bone.name, "*BASE"):
-                     print(BoneName.name,name)
-                     obj.data.edit_bones.remove(BoneName)
-                     break
-            except:
-                pass  
+            # print(name , "is it space?", name.isspace())
+            if not name.isspace() and name != "":
+                try:
+    #                print(bone)
+                    # if bone.name.lower().find(name)!=-1:
+                    if bone.name.find(name)!=-1:#"*offset") or fnmatch.fnmatchcase(bone.name, "*null") or fnmatch.fnmatchcase(bone.name, "*group") or fnmatch.fnmatchcase(bone.name, "*BASE"):
+    #                if fnmatch.fnmatchcase(bone.name, name):#"*offset") or fnmatch.fnmatchcase(bone.name, "*null") or fnmatch.fnmatchcase(bone.name, "*group") or fnmatch.fnmatchcase(bone.name, "*BASE"):
+                        print(BoneName.name,name)
+                        obj.data.edit_bones.remove(BoneName)
+                        break
+                except:
+                    pass  
     print("Bones removed")    
             
     bpy.ops.object.mode_set(mode='OBJECT')       
@@ -1737,6 +1760,8 @@ def MeshVGMerger(GroupAname, GroupBname, mesh):
 #                if fnmatch.fnmatchcase(bone.name, name):#"*offset") or fnmatch.fnmatchcase(bone.name, "*null") or fnmatch.fnmatchcase(bone.name, "*group") or fnmatch.fnmatchcase(bone.name, "*BASE"):
 #                        VGmerge(bone.parent.name, bone.name)
     print(GroupBname , "------->", GroupAname)
+
+
     bpy.ops.object.modifier_add(type='VERTEX_WEIGHT_MIX')
     
     modname = bpy.context.object.modifiers.active.name
@@ -1749,6 +1774,9 @@ def MeshVGMerger(GroupAname, GroupBname, mesh):
     bpy.ops.object.modifier_move_to_index(modifier=modname, index=0)
 
     bpy.ops.object.modifier_apply(modifier=modname)
+
+
+
 
 #_______Reborn blend method script______
 def ChangeBlendMode(SK, blndmode = 'HASHED'):
@@ -2205,182 +2233,165 @@ def BonePoseNamePositionMove(SK , refSK):
 
 #_________________________T Poser______________________
 
+def Quat_Rotate(SK, bone_name, Projaxis):
+    bone = SK.pose.bones[bone_name]
 
-def Armature_T_Poser(SK, X_axis, Z_axis, Neck_Spines, Left_Arm_Bones_No_Thumb, Right_Arm_Bones_No_Thumb, Leg_Bones):
+    bone.rotation_mode = 'QUATERNION' # Convert rotation mode to quaternion
+    
+    Projection = Projaxis.dot(bone.y_axis)
+
+    #Cap projection between -1 and 1
+    if Projection > 1:
+        Projection = 1
+    elif Projection < -1:
+        Projection = -1
+
+    HalfAngle = -math.acos(Projection)/2
+    GQuatVec = Projaxis.cross(bone.y_axis)
+    QuatVec = bone.matrix.to_3x3().inverted() @ GQuatVec
+
+    if math.isclose(QuatVec.length, 0,abs_tol = 0.0001):
+        NormQuat = mathutils.Vector((0,0,0))
+    else:
+        NormQuat = (QuatVec/QuatVec.length)*math.sin(HalfAngle)
+
+    Quat = mathutils.Quaternion((math.cos(HalfAngle),NormQuat[0],NormQuat[1],NormQuat[2]))
+
+    bone.rotation_quaternion = bone.rotation_quaternion @ Quat
+    bpy.ops.object.posemode_toggle()
+    bpy.ops.object.posemode_toggle()
+
+    return Quat
+
+
+def Quat_Rotate_Roll(SK, bone_name, Projection, sidesign):
+
+    bone = SK.pose.bones[bone_name]
+
+    bone.rotation_mode = 'QUATERNION' # Convert rotation mode to quaternion
+    
+
+    #Cap projection between -1 and 1
+    if Projection > 1:
+        Projection = 1
+    elif Projection < -1:
+        Projection = -1
+
+    HalfAngle = sidesign * math.acos(Projection)/2
+    GQuatVec = bone.y_axis
+    QuatVec = bone.matrix.to_3x3().inverted() @ GQuatVec
+
+    if math.isclose(QuatVec.length, 0,abs_tol = 0.0001):
+        NormQuat = mathutils.Vector((0,0,0))
+    else:
+        NormQuat = (QuatVec/QuatVec.length)*math.sin(HalfAngle)
+
+    Quat = mathutils.Quaternion((math.cos(HalfAngle),NormQuat[0],NormQuat[1],NormQuat[2]))
+    
+    bone.rotation_quaternion = bone.rotation_quaternion @ Quat
+    bpy.ops.object.posemode_toggle()
+    bpy.ops.object.posemode_toggle()
+
+    return Quat
+
+
+
+
+def Armature_T_Poser(SK, X_axis, Z_axis, Neck_Spines, Left_Arm_Bones_No_Thumb, Right_Arm_Bones_No_Thumb, Leg_Bones, Left_Thumb, Right_Thumb):
 
     #Main reference axis for Tposing
 
     bpy.ops.object.mode_set(mode='POSE')
-    for bone in SK.pose.bones:
+    SKDict = {bone.name: bone for bone in SK.pose.bones}
+    sidesign = -1
 
-        bone.rotation_mode = 'QUATERNION' # Convert rotation mode to quaternion
-
-        if bone.name in Left_Arm_Bones_No_Thumb:
-            Projaxis = X_axis 
-        elif bone.name in Right_Arm_Bones_No_Thumb:
-            Projaxis = -X_axis
-        elif bone.name in Leg_Bones:
-            Projaxis = -Z_axis
-        elif bone.name in  Neck_Spines:
+    for bonename in Neck_Spines:
+        if (bonename in SKDict):
             Projaxis = Z_axis
+
+            Quat = Quat_Rotate(SK, bonename, Projaxis)
+            # bone.rotation_quaternion = bone.rotation_quaternion @ Quat
+            # bpy.ops.object.posemode_toggle()
+            # bpy.ops.object.posemode_toggle()
+
+
+    for bonename in Leg_Bones:
+        if (bonename in SKDict):
+            Projaxis = -Z_axis
+
+            Quat = Quat_Rotate(SK, bonename, Projaxis)
+            # bone.rotation_quaternion = bone.rotation_quaternion @ Quat
+            # bpy.ops.object.posemode_toggle()
+            # bpy.ops.object.posemode_toggle()
+
+
+
+    for bonename in Left_Arm_Bones_No_Thumb:
+        if (bonename in SKDict):
+            Projaxis = X_axis 
+
+            Quat = Quat_Rotate(SK, bonename, Projaxis)
+            # bone.rotation_quaternion = bone.rotation_quaternion @ Quat
+            # bpy.ops.object.posemode_toggle()
+            # bpy.ops.object.posemode_toggle()
+
+    if "L_Shoulder" in SKDict and "L_Shoulder" in Left_Arm_Bones_No_Thumb:
+        PointingVec = -SK.pose.bones["L_Pinky1"].head + SK.pose.bones["L_Index1"].head
+        PointingVec.x = 0 # get rid of x-component to make it a pure y-z 3D vector
+        print( PointingVec)
+        Projection = math.cos(math.atan(PointingVec.z/PointingVec.y))
+        if PointingVec.z <= 0:
+            sidesign = -1
         else:
-            Projaxis = bone.y_axis
+            sidesign = 1
 
-        Projection = Projaxis.dot(bone.y_axis)
+        Quat = Quat_Rotate_Roll(SK, "L_Shoulder", Projection, sidesign)
 
-        #Cap projection between -1 and 1
-        if Projection > 1:
-            Projection = 1
-        elif Projection < -1:
-            Projection = -1
+            
 
-        HalfAngle = -math.acos(Projection)/2
-        GQuatVec = Projaxis.cross(bone.y_axis)
-        QuatVec = bone.matrix.to_3x3().inverted() @ GQuatVec
+    for bonename in Right_Arm_Bones_No_Thumb:
+        if (bonename in SKDict):
+            Projaxis = -X_axis 
 
-        if math.isclose(QuatVec.length, 0,abs_tol = 0.0001):
-            NormQuat = mathutils.Vector((0,0,0))
+            Quat = Quat_Rotate(SK, bonename, Projaxis)
+            # bone.rotation_quaternion = bone.rotation_quaternion @ Quat
+            # bpy.ops.object.posemode_toggle()
+            # bpy.ops.object.posemode_toggle()
+
+    if "R_Shoulder" in SKDict and "R_Shoulder" in Left_Arm_Bones_No_Thumb:
+        PointingVec = -SK.pose.bones["R_Pinky1"].head + SK.pose.bones["R_Index1"].head
+        PointingVec.x = 0 # get rid of x-component to make it a pure y-z 3D vector
+        print( PointingVec)
+        Projection = math.cos(math.atan(PointingVec.z/PointingVec.y))
+        if PointingVec.z >= 0:
+            sidesign = -1
         else:
-            NormQuat = (QuatVec/QuatVec.length)*math.sin(HalfAngle)
+            sidesign = 1
 
-        Quat = mathutils.Quaternion((math.cos(HalfAngle),NormQuat[0],NormQuat[1],NormQuat[2]))
-        
-            # bone.rotation_quaternion = bone.rotation_quaternion @ mathutils.Quaternion((0.707,0.707,0,0))
-        bone.rotation_quaternion = bone.rotation_quaternion @ Quat
+        Quat = Quat_Rotate_Roll(SK, "R_Shoulder", Projection, sidesign)
 
 
-        #TODO: add if statements for Spine bones roll fix
-
-        bpy.ops.object.posemode_toggle()
-        bpy.ops.object.posemode_toggle()
-
-
-    bpy.ops.object.mode_set(mode='OBJECT')
-
-
-
-
-
-def Armature_Tp_Roll_Fix(SK):
-
-    bpy.ops.object.mode_set(mode='POSE')
-    for bone in SK.pose.bones:
-
-
-        # refAxis = mathutils.Vector((0,-1,0))
-        sidesign = -1
-        bone.rotation_mode = 'QUATERNION' # Convert rotation mode to quaternion
-
-        if bone.name == "L_Shoulder":
-            PointingVec = -SK.pose.bones["L_Pinky1"].head + SK.pose.bones["L_Index1"].head
-            PointingVec.x = 0 # get rid of x-component to make it a pure y-z 3D vector
-            print( PointingVec)
-            Projection = math.cos(math.atan(PointingVec.z/PointingVec.y))
-            if PointingVec.z <= 0:
-                sidesign = -1
-            else:
-                sidesign = 1
-            # Projection = refAxis.dot(PointingVec)
-            # print(Projection, Projection2)
-        elif bone.name == "R_Shoulder":
-            PointingVec = -SK.pose.bones["R_Pinky1"].head + SK.pose.bones["R_Index1"].head
-            PointingVec.x = 0 # get rid of x-component to make it a pure y-z 3D vector
-            print( PointingVec)
-            Projection = math.cos(math.atan(PointingVec.z/PointingVec.y))
-            if PointingVec.z >= 0:
-                sidesign = -1
-            else:
-                sidesign = 1
-            # Projection = refAxis.dot(PointingVec)
-            print(Projection)
-        else:
-           Projection = 1
-
-
-        # Projection = refAxis.dot(PointingVec)
-
-        #Cap projection between -1 and 1
-        if Projection > 1:
-            Projection = 1
-        elif Projection < -1:
-            Projection = -1
-
-        HalfAngle = sidesign * math.acos(Projection)/2
-        GQuatVec = bone.y_axis
-        QuatVec = bone.matrix.to_3x3().inverted() @ GQuatVec
-
-        if math.isclose(QuatVec.length, 0,abs_tol = 0.0001):
-            NormQuat = mathutils.Vector((0,0,0))
-        else:
-            NormQuat = (QuatVec/QuatVec.length)*math.sin(HalfAngle)
-
-        Quat = mathutils.Quaternion((math.cos(HalfAngle),NormQuat[0],NormQuat[1],NormQuat[2]))
-        
-            # bone.rotation_quaternion = bone.rotation_quaternion @ mathutils.Quaternion((0.707,0.707,0,0))
-        bone.rotation_quaternion = bone.rotation_quaternion @ Quat
-
-
-        bpy.ops.object.posemode_toggle()
-        bpy.ops.object.posemode_toggle()
-
-
-    bpy.ops.object.mode_set(mode='OBJECT')
-
-
-
-
-def Armature_Thumb_pose(SK, Left_Thumb, Right_Thumb):
-
-    #Main reference axis for Tposing
-
-    bpy.ops.object.mode_set(mode='POSE')
-    for bone in SK.pose.bones:
-
-        bone.rotation_mode = 'QUATERNION' # Convert rotation mode to quaternion
-
-        if bone.name in Left_Thumb:
+    for bonename in Left_Thumb:
+        if (bonename in SKDict):
             Projaxis = mathutils.Vector((0.8055111765861511, -0.5115827322006226, -0.2990565001964569)) 
-        elif bone.name in Right_Thumb:
+
+            Quat = Quat_Rotate(SK, bonename, Projaxis)
+
+    for bonename in Right_Thumb:
+        if (bonename in SKDict):
             Projaxis = mathutils.Vector((-0.8055111765861511, -0.5115827322006226, -0.2990565001964569))
 
-        else:
-            Projaxis = bone.y_axis
-
-        Projection = Projaxis.dot(bone.y_axis)
-
-        #Cap projection between -1 and 1
-        if Projection > 1:
-            Projection = 1
-        elif Projection < -1:
-            Projection = -1
-
-        HalfAngle = -math.acos(Projection)/2
-        GQuatVec = Projaxis.cross(bone.y_axis)
-        QuatVec = bone.matrix.to_3x3().inverted() @ GQuatVec
-
-        if math.isclose(QuatVec.length, 0,abs_tol = 0.0001):
-            NormQuat = mathutils.Vector((0,0,0))
-        else:
-            NormQuat = (QuatVec/QuatVec.length)*math.sin(HalfAngle)
-
-        Quat = mathutils.Quaternion((math.cos(HalfAngle),NormQuat[0],NormQuat[1],NormQuat[2]))
-        
-            # bone.rotation_quaternion = bone.rotation_quaternion @ mathutils.Quaternion((0.707,0.707,0,0))
-        bone.rotation_quaternion = bone.rotation_quaternion @ Quat
-
-
-        bpy.ops.object.posemode_toggle()
-        bpy.ops.object.posemode_toggle()
+            Quat = Quat_Rotate(SK, bonename, Projaxis)
 
 
     bpy.ops.object.mode_set(mode='OBJECT')
 
 
 
-def ArmatureBoneTailFix(SK, BoneNameList, FingerTips):
+def ArmatureBoneTailFix(SK,  BoneNameList):
     # OrgObj = context.object
 #    bpy.ops.object.duplicate_move(OBJECT_OT_duplicate={"linked":False, "mode":'TRANSLATION'}, TRANSFORM_OT_translate={"value":(0, 0, 0), "orient_type":'GLOBAL', "orient_matrix":((0, 0, 0), (0, 0, 0), (0, 0, 0)), "orient_matrix_type":'GLOBAL', "constraint_axis":(False, False, False), "mirror":False, "use_proportional_edit":False, "proportional_edit_falloff":'SMOOTH', "proportional_size":1, "use_proportional_connected":False, "use_proportional_projected":False, "snap":False, "snap_target":'CLOSEST', "snap_point":(0, 0, 0), "snap_align":False, "snap_normal":(0, 0, 0), "gpencil_strokes":False, "cursor_transform":False, "texture_space":False, "remove_on_cancel":False, "release_confirm":False, "use_accurate":False, "use_automerge_and_split":False})
-    
+    # print("Armature fix is happening...")
     # obj = bpy.context.active_object
     bpy.ops.object.mode_set(mode='EDIT')
     # print(SK.data.edit_bones)
@@ -2391,8 +2402,6 @@ def ArmatureBoneTailFix(SK, BoneNameList, FingerTips):
         bone.use_connect = False # Disconnect bones to make sure children don't follow the tips (or tail) of their parents
 
         NumOfChldrn = len(bone.children)
-        FingerTipCenter = mathutils.Vector((0,0,0))
-        AvrgCounter = 0
 
         if (bone.name == "Spine2"):
             try:
@@ -2421,12 +2430,43 @@ def ArmatureBoneTailFix(SK, BoneNameList, FingerTips):
                 if Baby.name in BoneNameList and bone.name != "Spine2" and bone.name != "Hip":
                     bone.tail = Baby.head
 
-        
-        elif bone.name in FingerTips:
+
+
+            # [Mesh for Mesh in SK.children].data.vertices
+
+    bpy.ops.object.mode_set(mode='OBJECT')
+
+
+
+def ArmatureFingerTipTailFix(SK, FingerTips):
+    # OrgObj = context.object
+#    bpy.ops.object.duplicate_move(OBJECT_OT_duplicate={"linked":False, "mode":'TRANSLATION'}, TRANSFORM_OT_translate={"value":(0, 0, 0), "orient_type":'GLOBAL', "orient_matrix":((0, 0, 0), (0, 0, 0), (0, 0, 0)), "orient_matrix_type":'GLOBAL', "constraint_axis":(False, False, False), "mirror":False, "use_proportional_edit":False, "proportional_edit_falloff":'SMOOTH', "proportional_size":1, "use_proportional_connected":False, "use_proportional_projected":False, "snap":False, "snap_target":'CLOSEST', "snap_point":(0, 0, 0), "snap_align":False, "snap_normal":(0, 0, 0), "gpencil_strokes":False, "cursor_transform":False, "texture_space":False, "remove_on_cancel":False, "release_confirm":False, "use_accurate":False, "use_automerge_and_split":False})
+    # print("Armature fix is happening...")
+    # obj = bpy.context.active_object
+    bpy.ops.object.mode_set(mode='EDIT')
+    # print(SK.data.edit_bones)
+    
+    # LoopCounter1 = 0
+    for Tip in FingerTips:
+        try:
+            bone = SK.data.edit_bones[Tip]
+        except:
+            continue
+            # raise Exception("A fingertip bone is missing")   
+ 
+        bone.use_connect = False # Disconnect bones to make sure children don't follow the tips (or tail) of their parents
+
+        NumOfChldrn = len(bone.children)
+
+        FingerTipCenter = mathutils.Vector((0,0,0))
+        AvrgCounter = 0
+
+        if NumOfChldrn == 0:
             MaxDist = 0
             for Mesh in SK.children:
             # Meshes = [Mesh for Mesh in SK.children]
             #Write a code that snaps the bone to the center of VGs
+            #TODO: Needs optimization    
                 try:
                     Mesh.vertex_groups[bone.name] # Test if VG even exists
 
@@ -2460,8 +2500,6 @@ def ArmatureBoneTailFix(SK, BoneNameList, FingerTips):
     bpy.ops.object.mode_set(mode='OBJECT')
 
 
-
-
 def ArmatureBoneHeadFix(SK, LimbJoints):
     # OrgObj = context.object
 #    bpy.ops.object.duplicate_move(OBJECT_OT_duplicate={"linked":False, "mode":'TRANSLATION'}, TRANSFORM_OT_translate={"value":(0, 0, 0), "orient_type":'GLOBAL', "orient_matrix":((0, 0, 0), (0, 0, 0), (0, 0, 0)), "orient_matrix_type":'GLOBAL', "constraint_axis":(False, False, False), "mirror":False, "use_proportional_edit":False, "proportional_edit_falloff":'SMOOTH', "proportional_size":1, "use_proportional_connected":False, "use_proportional_projected":False, "snap":False, "snap_target":'CLOSEST', "snap_point":(0, 0, 0), "snap_align":False, "snap_normal":(0, 0, 0), "gpencil_strokes":False, "cursor_transform":False, "texture_space":False, "remove_on_cancel":False, "release_confirm":False, "use_accurate":False, "use_automerge_and_split":False})
@@ -2477,7 +2515,8 @@ def ArmatureBoneHeadFix(SK, LimbJoints):
 
         if bone.name in LimbJoints:
             for Mesh in SK.children:
-                Mesh.ray_cast(bone.head, mathutils.Vector((0,0,1)))
+                sdfsdf = Mesh.ray_cast(bone.head, mathutils.Vector((0,0,1)))
+                print(sdfsdf)
                 pass
                 #Incomplete code
 

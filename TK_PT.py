@@ -223,18 +223,22 @@ class SK_TPOSER_PT_PANEL(Tekke7Panel, Panel):
 
         # row = layout.row(align=True)
         # row.label(text='T-Poser:')
-        row = layout.row(align=True)
-        row.prop(context.scene, 'tp_fix_armature', text='Fix armature')
-        #TODO: Add the active thing here
+        # row = layout.row(align=True)
+        # row.prop(context.scene, 'tp_fix_armature', text='Fix armature')
+        # #TODO: Add the active thing here
 
+        row = layout.row(align=True)
+        row.prop(context.scene, 'tp_connect_bones', text='connect main bones')
+ 
         
-        sub = row.row(align=True)
-        # sub.active = context.scene.tp_fix_armature
-        sub.enabled = context.scene.tp_fix_armature
+        # sub = row.row(align=True)
+        # # sub.active = context.scene.tp_fix_armature
+        # sub.enabled = context.scene.tp_fix_armature
         # sub.prop(arm, "axes_position", text="Position")
 
         # row.active == context.scene.tp_fix_armature
-        sub.prop(context.scene, 'tp_fix_fingertips', text='Fix finger tips')
+        row = layout.row(align=True)
+        row.prop(context.scene, 'tp_fix_fingertips', text='Fix finger tips')
         row = layout.row(align=True)
         row.prop(context.scene, "tp_tpose_spine", text="Apply to spine bones")
         row = layout.row(align=True)
@@ -469,11 +473,11 @@ class SIMPLIFIER_PT_PANEL(Tekke7Panel, Panel):
             item = scene.bone_substrng_list[scene.bone_substrng_list_index]
 
             row = layout.row()
-            row.prop(item, "Substrng")
+            row.prop(item, "Keyword")
             # row.prop(item, "New_Name")
 
         row = layout.row()
-        row.prop(context.scene, 'bone_prsv', text='keep bone orientation')
+        row.prop(context.scene, 'bone_simp_connect', text='connect main bones')
         row = layout.row()
         row.prop(context.scene, 'bone_remv', text='remove bones')
         row = layout.row()

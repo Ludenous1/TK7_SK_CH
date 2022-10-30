@@ -429,11 +429,36 @@ def InitializeBoneRenamerEnumerator():
     # for root, dirs, files in os.walk("Skeletons"):
     PresetNames = Find_File_Names('Rename_Presets', ".txt")
     bpy.context.scene.preset_collection.clear()
+
+    # directory = bpy.utils.user_resource('SCRIPTS',path= "addons")
+    # AddonFolder = GetAddonsFolderName_propfx()
+    
+    # MaxLines = 0
+
+
     for file in PresetNames:
         
         Preset = bpy.context.scene.preset_collection.add()
         Preset.RenameListPreset = file
 
+    if len(PresetNames)!=0:
+        bpy.context.scene.preset_enum = '0'
+
+
+    #     Path = 'Rename_Presets/'+ file +'.txt'
+
+    #     GlobalPath = directory+'/'+AddonFolder+'/'+Path
+
+    #     with open(GlobalPath,"r") as f:
+    #         lines = f.readlines()
+    #         print(MaxLines, len(lines))
+    #         if len(lines) > MaxLines:
+    #             MaxLines = len(lines)
+
+    #     print(MaxLines, "maxlines")
+    # #initialize bone_rename_list based on the longest list to save time
+    # for x in range(0, MaxLines):
+    #     bpy.context.scene.bone_rename_list.add()
 
     # for root, dirs, files in os.walk("Rename_Presets"):
     #     for file in files:
@@ -724,14 +749,19 @@ def BoneRenamerPresetSelection(self, context):
     # collection, indx = collection_from_element(self)
     print("Preset Selected:",context.scene.preset_enum , context.scene.preset_collection[int(context.scene.preset_enum)].RenameListPreset)
     Path = 'Rename_Presets/'+ context.scene.preset_collection[int(context.scene.preset_enum)].RenameListPreset +'.txt'
-    print("Hi")
+    startTime = time.time() 
+    
+    print("Hi", time.time() - startTime)
     directory = bpy.utils.user_resource('SCRIPTS',path= "addons")
     AddonFolder = GetAddonsFolderName_propfx()
-    print("How are you")
+    print("How are you", time.time() - startTime )
     GlobalPath = directory+'/'+AddonFolder+'/'+Path
     
-    # bpy.context.scene.bone_rename_list.clear()
+   
     ClearBoneRenameList()
+
+    print("After clearing the list", time.time() - startTime )
+
     print(GlobalPath)
     with open(GlobalPath,"r") as f:
         Counter = 0
@@ -740,13 +770,21 @@ def BoneRenamerPresetSelection(self, context):
             ConvLine = LineInfoConverterForRenamerPresets(line)
             if len(ConvLine) == 2:
                 context.scene.bone_rename_list.add()
+
+                print("Adding more lines to rename list...", time.time() - startTime )
                 bpy.context.scene.bone_rename_list[Counter].Current_Name = ConvLine[0]
                 bpy.context.scene.bone_rename_list[Counter].New_Name = ConvLine[1]
                 Counter +=1 
 
                 # print(ConvLine, len(ConvLine))
     # Call function to load preset by changing bone_rename_list
-    
+    print("Done", time.time() - startTime )
+
+
+    # for x in range(Counter, len(bpy.context.scene.bone_rename_list)):
+    #     bpy.context.scene.bone_rename_list[x].Current_Name = ""
+    #     bpy.context.scene.bone_rename_list[x].New_Name = ""
+
         
     return
 
@@ -787,6 +825,8 @@ def GetBoneSubstringList():
     for Item in bpy.context.scene.bone_substrng_list:
         if Item.name not in BoneSubstrgList:
             BoneSubstrgList.append(Item.Substrng)
+
+    print(BoneSubstrgList, "Just to check")
     return BoneSubstrgList
 
 # #TODO: for simplifier
