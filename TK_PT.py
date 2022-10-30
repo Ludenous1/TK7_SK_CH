@@ -473,7 +473,7 @@ class SIMPLIFIER_PT_PANEL(Tekke7Panel, Panel):
             item = scene.bone_substrng_list[scene.bone_substrng_list_index]
 
             row = layout.row()
-            row.prop(item, "Keyword")
+            row.prop(item, "Substrng")
             # row.prop(item, "New_Name")
 
         row = layout.row()
