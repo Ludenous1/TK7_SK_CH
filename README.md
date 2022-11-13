@@ -324,7 +324,9 @@ These include some tools that are commonly used throughout the modding process.
    * Bone Renamer bugs completely fixed
    * `Merge bones to` mode switch glitch fixed
    * Changes to UI descriptions
-
+   
+* Nov-13-22: 
+   * Documented a new issue with the Bone Renamer module that recently came to my attention on the ReadMe
 
 
 
