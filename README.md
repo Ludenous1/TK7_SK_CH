@@ -282,6 +282,7 @@ These include some tools that are commonly used throughout the modding process.
 * ~~Some of the modules have slow runtime before they actually get executed. An issue that doesn't seem to be salient for Blender 2.9 as it is for the newer versions. I'm very close to fixing this for most of the slow modules but I can't give any dates as to when I'll actually release the performance improvements.~~ (Fixed in  `Version 0.1.3`)
 * Most modules don't take facial bones into consideration. The only exception to this is the Skeleton Generator which can generate the facial bones with the correct positions and rolls
 * The Bone Renamer takes a long time to load rename presets with many lines. In the meantime, try not to go beyond 55 lines if you want the preset to load within 1 sec.
+* There's a bug with the Bone Renamer that prevents changes from being permanently saved especially when lines get removed from the current list.
 
  
 
