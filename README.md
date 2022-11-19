@@ -37,7 +37,7 @@ Now open up Blender and navigate to Edit->Preferences->Addons. Click on Install,
 ![190016274-7aabacbf-3421-4678-92d3-e7b84cf9c025update](https://user-images.githubusercontent.com/99399209/198876019-3e03bb01-99e5-4284-a55c-be3561c9b72e.jpg)
 
 
-If this is your first time installing the addon skip this update section. But if you've already installed the addon before, chances are you don't have the latest version (which is currently `Version 0.1.3`). You need to follow the steps below for a smooth update transition:
+If this is your first time installing the addon skip this update section. But if you've already installed the addon before, chances are you don't have the latest version (which is currently `Version 0.1.4`). You need to follow the steps below for a smooth update transition:
 
 If you **didn't** make any changes you want to keep for the Bone Renamer:
 
@@ -47,7 +47,7 @@ If you **didn't** make any changes you want to keep for the Bone Renamer:
     1. Head to `Edit`->`Preferences` and then to the `add-ons` tab
     2. Use the search box at the top right corner to search for `TK7_SK_CH` if it's not already on the list and expand it as shown in the image. Your version would currently be either `0.0.1` or `0.0.2`.
     3. Click on `remove`
-    4. Follow the installation steps. The version should say `0.1.3` now and there should be only 1 `object:TK7_SK_CH` shown on your addon preferences tab which means the update was successful.
+    4. Follow the installation steps. The version should say `0.1.4` now and there should be only 1 `object:TK7_SK_CH` shown on your addon preferences tab which means the update was successful.
 
   
 
@@ -66,7 +66,7 @@ But if you **did** make any changes you want to keep for the Bone Renamer:
     3. Open up the `file` location with a file explorer. Don't open up `__initi__.py`, just go to where it's located on your machine.
     4. Copy the `Rename_Presets` folder to a temporary location (ex: Desktop).
     5. Head back to Blender and click on `remove` to remove the older version now that you have made a backup of the presets.
-    6. Follow the installation steps. The version should say `0.1.3` now and there should be only 1 `object:TK7_SK_CH` shown on your addon preferences tab which means the update was successful but there's one final step needed to recover the presets that were on the older Bone Renamer.
+    6. Follow the installation steps. The version should say `0.1.4` now and there should be only 1 `object:TK7_SK_CH` shown on your addon preferences tab which means the update was successful but there's one final step needed to recover the presets that were on the older Bone Renamer.
     7. Copy the `Rename_Presets` folder from step `4` back into the location where the addon got installed. It should be the exact same location as before unless you changed your Blender version but you can find it just by looking at the `file` location on the addon preference tab.
     8. Done. Have fun
 
@@ -282,7 +282,7 @@ These include some tools that are commonly used throughout the modding process.
 * ~~Some of the modules have slow runtime before they actually get executed. An issue that doesn't seem to be salient for Blender 2.9 as it is for the newer versions. I'm very close to fixing this for most of the slow modules but I can't give any dates as to when I'll actually release the performance improvements.~~ (Fixed in  `Version 0.1.3`)
 * Most modules don't take facial bones into consideration. The only exception to this is the Skeleton Generator which can generate the facial bones with the correct positions and rolls
 * The Bone Renamer takes a long time to load rename presets with many lines. In the meantime, try not to go beyond 55 lines if you want the preset to load within 1 sec.
-* There's a bug with the Bone Renamer that prevents changes from being permanently saved especially when lines get removed from the current list.
+* ~~There's a bug with the Bone Renamer that prevents changes from being permanently saved especially when lines get removed from the current list.~~ (Fixed in  `Version 0.1.4`)
 
  
 
@@ -321,14 +321,15 @@ These include some tools that are commonly used throughout the modding process.
 
 * Oct-30-22: `Version 0.1.3 release`
    * Performance enhancements for the T-Poser (runs about 60x faster now) and the Skeleton Simplifier
-   * Bone Renamer bugs completely fixed
+   * Known Bone Renamer bugs completely fixed
    * `Merge bones to` mode switch glitch fixed
    * Changes to UI descriptions
    
 * Nov-13-22: 
    * Documented a new issue with the Bone Renamer module that recently came to my attention on the ReadMe
 
-
+* Nov-19-22: `Version 0.1.4 release`
+   * Fixed Bone Renamer save bug
 
 
 [^1]: The word "skeleton" and "armature" is used interchangeably. They both mean the same thing here which is the structure that holds all the bones together in a 3D model.
