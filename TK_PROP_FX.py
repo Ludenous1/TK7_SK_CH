@@ -489,6 +489,12 @@ def InitializeBoneRenamerEnumerator():
 
 
 def SaveBoneRenameList(Path, collection):
+    directory = bpy.utils.user_resource('SCRIPTS',path= "addons")
+    AddonFolder = GetAddonsFolderName_propfx()
+
+    GlobalPath = directory+'/'+AddonFolder+'/'+Path
+
+
     Lines = []
     for item in collection:
             CurrentName = item.Current_Name
@@ -497,7 +503,7 @@ def SaveBoneRenameList(Path, collection):
             Line = BoneRenameText(CurrentName, NewName)
             Lines.append(Line)
     
-    with open(Path,'w') as f:
+    with open(GlobalPath,'w') as f:
         for line in Lines:
             f.write(line) 
             f.write('\n')  

@@ -23,7 +23,7 @@ bl_info = {
     "author" : "Ludenous",
     "description" : "",
     "blender" : (2, 80, 0),
-    "version" : (0, 1, 3),
+    "version" : (0, 1, 4),
     "location" : "View3D",
     "warning" : "",
     "category" : "Object"
