@@ -503,7 +503,8 @@ def SaveBoneRenameList(Path, collection):
             Line = BoneRenameText(CurrentName, NewName)
             Lines.append(Line)
     
-    with open(GlobalPath,'w') as f:
+    with open(Path,'w') as f:
+    # with open(GlobalPath,'w') as f:
         for line in Lines:
             f.write(line) 
             f.write('\n')  

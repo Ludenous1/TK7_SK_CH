@@ -539,9 +539,13 @@ class LIST_OT_BoneRename_DeleteItem(Operator):
         my_list.remove(index)
         context.scene.bone_rename_list_index = min(max(0, index - 1), len(my_list) - 1)
 
+        directory = bpy.utils.user_resource('SCRIPTS',path= "addons")
+        AddonFolder = GetAddonsFolderName_propfx()
 
         Path = 'Rename_Presets/'+ context.scene.preset_collection[int(context.scene.preset_enum)].RenameListPreset +'.txt'
-        SaveBoneRenameList(Path, my_list)
+        GlobalPath = directory+'/'+AddonFolder+'/'+Path
+        
+        SaveBoneRenameList(GlobalPath, my_list)
 
         return{'FINISHED'}
 
