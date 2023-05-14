@@ -84,36 +84,14 @@ Bonedict = {
 
 
 def Find_IO_SCENE_FBX_File():
-    RoamingScripts = bpy.utils.user_resource('SCRIPTS',path="")
+    for mod in addon_utils.modules():
+        mod_info = addon_utils.module_bl_info(mod)
+        if(mod_info['name'] == 'FBX format'):
+            mod_path = os.path.dirname(mod.__file__)
 
-    AllScriptPaths = bpy.utils.script_paths()
+            return os.path.join(mod_path, "export_fbx_bin.py")
 
-    #AllScriptPaths.remove(RoamingScripts)
-
-#    print(AllScriptPaths)
-
-#    print("haha")
-
-#    print(RoamingScripts)
-
-    for path in AllScriptPaths:
-#        if path == RoamingScripts:
-#            print("Yes", path)
-#                               
-        start = '\\'
-        end = '\\'  
-        FolderType = path.split(start)[-1].split(end)[0]
-        print(FolderType) 
-        
-        if FolderType == "scripts" and path !=  RoamingScripts:
-            InstallationScriptPath = path
-            
-
-    Io_Scene_FBX_Path = InstallationScriptPath + "/addons/io_scene_fbx/export_fbx_bin.py"
-
-    print(Io_Scene_FBX_Path)
-    
-    return Io_Scene_FBX_Path
+    raise FileNotFoundError("Could not find the addon io_scene_fbx")
 
 
 def Read_Lines_From_export_fbx_bin(filepath):
