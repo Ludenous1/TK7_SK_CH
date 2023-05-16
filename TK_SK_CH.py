@@ -297,26 +297,21 @@ def SK_Type_conversion(SK, Type):
 #Dev note: Bone roll is misleading as it doesn't always reflect the bone axis
 
 def GetAddonsFolderName_SK_CH_Gen():
-    Instances = []
+    addon_folder = None
+    
     for mod in addon_utils.modules():
-        if mod.bl_info['name'] == "TK7_SK_CH":
-            filepath = mod.__file__
-            print (filepath)
-            Instances.append(filepath)
-            # os.path.basename(filepath)
-        else:
-            pass
-
-    if len(Instances) > 1:
-        raise Exception("You have multiple instances of TK7_SK_CH installed. Please keep only one and try again")   
-        
-    start = '\\'
-    end = '\\'  
-    AddonFolder = filepath.split(start)[-2].split(end)[0]
-    print(AddonFolder)
-
-    return AddonFolder
-
+        if mod.bl_info.get('name') == "TK7_SK_CH":
+            addon_folder = os.path.dirname(mod.__file__)
+            break
+    
+    if addon_folder is None:
+        raise Exception("Could not retrieve the TK7_SK_CH addon path.")
+    
+    if len(addon_folder.split(os.sep)) > 1:
+        addon_folder = os.path.basename(os.path.normpath(addon_folder))
+    
+    print(addon_folder)
+    return addon_folder
 
 def ReadSKdatafile(char):
     script_file = os.path.realpath(__file__)
