@@ -137,7 +137,7 @@ Going over each module on the panel from the bottom up:
    Options:
    * ![image](https://user-images.githubusercontent.com/99399209/197341581-9fd7be25-c5d5-47dd-ab80-22fccc1482cf.png)
 `Auto bone matching`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Autofills the selected list based on detected matching bones (Optional and Experimental. It only works for custom skeleton structures with certain features).
-   * - [ ] **Merge bones with same / similar weights**:  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Merges bone weights for the bones that end up with the a same or similar name. The parent would be the first renamed bone if the new bone names are identical. If the new bone name is the same as that of an existing bone, the bone weights are still going to get merged even if they're aren't both shown on the list (Optional, Off by default)
+   * - [ ] **Merge bones with same / similar names**:  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Merges bone weights for the bones that end up with the a same or similar name. The parent would be the first renamed bone if the new bone names are identical. If the new bone name is the same as that of an existing bone, the bone weights are still going to get merged even if they're aren't both shown on the list (Optional, Off by default)
 
   Conditions for proper activation:
   * Object mode or edit mode.
@@ -233,7 +233,7 @@ Going over each module on the panel from the bottom up:
   ![image](https://user-images.githubusercontent.com/99399209/188228602-94363f1f-8538-4151-913e-09d6573976ca.png)
   
    What it does:
-   * It generates the skeletons for the Tekken 7 cast except for Noctis and Geese. 
+   * It generates the skeletons for the Tekken 7 cast including Noctis and Geese. 
    * The bones in the generated skeleton have the correct roll and are in the correct position (I've tested it on about 13 characters).
    * It only generates the skeletons for the characters selected without any meshes.
 
