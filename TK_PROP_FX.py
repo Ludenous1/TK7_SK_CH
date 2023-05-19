@@ -25,25 +25,20 @@ from.TK_FX import *
 
 #____________________File related functions______________
 def GetAddonsFolderName_propfx():
-    Instances = []
+    addon_folder = None
+    
     for mod in addon_utils.modules():
-        if mod.bl_info['name'] == "TK7_SK_CH":
-            filepath = mod.__file__
-            # print (filepath)
-            Instances.append(filepath)
-            # os.path.basename(filepath)
-        else:
-            pass
-
-    if len(Instances) > 1:
-        raise Exception("You have multiple instances of TK7_SK_CH installed. Please keep only one and try again")   
-        
-    start = '\\'
-    end = '\\'  
-    AddonFolder = filepath.split(start)[-2].split(end)[0]
-    # print(AddonFolder)
-
-    return AddonFolder
+        if mod.bl_info.get('name') == "TK7_SK_CH":
+            addon_folder = os.path.dirname(mod.__file__)
+            break
+    
+    if addon_folder is None:
+        raise Exception("The TK7_SK_CH addon is not installed.")
+    
+    if len(addon_folder.split(os.sep)) > 1:
+        addon_folder = os.path.basename(os.path.normpath(addon_folder))
+    
+    return addon_folder
 
 
 
