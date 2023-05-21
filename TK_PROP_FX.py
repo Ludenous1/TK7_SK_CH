@@ -1,8 +1,10 @@
-# Contains properties used for the _____ (TK_PT.py) and relies on the functions from _______ TK_FX.py.
-# It also contains some functions used only with the properties (like update, etc)
-#bl_idname should all be in lowercase for blender 2.8->3.1
+#This file contains functions associated with the custom blender properties (like update, etc) defined in TK_PROP.py. 
+#It relies on the functions from TK_FX.py.
 
-#Devnote: assiging a value of a property using self[<property_name>] won't invoke the class's __setattr__ method unlike self.<property_name>
+
+#Devnote_1: assiging a value of a property using self[<property_name>] won't invoke the class's __setattr__ method unlike self.<property_name>
+#Devnote_2: bl_idname should all be in lowercase for blender 2.8 and above with no spaces.
+
 
 import bpy
 import re
@@ -17,11 +19,6 @@ import time
 from.TK_FX import *
 
 
-
-# SK_copy = None
-
-# def lol():
-#     print("Update!!!!")
 
 #____________________File related functions______________
 def GetAddonsFolderName_propfx():
@@ -43,7 +40,7 @@ def GetAddonsFolderName_propfx():
 
 
 def FileExistenceTester(Folder,name):
-#Works fine
+
     script_file = os.path.realpath(__file__)
     directory_ = os.path.dirname(script_file)
 
@@ -57,6 +54,7 @@ def FileExistenceTester(Folder,name):
     return os.path.exists(GlobalPath)
 
 def Find_File_Names(FolderName, FileType):
+
     script_file = os.path.realpath(__file__)
     directory_ = os.path.dirname(script_file)
 
@@ -90,8 +88,6 @@ def FileCreater(Folder,name):
     directory = bpy.utils.user_resource('SCRIPTS',path= "addons")
     AddonFolder = GetAddonsFolderName_propfx()
 
-    #Tests if a txt file with the name 'name' exists in the folder called "Folder"
-    # Path = 'Rename_Presets/'+ name +'.txt'
     Path = Folder+'/'+ name +'.txt'
     GlobalPath = directory+'/'+AddonFolder+'/'+Path
 
@@ -189,14 +185,6 @@ def Generate_Enum_for_BoneMerger(self, context):
         
     return Enums
 
-
-# def SK_hierarchy_disabler_update(self, context):
-#     #set boolproperty back to false and let it do all the rest
-#     # context.scene.bone_isolation_switch = False
-#     print("Whatever")
-    
-#     #(restore armature hierarchy back to default
-#     #adjust the pose of each bone correctly)
 
 def SK_hierarchy_disabler_poll(self, object):
     return object.type == 'ARMATURE'
@@ -420,7 +408,7 @@ def Generate_Enum_from_Rename_Preset_Collection(self, context):
 
 
 def InitializeBoneRenamerEnumerator():
-    # print("lmao")
+
     # for root, dirs, files in os.walk("Skeletons"):
     PresetNames = Find_File_Names('Rename_Presets', ".txt")
     bpy.context.scene.preset_collection.clear()
@@ -440,45 +428,6 @@ def InitializeBoneRenamerEnumerator():
         bpy.context.scene.preset_enum = '0'
 
 
-    #     Path = 'Rename_Presets/'+ file +'.txt'
-
-    #     GlobalPath = directory+'/'+AddonFolder+'/'+Path
-
-    #     with open(GlobalPath,"r") as f:
-    #         lines = f.readlines()
-    #         print(MaxLines, len(lines))
-    #         if len(lines) > MaxLines:
-    #             MaxLines = len(lines)
-
-    #     print(MaxLines, "maxlines")
-    # #initialize bone_rename_list based on the longest list to save time
-    # for x in range(0, MaxLines):
-    #     bpy.context.scene.bone_rename_list.add()
-
-    # for root, dirs, files in os.walk("Rename_Presets"):
-    #     for file in files:
-    #         if file.endswith(".txt"):
-    #             # print(os.path.join(root, file))
-
-                
-    #             Path = os.path.join(root, file)
-    #             start = '\\'
-    #             end = '.'
-    #             PresetName = Path.split(start)[1].split(end)[0]
-
-    #             bpy.context.scene.preset_collection.add()
-    #             bpy.context.scene.preset_collection[int(bpy.context.scene.preset_enum)].RenameListPreset = PresetName
-
-    #             print(PresetName)
-
-
-                
-                # with open(Path) as f:
-                #     lines = f.readlines()
-                #     for line in lines:
-                #         ConvLine = LineInfoConverterForRenamerPresets(line)
-                #         if len(ConvLine) == 2:
-                #             print(ConvLine, len(ConvLine))
                     
 #_____________________________________________________________
 
@@ -536,29 +485,8 @@ def BoneNameUpdateFunction(self, context):
     # print("How are you")
     GlobalPath = directory+'/'+AddonFolder+'/'+Path
     
-    # Path = 'Rename_Presets'+'/'+ context.RenameListPreset +'.txt'
-    # print(Path)
-    # print(Line)
-
-    # WriteBoneRenameItemToTextFile(Path, bpy.context.scene.bone_rename_list_index, Line)
-    # replace_line(Path, bpy.context.scene.bone_rename_list_index, Line)
     SaveBoneRenameList(GlobalPath, collection)
-    # CollectionNames = []
-    # MatchFlag = False
-    # counter = 0
-    # for n,element in enumerate(collection):
-    #     CollectionNames.append(element.RenameListPreset)
-    #     if self.RenameListPreset == element.RenameListPreset and n != indx:
-    #         MatchFlag = True
 
-    # while MatchFlag == True:
-    #     if self.RenameListPreset in CollectionNames:
-    #         MatchFlag = True
-    #         # print("this is is where all the chiz happens")
-    #         self["RenameListPreset"] = self.RenameListPreset + str(counter)
-    #     else:
-    #         MatchFlag = False                  
-    #     counter += 1    
 
 def RenamePresetMainFunction(self, context):
     collection, indx = collection_from_element(self)
@@ -581,12 +509,6 @@ def RenamePresetMainFunction(self, context):
             MatchFlag = False                  
         counter += 1    
     
-    
-    # FileRenamer(Folder ,OldName, NewName)
-    # if MatchFlag == True:
-    #     print("Rename ",CurrentPresetName, "to ", NewPresetName )
-    # print(FileExistenceTester('Rename_Presets',self.RenameListPreset))
-    # return
 
 
 def RenamePresetUpdatedFunction(self, context):
@@ -704,40 +626,6 @@ def RenamerListPopulate():
 
 
 
-
-    
-
-
-# def FillNewPreset():
-#     obj = bpy.context.active_object
-#     Defaul_List = ['MODEL_00', 'BASE', 'Hip', 'Spine1', 'Spine2', 'Neck', 'Head', 'L_Shoulder', 'L_Arm', 'L_ForeArm', 'L_Hand', 'L_Thumb1', 'L_Thumb2', 'L_Thumb3', 'L_Index1', 'L_Index2', 'L_Index3', 'L_Middle1', 'L_Middle2', 'L_Middle3', 'L_Ring1', 'L_Ring2', 'L_Ring3', 'L_Pinky1', 'L_Pinky2', 'L_Pinky3', 'R_Shoulder', 'R_Arm', 'R_ForeArm', 'R_Hand', 'R_Thumb1', 'R_Thumb2', 'R_Thumb3', 'R_Index1', 'R_Index2', 'R_Index3', 'R_Middle1', 'R_Middle2', 'R_Middle3', 'R_Ring1', 'R_Ring2', 'R_Ring3', 'R_Pinky1', 'R_Pinky2', 'R_Pinky3', 'L_UpLeg', 'L_Leg', 'L_Foot', 'L_Toe', 'R_UpLeg', 'R_Leg', 'R_Foot', 'R_Toe' ]
-
-#     if obj is not None:
-#         if obj.type == 'ARMATURE':
-#             try:
-#                 BoneRenameList = AutoDetectBones()
-#                 ClearBoneRenameList()
-#                 for indx,bonename in enumerate(Defaul_List):
-#                     bpy.context.scene.bone_rename_list.add()
-#                     bpy.context.scene.bone_rename_list[indx].New_Name = bonename
-#                     for element in BoneRenameList:
-#                         if element[1]==bonename:
-#                             bpy.context.scene.bone_rename_list[indx].Current_Name = element[0]
-#                             # print(bonename,"--->",element[1])
-#                             break
-#                         else: 
-#                             bpy.context.scene.bone_rename_list[indx].Current_Name = ''
-                    
-
-#             except:
-#                 InitializeRenameList(Defaul_List)
-
-#         else:
-#             InitializeRenameList(Defaul_List)
-#     else:
-#         InitializeRenameList(Defaul_List)
-
-
 def FillNewPreset():
     obj = bpy.context.active_object
     Defaul_List = ['MODEL_00', 'BASE', 'Hip', 'Spine1', 'Spine2', 'Neck', 'Head', 'L_Shoulder', 'L_Arm', 'L_ForeArm', 'L_Hand', 'L_Thumb1', 'L_Thumb2', 'L_Thumb3', 'L_Index1', 'L_Index2', 'L_Index3', 'L_Middle1', 'L_Middle2', 'L_Middle3', 'L_Ring1', 'L_Ring2', 'L_Ring3', 'L_Pinky1', 'L_Pinky2', 'L_Pinky3', 'R_Shoulder', 'R_Arm', 'R_ForeArm', 'R_Hand', 'R_Thumb1', 'R_Thumb2', 'R_Thumb3', 'R_Index1', 'R_Index2', 'R_Index3', 'R_Middle1', 'R_Middle2', 'R_Middle3', 'R_Ring1', 'R_Ring2', 'R_Ring3', 'R_Pinky1', 'R_Pinky2', 'R_Pinky3', 'L_UpLeg', 'L_Leg', 'L_Foot', 'L_Toe', 'R_UpLeg', 'R_Leg', 'R_Foot', 'R_Toe', 'SWG_OPT1_bustL__swing', 'SWG_OPT3_bustR__swing' ]
@@ -782,41 +670,9 @@ def BoneRenamerPresetSelection(self, context):
     # Call function to load preset by changing bone_rename_list
     print("Done", time.time() - startTime )
 
-
-    # for x in range(Counter, len(bpy.context.scene.bone_rename_list)):
-    #     bpy.context.scene.bone_rename_list[x].Current_Name = ""
-    #     bpy.context.scene.bone_rename_list[x].New_Name = ""
-
         
     return
 
-
-
-
-# def GenerateBoneRenamerEnumerator():
-#     # for root, dirs, files in os.walk("Skeletons"):
-#     for root, dirs, files in os.walk("Rename_Presets"):
-#         for file in files:
-#             if file.endswith(".txt"):
-#                 # print(os.path.join(root, file))
-
-                
-#                 Path = os.path.join(root, file)
-#                 start = '\\'
-#                 end = '.'
-#                 PresetName = Path.split(start)[1].split(end)[0]
-#                 print(PresetName)
-#                 with open(Path) as f:
-#                     lines = f.readlines()
-#                     for line in lines:
-#                         ConvLine = LineInfoConverterForRenamerPresets(line)
-#                         if len(ConvLine) == 2:
-#                             print(ConvLine, len(ConvLine))
-                    
-
-
-
-# GenerateBoneRenamerEnumerator()
 
 
 #______________________For simplifier______________________
@@ -830,34 +686,6 @@ def GetBoneSubstringList():
 
     print(BoneSubstrgList, "Just to check")
     return BoneSubstrgList
-
-# #TODO: for simplifier
-# def TemplateBoneSubstrngListGenerate(preset):
-#     #clear current substring list
-#     for indx,item in enumerate(bpy.context.scene.my_list):
-#         bpy.context.scene.my_list.remove(indx)
-
-#     #Generate new list based on the preset choice
-#     if preset == "Default":
-#         list = ["adj", "unused", "ctr", "roll" , "ROLL", "offset", "twist", "fix", "joint", "null"]
-#         for ind,name in enumerate(list):
-#             bpy.context.scene.my_list.add()
-#             bpy.context.scene.my_list[ind].name = list[ind]
-
-# #TODO: for SK gen
-# def Generate_Enum_for_SK_Gen(self, context):
-    
-#     Enum_items = []
-    
-#     # for indx,test_number in enumerate(context.scene.preset_collection):
-        
-#     #     data = str(test_number.RenameListPreset)
-#     #     Strindx = str(indx)
-#     #     item = (Strindx, data, '')
-        
-#     #     Enum_items.append(item)
-        
-#     return Enum_items
 
 
 
