@@ -4,6 +4,7 @@
 
 # from re import T
 import bpy
+import os
 # import random
 from bpy.types import Operator#,PropertyGroup, UIList, Panel
 
@@ -539,13 +540,10 @@ class LIST_OT_BoneRename_DeleteItem(Operator):
         my_list.remove(index)
         context.scene.bone_rename_list_index = min(max(0, index - 1), len(my_list) - 1)
 
-        directory = bpy.utils.user_resource('SCRIPTS',path= "addons")
-        AddonFolder = GetAddonsFolderName_propfx()
+        AddonFolder_Path = GetAddonsFolderPath_propfx()
 
-        Path = 'Rename_Presets/'+ context.scene.preset_collection[int(context.scene.preset_enum)].RenameListPreset +'.txt'
-        GlobalPath = directory+'/'+AddonFolder+'/'+Path
-        
-        SaveBoneRenameList(GlobalPath, my_list)
+        File_Path = os.path.join(AddonFolder_Path,'Rename_Presets', context.scene.preset_collection[int(context.scene.preset_enum)].RenameListPreset +'.txt')
+        SaveBoneRenameList(File_Path , my_list)
 
         return{'FINISHED'}
 

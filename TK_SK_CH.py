@@ -15,7 +15,7 @@ import addon_utils
 
 # To expand compatability beyond Tekken 7
 Bonedict = {
-        'Hips': 'Hip',
+        'Hip': 'Hip',
         'Spine1': 'Spine1', 
         'Spine2': 'Spine2', 
         'Neck': 'Neck', 
@@ -313,17 +313,31 @@ def GetAddonsFolderName_SK_CH_Gen():
     print(addon_folder)
     return addon_folder
 
+def GetAddonsFolderPath_SK_CH_Gen():
+    addon_folder_path = None
+    
+    for mod in addon_utils.modules():
+        if mod.bl_info.get('name') == "TK7_SK_CH":
+            addon_folder_path = os.path.dirname(mod.__file__)
+            break
+    
+    if addon_folder_path is None:
+        raise Exception("Could not retrieve the TK7_SK_CH addon path.")
+    
+    return addon_folder_path
+
 def ReadSKdatafile(char):
     script_file = os.path.realpath(__file__)
     directory_ = os.path.dirname(script_file)
 
     directory = bpy.utils.user_resource('SCRIPTS',path="addons")
-    AddonFolder = GetAddonsFolderName_SK_CH_Gen()
+    AddonFolderPath = GetAddonsFolderPath_SK_CH_Gen()
 
     #Function that reads the SK data files and returns a list with the lines
-    Path = 'Skeletons/'+ 'SK_CH_'+ char + '.txt'
-    
-    GlobalPath = directory+'/'+AddonFolder+'/'+Path
+    File = + 'SK_CH_'+ char + '.txt'
+    # GlobalPath = directory+'/'+AddonFolder+'/'+Path
+
+    GlobalPath = os.path.join(AddonFolderPath, 'Skeletons', File)
     print(GlobalPath)
     with open(GlobalPath) as f:
         lines = f.readlines()

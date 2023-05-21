@@ -37,21 +37,30 @@ def GetAddonsFolderName_propfx():
     
     return addon_folder
 
+def GetAddonsFolderPath_propfx():
+    addon_folder_path = None
+    
+    for mod in addon_utils.modules():
+        if mod.bl_info.get('name') == "TK7_SK_CH":
+            addon_folder_path = os.path.dirname(mod.__file__)
+            break
+    
+    if addon_folder_path is None:
+        raise Exception("The TK7_SK_CH addon is not installed.")
+    
+    return addon_folder_path
+
 
 
 def FileExistenceTester(Folder,name):
 
-    script_file = os.path.realpath(__file__)
-    directory_ = os.path.dirname(script_file)
-
-    directory = bpy.utils.user_resource('SCRIPTS',path= "addons")
-    AddonFolder = GetAddonsFolderName_propfx()
+    AddonFolder_Path = GetAddonsFolderPath_propfx()
 
     #Tests if a txt file with the name 'name' exists in the folder called "Folder"
-    #Path = 'Rename_Presets/'+ name +'.txt'
-    Path = Folder+'/'+ name +'.txt'
-    GlobalPath = directory+'/'+AddonFolder+'/'+Path
-    return os.path.exists(GlobalPath)
+
+    File_Path = os.path.join(AddonFolder_Path, Folder, name +'.txt')
+
+    return os.path.exists(File_Path)
 
 def Find_File_Names(FolderName, FileType):
 
@@ -59,104 +68,67 @@ def Find_File_Names(FolderName, FileType):
     directory_ = os.path.dirname(script_file)
 
     directory = bpy.utils.user_resource('SCRIPTS',path= "addons")
-    AddonFolder = GetAddonsFolderName_propfx()
+    AddonFolder_Path = GetAddonsFolderPath_propfx()
 
-    GlobalPath = directory+'/'+AddonFolder+'/'+FolderName
-    # GlobalPath = AddonFolder+'/'+FolderName
-    # print("Global path1:",GlobalPath)
+    FolderPath = os.path.join(AddonFolder_Path, FolderName)
+
 
     File_Names = []
-    for root, dirs, files in os.walk(GlobalPath):
+    for root, dirs, files in os.walk(FolderPath):
         for file in files:
             if file.endswith(FileType):
-                # print(os.path.join(root, file))
 
-                
-                Path = os.path.join(root, file)
-                start = '\\'
-                end = '.'
-                PresetName = Path.split(start)[-1].split(end)[0]
+                PresetName = os.path.splitext(file)[0]
+
 
                 File_Names.append(PresetName)
     return File_Names
 
 def FileCreater(Folder,name):
 
-    script_file = os.path.realpath(__file__)
-    directory_ = os.path.dirname(script_file)
+    AddonFolder_Path = GetAddonsFolderPath_propfx()
 
-    directory = bpy.utils.user_resource('SCRIPTS',path= "addons")
-    AddonFolder = GetAddonsFolderName_propfx()
 
-    Path = Folder+'/'+ name +'.txt'
-    GlobalPath = directory+'/'+AddonFolder+'/'+Path
 
-    with open(GlobalPath,'w') as f:
+    File_Path = os.path.join(AddonFolder_Path ,Folder, name +'.txt')
+
+    with open(File_Path,'w') as f:
         pass
     return 
 
 def FileRenamer(Folder ,OldName, NewName):
-#Works fine
 
-    script_file = os.path.realpath(__file__)
-    directory_ = os.path.dirname(script_file)
+    AddonFolder_Path = GetAddonsFolderPath_propfx()
 
-    directory = bpy.utils.user_resource('SCRIPTS',path="addons")
-    AddonFolder = GetAddonsFolderName_propfx()
+    File_Path_old = os.path.join(AddonFolder_Path,Folder, OldName +'.txt')
 
-    old_name = Folder+'/'+ OldName +'.txt'
-    Global_old = directory+'/'+AddonFolder+'/'+old_name
-    new_name = Folder+'/'+ NewName +'.txt'
-    Global_new = directory+'/'+AddonFolder+'/'+new_name
+    File_Path_new = os.path.join(AddonFolder_Path,Folder, NewName +'.txt')
     # Renaming the file
-    os.rename(Global_old, Global_new)
+    os.rename(File_Path_old, File_Path_new)
 
 def FileRemover(Folder ,FileName):
-#Works fine
-    script_file = os.path.realpath(__file__)
-    directory_ = os.path.dirname(script_file)
 
-    directory = bpy.utils.user_resource('SCRIPTS',path= "addons")
-    AddonFolder = GetAddonsFolderName_propfx()
+    AddonFolder_Path = GetAddonsFolderPath_propfx()
 
-    Path = Folder+'/'+ FileName +'.txt'
+    File_Path = os.path.join(AddonFolder_Path,Folder, FileName +'.txt')
 
-    Global_old = directory+'/'+AddonFolder+'/'+Path
-    # new_name = Folder+'/'+ NewName +'.txt'
-    # Renaming the file
-    os.remove(Global_old)
+    os.remove(File_Path)
 
 def Find_Missing_File_Name(FolderName,Preset_Name_Collection):
 
     print("Missing file function invoked")
 
-    script_file = os.path.realpath(__file__)
-    directory_ = os.path.dirname(script_file)
+    AddonFolder_Path = GetAddonsFolderPath_propfx()
 
-    directory = bpy.utils.user_resource('SCRIPTS',path= "addons")
-    AddonFolder = GetAddonsFolderName_propfx()
-
-    GlobalPath = directory+'/'+AddonFolder+'/'+FolderName
-    # GlobalPath = AddonFolder+'/'+FolderName
-
-    # print("Global path 2:",GlobalPath)
+    Folder_Path = os.path.join(AddonFolder_Path,FolderName)
 
     File_Names = []
-    for root, dirs, files in os.walk(GlobalPath):
+    for root, dirs, files in os.walk(Folder_Path):
         for file in files:
             if file.endswith(".txt"):
-                # print(os.path.join(root, file))
-
-                
-                Path = os.path.join(root, file)
-                start = '\\'
-                end = '.'
-                PresetName = Path.split(start)[-1].split(end)[0]
-
+                PresetName = os.path.splitext(file)[0]
                 File_Names.append(PresetName)
 
-                # bpy.context.scene.preset_collection.add()
-                # bpy.context.scene.preset_collection[int(bpy.context.scene.preset_enum)].RenameListPreset = PresetName
 
     for FileName in File_Names:
         if FileName in Preset_Name_Collection:
@@ -180,7 +152,6 @@ def Generate_Enum_for_BoneMerger(self, context):
         Strindx = str(indx)
         item = (Strindx, data, '')
         
-        # Enum_items.append(item)
         Enums.append(item)
         
     return Enums
@@ -305,7 +276,6 @@ def Generate_Enum_for_SK_Gen_Opt2(self, context):
         Strindx = str(indx)
         item = (Strindx, data, '')
         
-        # Enum_items.append(item)
         Enums.append(item)
         
     return Enums
@@ -322,7 +292,6 @@ def Generate_Enum_for_SK_Gen_Opt1(self, context):
         Strindx = str(indx)
         item = (Strindx, data, '')
         
-        # Enum_items.append(item)
         Enums.append(item)
         
     return Enums
@@ -339,7 +308,6 @@ def Generate_Enum_for_Chars(self, context):
         Strindx = str(indx)
         item = (Strindx, data, '')
         
-        # Enum_items.append(item)
         Enums.append(item)
         
     return Enums
@@ -358,7 +326,6 @@ def Generate_Enum_for_ps_mode(self, context):
         Strindx = str(indx)
         item = (Strindx, data, '')
         
-        # Enum_items.append(item)
         Enums.append(item)
         
     return Enums
@@ -380,16 +347,7 @@ def collection_from_element(self):
         raise TypeError("Propery not element in a collection.") 
     else:
         return parent.path_resolve(coll_path) , index
-
-# def AddBoneRenameText(Path, Text):
-#     #TODO: Search where the line is located first, and if it's not already there, the lines are the indices. If it's there, change only that particular line 
-#     # Line = "'"+Current+"': '"+New+"'"
-       
-#     with open(Path,'w') as f:
-#         more_lines = ['', 'Append text files', 'The End']
-
-#         f.writelines('\n'.join(more_lines))
-#     return 
+ 
 
 
 def Generate_Enum_from_Rename_Preset_Collection(self, context):
@@ -409,14 +367,9 @@ def Generate_Enum_from_Rename_Preset_Collection(self, context):
 
 def InitializeBoneRenamerEnumerator():
 
-    # for root, dirs, files in os.walk("Skeletons"):
     PresetNames = Find_File_Names('Rename_Presets', ".txt")
     bpy.context.scene.preset_collection.clear()
 
-    # directory = bpy.utils.user_resource('SCRIPTS',path= "addons")
-    # AddonFolder = GetAddonsFolderName_propfx()
-    
-    # MaxLines = 0
 
 
     for file in PresetNames:
@@ -433,17 +386,11 @@ def InitializeBoneRenamerEnumerator():
 
 
 def SaveBoneRenameList(Path, collection):
-    directory = bpy.utils.user_resource('SCRIPTS',path= "addons")
-    AddonFolder = GetAddonsFolderName_propfx()
-
-    GlobalPath = directory+'/'+AddonFolder+'/'+Path
-
 
     Lines = []
     for item in collection:
             CurrentName = item.Current_Name
             NewName = item.New_Name
-            # print (CurrentName, NewName)
             Line = BoneRenameText(CurrentName, NewName)
             Lines.append(Line)
     
@@ -464,34 +411,27 @@ def CheckPresetNameMatch():
     PresetNames = []
     for preset in bpy.context.scene.preset_collection:
         PresetNames.append(preset.RenameListPreset)
-    # intersection = set(Files).intersection(PresetNames) 
-    # if len(intersection)==len(Files) and len(intersection)==len(Files):
+
     if set(Files) == set(PresetNames):
         return True
-    # else:
-    #     return False
+
 
 def BoneNameUpdateFunction(self, context):
     collection, indx = collection_from_element(self)
-    # print("Preset name assigned to:",self.RenameListPreset)
-    CurrentName = self.Current_Name
-    NewName = self.New_Name
-    # print (CurrentName, NewName)
-    Line = BoneRenameText(CurrentName, NewName)
-    Path = 'Rename_Presets/'+ context.scene.preset_collection[int(context.scene.preset_enum)].RenameListPreset +'.txt'
+
+    AddonFolder_Path = GetAddonsFolderPath_propfx()
+
+
+    File_Path = os.path.join(AddonFolder_Path,'Rename_Presets', context.scene.preset_collection[int(context.scene.preset_enum)].RenameListPreset +'.txt')
+
     
-    directory = bpy.utils.user_resource('SCRIPTS',path= "addons")
-    AddonFolder = GetAddonsFolderName_propfx()
-    # print("How are you")
-    GlobalPath = directory+'/'+AddonFolder+'/'+Path
-    
-    SaveBoneRenameList(GlobalPath, collection)
+    SaveBoneRenameList(File_Path, collection)
 
 
 def RenamePresetMainFunction(self, context):
     collection, indx = collection_from_element(self)
-    # print("Preset name assigned to:",self.RenameListPreset)
-    CurrentPresetName = self.RenameListPreset
+
+
     CollectionNames = []
     MatchFlag = False
     counter = 0
@@ -517,8 +457,7 @@ def RenamePresetUpdatedFunction(self, context):
 
     collection, indx = collection_from_element(self)
     FilePresent = FileExistenceTester('Rename_Presets',self.RenameListPreset)
-    # print("Preset name assigned to:",self.RenameListPreset)
-    CurrentPresetName = self.RenameListPreset
+
     CollectionNames = []
     MatchFlag = False
     counter = 0
@@ -636,24 +575,21 @@ def FillNewPreset():
                 
 
 def BoneRenamerPresetSelection(self, context):
-    # collection, indx = collection_from_element(self)
-    print("Preset Selected:",context.scene.preset_enum , context.scene.preset_collection[int(context.scene.preset_enum)].RenameListPreset)
-    Path = 'Rename_Presets/'+ context.scene.preset_collection[int(context.scene.preset_enum)].RenameListPreset +'.txt'
     startTime = time.time() 
     
-    print("Hi", time.time() - startTime)
-    directory = bpy.utils.user_resource('SCRIPTS',path= "addons")
-    AddonFolder = GetAddonsFolderName_propfx()
-    print("How are you", time.time() - startTime )
-    GlobalPath = directory+'/'+AddonFolder+'/'+Path
+    print("Start", time.time() - startTime)
+
     
+
+    AddonFolder_Path = GetAddonsFolderPath_propfx()
+    File_Path = os.path.join(AddonFolder_Path,'Rename_Presets', context.scene.preset_collection[int(context.scene.preset_enum)].RenameListPreset +'.txt')
    
+
     ClearBoneRenameList()
 
     print("After clearing the list", time.time() - startTime )
 
-    print(GlobalPath)
-    with open(GlobalPath,"r") as f:
+    with open(File_Path,"r") as f:
         Counter = 0
         lines = f.readlines()
         for line in lines:
@@ -666,8 +602,6 @@ def BoneRenamerPresetSelection(self, context):
                 bpy.context.scene.bone_rename_list[Counter].New_Name = ConvLine[1]
                 Counter +=1 
 
-                # print(ConvLine, len(ConvLine))
-    # Call function to load preset by changing bone_rename_list
     print("Done", time.time() - startTime )
 
         
