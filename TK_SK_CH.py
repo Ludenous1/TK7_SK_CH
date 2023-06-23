@@ -334,7 +334,7 @@ def ReadSKdatafile(char):
     AddonFolderPath = GetAddonsFolderPath_SK_CH_Gen()
 
     #Function that reads the SK data files and returns a list with the lines
-    File = + 'SK_CH_'+ char + '.txt'
+    File = 'SK_CH_'+ char + '.txt'
     # GlobalPath = directory+'/'+AddonFolder+'/'+Path
 
     GlobalPath = os.path.join(AddonFolderPath, 'Skeletons', File)
