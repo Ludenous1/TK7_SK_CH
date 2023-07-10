@@ -149,6 +149,7 @@ def Root_bone_FBX_edit(SK,FBX_script_test):
     
     bpy.ops.object.mode_set(mode='EDIT')
     
+    Og_SK_Name = SK.name
     SKDict = {bone.name: bone for bone in  SK.data.edit_bones}
     
     if FBX_script_test == True:
@@ -169,6 +170,19 @@ def Root_bone_FBX_edit(SK,FBX_script_test):
         SK.name = "MODEL_00"
 
     bpy.ops.object.mode_set(mode='OBJECT')
+    return(Og_SK_Name)
+
+def Armature_Object_Restore(SK,Og_Name):
+    
+    bpy.ops.object.mode_set(mode='EDIT')
+
+    SK.data.edit_bones.new("MODEL_00")
+    SK.name = Og_Name
+
+    bpy.ops.object.mode_set(mode='OBJECT')
+
+
+    
     
     
 def Test_SK_Type(SK):

@@ -45,7 +45,7 @@ class SK_CH_Export(Operator):
 
         
         if obj is not None:
-            if obj.type == 'ARMATURE' and len(Objs)==1:
+            if obj.type == 'ARMATURE':# and len(Objs)==1:
                 if obj.mode == 'OBJECT':
                     if bpy.data.filepath != '':
                         return True

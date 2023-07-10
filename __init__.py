@@ -21,12 +21,14 @@
 bl_info = {
     "name" : "TK7_SK_CH",
     "author" : "Ludenous",
-    "description" : "",
-    "blender" : (2, 80, 0),
-    "version" : (0, 1, 5),
+    "description" : "Blender Addon for porting rigged characters into Tekken 7",
+    "blender" : (2, 93, 0),
+    "version" : (0, 2, 0),
     "location" : "View3D",
     "warning" : "",
-    "category" : "Object"
+    "wiki_url":    "https://github.com/Ludenous1/TK7_SK_CH",
+    "tracker_url": "https://github.com/Ludenous1/TK7_SK_CH/issues",
+    "category" : "Rigging"
 }
 
 import bpy
@@ -39,14 +41,55 @@ from.TK_UI import *
 from.TK_PROP import *
 from.TK_PROP_FX import *
 
+from . import addon_updater_ops
+
+class UpdaterPreferences(bpy.types.AddonPreferences):
+    """Updater Class."""
+
+    bl_idname = __package__
+
+    # addon updater preferences from `__init__`, be sure to copy all of them
+    auto_check_update: bpy.props.BoolProperty(
+        name="Auto-check for Update",
+        description="If enabled, auto-check for updates using an interval",
+        default=False,
+    )
+    updater_interval_months: bpy.props.IntProperty(
+        name='Months',
+        description="Number of months between checking for updates",
+        default=0,
+        min=0
+    )
+    updater_interval_days: bpy.props.IntProperty(
+        name='Days',
+        description="Number of days between checking for updates",
+        default=7,
+        min=0,
+    )
+    updater_interval_hours: bpy.props.IntProperty(
+        name='Hours',
+        description="Number of hours between checking for updates",
+        default=0,
+        min=0,
+        max=23
+    )
+    updater_interval_minutes: bpy.props.IntProperty(
+        name='Minutes',
+        description="Number of minutes between checking for updates",
+        default=0,
+        min=0,
+        max=59
+    )
+
+    def draw(self, context):
+        """Draw Method."""
+        addon_updater_ops.update_settings_ui(self, context)
+
+
+
 classes = (
     # ____Panels_______
     Character_Modding,
-
-    # VIEWPORT_PT_PANEL,
-    # PORTER_PT_PANEL,
-    # CUSTOM_PT_PANEL,
-    # SK_TOOLS_PT_PANEL,
     SK_GEN_PT_PANEL,
     SK_POSE_SNAP_PT_PANEL,
     SK_TPOSER_PT_PANEL,
@@ -114,7 +157,12 @@ classes = (
     Rename_Preset,
 
 
-    BoneSubstrngListItem
+    BoneSubstrngListItem,
+
+    # ____Updater_______
+    UpdaterPreferences
+    # Addon_Pref_Props,
+    # MY_UPD_Preference
 
 
     # MyProperties, ADDONNAME_PT_main_panel, ADDONNAME_OT_my_op
@@ -190,6 +238,11 @@ def register():
         bpy.app.handlers.depsgraph_update_post.append(check_ob_in_scene)
 
 
+#____________________Addon updater___________________________
+    addon_updater_ops.register(bl_info)
+
+
+
 def unregister():
 
     if check_ob_in_scene in bpy.app.handlers.depsgraph_update_post:
@@ -239,10 +292,14 @@ def unregister():
     del bpy.types.Scene.bone_remv 
     del bpy.types.Scene.mesh_join 
     del bpy.types.Scene.clr_trnspc
+
+
+#____________________Addon updater___________________________
+    addon_updater_ops.unregister()
                             
     
 
-    for cls in classes:
+    for cls in reversed(classes):
         bpy.utils.unregister_class(cls)
 
 # if __name__ == "__main__":
