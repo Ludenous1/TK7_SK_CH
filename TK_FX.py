@@ -29,8 +29,8 @@ def TekkenSceneSetup():
     #TODO: Make sure to remove even hidden objects and collections--->
     #TODO: Show message with user confirmation--->
 
-    bpy.context.space_data.clip_start = 0.001
-    bpy.context.space_data.clip_end = 1e+06
+    bpy.context.space_data.clip_start = 1
+    bpy.context.space_data.clip_end = 1000
 
     # bpy.ops.object.select_all(action='DESELECT')
     # for obj in bpy.data.objects:
