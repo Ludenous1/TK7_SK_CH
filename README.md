@@ -217,6 +217,34 @@ Going over each module on the panel from the bottom up:
 
  - - - -
 
+  
+ ### Vertex Group Merger ###
+ &nbsp; &nbsp; &nbsp; Merges the vertex groups for the the active mesh. It is the UI implementation of Stoner_037's Vertex Group Merging script.
+ 
+![Blender-D-FIles-Projects-Blender](https://github.com/Ludenous1/TK7_SK_CH/assets/99399209/cb161c95-9a64-4e39-93b7-3105152c8c3f)
+
+
+  <details>
+  <summary>Details</summary>
+  
+  ![VertexGroupMerger](https://github.com/Ludenous1/TK7_SK_CH/assets/99399209/027879a1-eeee-4262-8619-dd29f34e6b4b)
+
+   What it does:
+   * It merges the vertex groups for an active mesh. 
+   * If the new vertex group's name already exists, it'll create a new group with a similar name unless the old one is removed.
+
+
+   Options:
+   * - [x] **Remove merged vertex groups**:  &nbsp; &nbsp; &nbsp; Removes all the vertex groups that were merged and only keeps the one with the new name.
+
+
+  Conditions for proper activation:
+  * Object mode or Edit mode
+
+
+
+</details>
+
  
  ### Scene setup and Quick Tools ###
  ![image](https://user-images.githubusercontent.com/99399209/190008787-be57df7e-77ee-4171-8b4e-743b48b9d15a.png)
