@@ -17,7 +17,7 @@ Also, I owe a huge debt of gratitude to the Blender pythonites who helped me und
 | Compatible | :negative_squared_cross_mark:| :heavy_check_mark:  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 Versions not listed on the table were not tested yet.
-For the ones tested, I've used 2.91.2, 2.93.4 , 3.0.1 , 3.1.0, 3.2.2, and 3.3.0.
+For the ones tested on Windows, 2.91.2, 2.93.4 , 3.0.1 , 3.1.0, 3.2.2, and 3.3.0 were used.
 
 
  - - - -
