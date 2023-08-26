@@ -244,7 +244,7 @@ Going over each module on the panel from the bottom up:
 
 
 </details>
-
+- - - -
  
  ### Scene setup and Quick Tools ###
  ![image](https://user-images.githubusercontent.com/99399209/190008787-be57df7e-77ee-4171-8b4e-743b48b9d15a.png)
