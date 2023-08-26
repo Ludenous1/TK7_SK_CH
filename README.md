@@ -256,7 +256,7 @@ These include some tools that are commonly used throughout the modding process.
 <details>
   <summary>Details</summary>
   
-* `Scene setup`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Adjusts the scene units based on the info Dennis provided on the original custom mesh guide[^3]. It also changes the clip settings of the viewport.
+* `Scene setup`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Adjusts the scene units based on the info Dennis provided on the original custom mesh guide[^3]. 
 * `FBX Export`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Exports an active armature with the appropriate export settings for Tekken7 as long as the blend file is saved and there's only one armature on the scene.
 * `Merge bones to`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Merges the weights of the bones to each bones' `parents` or to the `active` bone (the last selected bone). The bones need to be selected in edit mode.
 * `Apply Pose`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Applies the pose of the active armature. 
