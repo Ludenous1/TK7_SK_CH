@@ -2869,3 +2869,58 @@ def Armature_OverHall(SK,refSK):
 
 
     bpy.ops.object.mode_set(mode='OBJECT')
+
+#___________________Vertex_Group_Merger_____________
+
+def Vertex_Groups_Merger(ob, Groups_to_merge, Target_group_name):
+    #Function from Stoner_037 that merges the vertex gorups for the active mesh object.
+    #It takes in the Groups_to_merge as a collection
+    #ex: Groups_to_merge = ["Group.001", "Group.002", "Group.003", "Group.004"]
+    #and Target_group_name as a string
+    #ex: Target_group_name = "Add Name Here"
+
+
+    bpy.ops.object.mode_set(mode='OBJECT')
+
+
+    group_lookup = {g.index: g.name for g in ob.vertex_groups}
+    group_candidates = {n for n in group_lookup.values() if n in Groups_to_merge}
+
+    # test whether all candidates components of group_lookup
+    if all(n in group_lookup.values() for n in group_candidates):
+        pass
+
+    # general tests
+    if (len(group_candidates) and ob.type == 'MESH' and
+        bpy.context.mode == 'OBJECT'):
+        
+        # iterate through the vertices and sum the weights per group
+        vertex_weights = {}
+        for vert in ob.data.vertices:
+            if len(vert.groups):  
+                for item in vert.groups:
+                    vg = ob.vertex_groups[item.group]
+                    if vg.name in group_candidates:
+                        if vert.index in vertex_weights:    
+                            vertex_weights[vert.index] += vg.weight(vert.index)
+                        else:
+                            vertex_weights[vert.index] = vg.weight(vert.index)
+            
+        # clamp/slice values above 1.0
+        for key in vertex_weights.keys():
+            if (vertex_weights[key] > 1.0): vertex_weights[key] = 1.0
+        
+        # create new vertex group
+        vgroup = ob.vertex_groups.new(name=Target_group_name)
+        
+        # add the values to the group                       
+        for key, value in vertex_weights.items():
+            vgroup.add([key], value ,'REPLACE') #'ADD','SUBTRACT'
+
+def Remove_Vertex_Groups(ob,Vertex_Groups):
+
+    vgs = [vg for vg in ob.vertex_groups
+        if vg.name in Vertex_Groups]
+
+    while(vgs):
+        ob.vertex_groups.remove(vgs.pop())

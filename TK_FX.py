@@ -29,8 +29,8 @@ def TekkenSceneSetup():
     #TODO: Make sure to remove even hidden objects and collections--->
     #TODO: Show message with user confirmation--->
 
-    bpy.context.space_data.clip_start = 0.001
-    bpy.context.space_data.clip_end = 1e+06
+    bpy.context.space_data.clip_start = 1
+    bpy.context.space_data.clip_end = 1000
 
     # bpy.ops.object.select_all(action='DESELECT')
     # for obj in bpy.data.objects:
@@ -658,3 +658,20 @@ def ArmatureMatchFixer():
     Armature_OverHall(SK,refSK)
 
     bpy.ops.object.mode_set(mode=OgMode)
+
+def VertexGroupMerger(VG_List, Target, Remove_Groups):
+    Object = bpy.context.active_object
+
+    OgMode = Object.mode
+    
+    Vertex_Groups_Merger(Object, VG_List, Target)
+
+    if Remove_Groups == True:
+        Remove_Vertex_Groups(Object,VG_List)
+
+        if Target in VG_List:
+
+            Object.vertex_groups.active.name = Target
+
+    bpy.ops.object.mode_set(mode=OgMode)
+

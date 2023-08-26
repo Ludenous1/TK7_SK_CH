@@ -23,7 +23,7 @@ bl_info = {
     "author" : "Ludenous",
     "description" : "Blender Addon for porting rigged characters into Tekken 7",
     "blender" : (2, 93, 0),
-    "version" : (0, 2, 0),
+    "version" : (0, 2, 2),
     "location" : "View3D",
     "warning" : "",
     "wiki_url":    "https://github.com/Ludenous1/TK7_SK_CH",
@@ -90,11 +90,14 @@ class UpdaterPreferences(bpy.types.AddonPreferences):
 classes = (
     # ____Panels_______
     Character_Modding,
+    VGMERGER_PT_PANEL,
     SK_GEN_PT_PANEL,
     SK_POSE_SNAP_PT_PANEL,
     SK_TPOSER_PT_PANEL,
 
     RENAMER_PT_PANEL,
+
+    
     
 
     # SKTOOLS_PT_PANEL,
@@ -117,6 +120,8 @@ classes = (
     
     SK_CH_BoneRemove,
     SK_CH_PosMove,
+
+    SK_CH_VertexGroupMerger,
 
 
     SK_CH_SK_Generator,
@@ -141,6 +146,10 @@ classes = (
     LIST_OT_Substrng_NewItem,
     LIST_OT_Substrng_DeleteItem,
 
+    LIST_OT_VG_NewItem,
+    LIST_OT_VG_DeleteItem,
+
+
     # ____Windows_______
     # WM_OT_simplifier,
     # MATERIAL_UL_matslots_example
@@ -148,6 +157,8 @@ classes = (
     MY_UL_BoneRenameList, 
 
     MY_UL_BoneSubstringList,
+
+    MY_UL_VG_List,
 
     # ____PropertyGroups_______
     BoneParent,
@@ -158,6 +169,9 @@ classes = (
 
 
     BoneSubstrngListItem,
+
+    VertexGroupListItem,
+    VertexGroupTargetItem,
 
     # ____Updater_______
     UpdaterPreferences
@@ -241,6 +255,16 @@ def register():
 #____________________Addon updater___________________________
     addon_updater_ops.register(bl_info)
 
+#____________________Vertex Group Merger___________________________
+    bpy.types.Scene.vg_list = CollectionProperty(type = VertexGroupListItem)
+    bpy.types.Scene.vg_list_index = IntProperty(name = "Index for vg_list",
+                                             default = 0)
+    
+    bpy.types.Scene.vg_list_target =  PointerProperty(type = VertexGroupTargetItem)  
+    bpy.types.Scene.vg_remove = BoolProperty(default = True)
+
+
+
 
 
 def unregister():
@@ -296,6 +320,12 @@ def unregister():
 
 #____________________Addon updater___________________________
     addon_updater_ops.unregister()
+
+#____________________Vertex Group Merger___________________________
+    del bpy.types.Scene.vg_list 
+    del bpy.types.Scene.vg_list_index 
+    del bpy.types.Scene.vg_list_target 
+    del bpy.types.Scene.vg_remove
                             
     
 
