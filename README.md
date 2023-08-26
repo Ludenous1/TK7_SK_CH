@@ -4,7 +4,7 @@ This Blender addon is meant to speed up the process of modding characters partic
  - - - -
 
 # Credits
-I've stood on the shoulders of these giants from the Tekken modding community while making this addon: Dennis, Reborn, Saiki, and  Ressen. Without the information and / or code they've provided, so many features would've been missing. Of course, and it goes without saying, but without the folks at the modding discord, I wouldn't have known Tekken's dirty little modding secrets. 
+I've stood on the shoulders of these giants from the Tekken modding community while making this addon: Dennis, Reborn, Saiki, Ressen, and  Stoner_037, . Without the information and / or code they've provided, so many features would've been missing. Of course, and it goes without saying, but without the folks at the modding discord, I wouldn't have known Tekken's dirty little modding secrets. 
 
 Also, I owe a huge debt of gratitude to the Blender pythonites who helped me understand how to properly define / use custom blender properties and more. Not to mention the countless amounts of code I've stolen from them. Especially from Etherlord, MercyMoon, and Vik.
 
@@ -17,7 +17,7 @@ Also, I owe a huge debt of gratitude to the Blender pythonites who helped me und
 | Compatible | :negative_squared_cross_mark:| :heavy_check_mark:  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 Versions not listed on the table were not tested yet.
-For the ones tested, I've used 2.91.2, 2.93.4 , 3.0.1 , 3.1.0, 3.2.2, and 3.3.0.
+For the ones tested on Windows, 2.91.2, 2.93.4 , 3.0.1 , 3.1.0, 3.2.2, and 3.3.0 were used.
 
 
  - - - -
@@ -217,6 +217,35 @@ Going over each module on the panel from the bottom up:
 
  - - - -
 
+  
+ ### Vertex Group Merger ###
+ &nbsp; &nbsp; &nbsp; Merges the vertex groups for the the active mesh. It is the UI implementation of Stoner_037's Vertex Group Merging script.
+ 
+![Blender-D-FIles-Projects-Blender](https://github.com/Ludenous1/TK7_SK_CH/assets/99399209/cb161c95-9a64-4e39-93b7-3105152c8c3f)
+
+
+  <details>
+  <summary>Details</summary>
+  
+  ![VertexGroupMerger](https://github.com/Ludenous1/TK7_SK_CH/assets/99399209/027879a1-eeee-4262-8619-dd29f34e6b4b)
+
+   What it does:
+   * It merges the vertex groups for an active mesh. 
+   * If the new vertex group's name already exists, it'll create a new group with a similar name unless the old one is removed.
+
+
+   Options:
+   * - [x] **Remove merged vertex groups**:  &nbsp; &nbsp; &nbsp; Removes all the vertex groups that were merged and only keeps the one with the new name.
+
+
+  Conditions for proper activation:
+  * Object mode or Edit mode
+
+
+
+</details>
+
+ - - - -
  
  ### Scene setup and Quick Tools ###
  ![image](https://user-images.githubusercontent.com/99399209/190008787-be57df7e-77ee-4171-8b4e-743b48b9d15a.png)
@@ -227,7 +256,7 @@ These include some tools that are commonly used throughout the modding process.
 <details>
   <summary>Details</summary>
   
-* `Scene setup`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Adjusts the scene units based on the info Dennis provided on the original custom mesh guide[^3]. It also changes the clip settings of the viewport.
+* `Scene setup`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Adjusts the scene units based on the info Dennis provided on the original custom mesh guide[^3]. 
 * `FBX Export`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Exports an active armature with the appropriate export settings for Tekken7 as long as the blend file is saved and there's only one armature on the scene.
 * `Merge bones to`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Merges the weights of the bones to each bones' `parents` or to the `active` bone (the last selected bone). The bones need to be selected in edit mode.
 * `Apply Pose`: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Applies the pose of the active armature. 

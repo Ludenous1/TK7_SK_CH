@@ -567,7 +567,7 @@ def RenamerListPopulate():
 
 def FillNewPreset():
     obj = bpy.context.active_object
-    Defaul_List = ['MODEL_00', 'BASE', 'Hip', 'Spine1', 'Spine2', 'Neck', 'Head', 'L_Shoulder', 'L_Arm', 'L_ForeArm', 'L_Hand', 'L_Thumb1', 'L_Thumb2', 'L_Thumb3', 'L_Index1', 'L_Index2', 'L_Index3', 'L_Middle1', 'L_Middle2', 'L_Middle3', 'L_Ring1', 'L_Ring2', 'L_Ring3', 'L_Pinky1', 'L_Pinky2', 'L_Pinky3', 'R_Shoulder', 'R_Arm', 'R_ForeArm', 'R_Hand', 'R_Thumb1', 'R_Thumb2', 'R_Thumb3', 'R_Index1', 'R_Index2', 'R_Index3', 'R_Middle1', 'R_Middle2', 'R_Middle3', 'R_Ring1', 'R_Ring2', 'R_Ring3', 'R_Pinky1', 'R_Pinky2', 'R_Pinky3', 'L_UpLeg', 'L_Leg', 'L_Foot', 'L_Toe', 'R_UpLeg', 'R_Leg', 'R_Foot', 'R_Toe', 'SWG_OPT1_bustL__swing', 'SWG_OPT3_bustR__swing' ]
+    Defaul_List = ['MODEL_00', 'BASE', 'Hip', 'Spine1', 'Spine2', 'Neck', 'Head', 'L_Shoulder', 'L_Arm', 'L_ForeArm', 'L_Hand', 'L_FingerBase', 'L_Thumb1', 'L_Thumb2', 'L_Thumb3',  'L_Index1', 'L_Index2', 'L_Index3', 'L_Middle', 'L_Middle1', 'L_Middle2', 'L_Middle3', 'L_Ring', 'L_Ring1', 'L_Ring2', 'L_Ring3', 'L_Pinky', 'L_Pinky1', 'L_Pinky2', 'L_Pinky3', 'R_Shoulder', 'R_Arm', 'R_ForeArm', 'R_Hand', 'R_FingerBase', 'R_Thumb1', 'R_Thumb2', 'R_Thumb3', 'R_Index1', 'R_Index2', 'R_Index3', 'R_Middle', 'R_Middle1', 'R_Middle2', 'R_Middle3', 'R_Ring', 'R_Ring1', 'R_Ring2', 'R_Ring3','R_Pinky', 'R_Pinky1', 'R_Pinky2', 'R_Pinky3', 'L_UpLeg', 'L_Leg', 'L_Foot', 'L_Toe', 'R_UpLeg', 'R_Leg', 'R_Foot', 'R_Toe', 'SWG_OPT1_bustL__swing', 'SWG_OPT3_bustR__swing' ]
     
     InitializeRenameList(Defaul_List)
 
@@ -623,4 +623,14 @@ def GetBoneSubstringList():
 
 
 
-#_________________________________________________________
+#______________________For Vertex Group Merger______________________
+#TODO: for simplifier
+def GetVertexGroupList():
+    
+    VertexGroupList = []
+    for Item in bpy.context.scene.vg_list:
+        if Item.name not in VertexGroupList:
+            VertexGroupList.append(Item.VG)
+
+    print(VertexGroupList, "Just to check")
+    return VertexGroupList

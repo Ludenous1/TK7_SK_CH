@@ -105,6 +105,27 @@ class BoneSubstrngListItem(PropertyGroup):
            #update=BoneNameUpdateFunction)
 
 
+#___________________Vertex Group Merger______________________
+
+class VertexGroupListItem(PropertyGroup):
+    """Group of properties representing an item in the list."""
+
+    VG: StringProperty(
+           name="Vertex Group name",
+           description="The name of the vertex groups to be merged",
+           default="")#,
+    
+class VertexGroupTargetItem(PropertyGroup):
+    """Group of properties representing an item in the list."""
+
+    Target: StringProperty(
+           name="Target",
+           description="The name of the target/new vertex group",
+           default="")#,
+          
+
+
+
 #________________Pose Isolator__________________________
 
 # class SK_Hierarchy_Disabler(PropertyGroup):

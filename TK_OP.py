@@ -722,3 +722,82 @@ class SK_CH_Simplify(Operator):
         Simplifier(ConnectBones = bpy.context.scene.bone_simp_connect, BoneSubstrgList = BoneSubstrgList, Removebones = bpy.context.scene.bone_remv, MergeMeshes =  bpy.context.scene.mesh_join, Remove_Trans = bpy.context.scene.clr_trnspc)
         # bpy.ops.wm.simplifier('INVOKE_DEFAULT') #ops followed by bl_idname to invoke it
         return {'FINISHED'}
+
+
+#____________________Vertex Group Merger_________________________
+
+
+class LIST_OT_VG_NewItem(Operator):
+    """Add a new vertex group name to search for within the vertex groups."""
+
+    bl_idname = "vg_list.new_item"
+    bl_label = "Add a new vertex group name"
+    # bl_options = {'REGISTER', 'UNDO'}
+
+    # @classmethod
+    # def poll(cls, context): #Skeleton edit mode poll for one selected object
+    #     if context.scene.preset_enum   != '':
+    #         return True
+
+    def execute(self, context):
+        context.scene.vg_list.add()
+        indx = len(context.scene.vg_list)
+        context.scene.vg_list_index = indx - 1
+        # my_list = context.scene.bone_rename_list
+
+        # Path = 'Rename_Presets/'+ context.scene.preset_collection[int(context.scene.preset_enum)].RenameListPreset +'.txt'
+        # SaveBoneRenameList(Path, my_list)
+
+        return{'FINISHED'}
+
+class LIST_OT_VG_DeleteItem(Operator):
+    """Delete the current selected vertex group name to from the list."""
+
+    bl_idname = "vg_list.delete_item"
+    bl_label = "Deletes a vertex group name"
+    # bl_options = {'REGISTER', 'UNDO'}
+
+    @classmethod
+    def poll(cls, context):
+        return context.scene.vg_list
+
+    def execute(self, context):
+        my_list = context.scene.vg_list
+        index = context.scene.vg_list_index 
+
+        my_list.remove(index)
+        context.scene.vg_list_index = min(max(0, index - 1), len(my_list) - 1)
+
+
+        # Path = 'Rename_Presets/'+ context.scene.preset_collection[int(context.scene.preset_enum)].RenameListPreset +'.txt'
+        # SaveBoneRenameList(Path, my_list)
+
+        return{'FINISHED'}
+
+class SK_CH_VertexGroupMerger(Operator):
+    """Merges vertex groups with names containing the vertex group listed to the target. If the new vertex group already exists, it'll merge all the weights onto a new one with a similar name """
+    bl_idname = "object.vg_merge"
+    bl_label = "Merge"
+    bl_options = {'REGISTER', 'UNDO'}
+
+    @classmethod
+    def poll(cls, context):
+        obj = context.active_object
+
+        if obj is not None:
+            if obj.type == 'MESH':
+                if obj.mode == 'OBJECT' or obj.mode == 'EDIT':
+                    return True
+        
+
+        return False
+
+
+    def execute(self, context):
+        Target = context.scene.vg_list_target.Target
+        Remove_Vgs = context.scene.vg_remove
+        VG_List = GetVertexGroupList()
+        VertexGroupMerger(VG_List, Target, Remove_Vgs)
+
+
+        return {'FINISHED'}

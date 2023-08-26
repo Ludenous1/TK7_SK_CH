@@ -658,3 +658,20 @@ def ArmatureMatchFixer():
     Armature_OverHall(SK,refSK)
 
     bpy.ops.object.mode_set(mode=OgMode)
+
+def VertexGroupMerger(VG_List, Target, Remove_Groups):
+    Object = bpy.context.active_object
+
+    OgMode = Object.mode
+    
+    Vertex_Groups_Merger(Object, VG_List, Target)
+
+    if Remove_Groups == True:
+        Remove_Vertex_Groups(Object,VG_List)
+
+        if Target in VG_List:
+
+            Object.vertex_groups.active.name = Target
+
+    bpy.ops.object.mode_set(mode=OgMode)
+

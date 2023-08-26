@@ -491,29 +491,73 @@ class SIMPLIFIER_PT_PANEL(Tekke7Panel, Panel):
         r2.operator('object.sk_simplify', text='Simplify', icon = 'MOD_ARMATURE')
         
 
-class MESHTOOLS_PT_PANEL(Tekke7Panel, Panel):
+class VGMERGER_PT_PANEL(Tekke7Panel, Panel):
     bl_parent_id = "TEKKEN7_PT_CHARACTER"
-    bl_label = "Mesh"
+    bl_label = "Vertex Group Merger"
 
+    # @classmethod
+    # def poll(cls, context):
+    #     obj = context.active_object
 
-    @classmethod
-    def poll(cls, context):
-        obj = context.active_object
-
-        if obj is not None:
-            if obj.type == 'MESH':
-                if obj.mode == 'OBJECT':
-                    return True
+    #     if obj is not None:
+    #         if obj.type == 'MESH':
+    #             if obj.mode == 'OBJECT':
+    #                 return True
 
     def draw(self, context):
         layout = self.layout
+        scene = context.scene
+        obj = context.active_object
+        Target = scene.vg_list_target
 #        layout.label(text="First Sub Panel of Panel 1.")
+
+
+            
+        col = layout.column()     
+        c = col.column(align=True)
+        row = c.row(align=True)
+    
+
+        row = layout.row()
+        row.template_list("MY_UL_VG_List", "The_other_List", scene,
+                          "vg_list", scene, "vg_list_index")
         
+        col = row.column(align=True)
+        col.operator('vg_list.new_item', text='', icon="ADD")
+        col.operator('vg_list.delete_item', text='', icon="REMOVE")
+        
+        # if obj is not None and obj.type == 'MESH' and obj in bpy.context.selected_objects:
+        #     row.prop_search(Target, "Target", bpy.context.active_object, "vertex_groups", text="Target VG")
+        # else:
+        row.prop(Target,"Target",text="New Name")
+        
+        row = layout.row()
+
+        if scene.vg_list_index >= 0 and scene.vg_list:
+            item = scene.vg_list[scene.vg_list_index]
+            # 
+
+            row = layout.row()
+            if obj is not None and obj.type == 'MESH' and obj in bpy.context.selected_objects:
+                row.prop_search(item, "VG", bpy.context.active_object, "vertex_groups")
+            else:
+                row.prop(item, "VG")
+
+            row = layout.row()
+            row.prop(context.scene, 'vg_remove', text='Remove merged vertex groups')
+            
+            
+            # if obj is not None and obj.type == 'MESH' and obj in bpy.context.selected_objects:
+            #     row.prop_search(target, "Target", bpy.context.active_object, "vertex_groups")
+            # else:
+            #     row.prop(target, "Target")
+
+            # row = layout.row()
         
         col = layout.column()     
         c = col.column(align=True)
         r = c.row(align=True)
-        r.operator('object.sk_test', text='Mixamo port')
+        r.operator('object.vg_merge', text='Merge Vertex Groups')
          
 
 class VIEWPORT_PT_PANEL(Tekke7Panel, Panel):
