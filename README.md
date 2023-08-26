@@ -4,7 +4,7 @@ This Blender addon is meant to speed up the process of modding characters partic
  - - - -
 
 # Credits
-I've stood on the shoulders of these giants from the Tekken modding community while making this addon: Dennis, Reborn, Saiki, Ressen, and  Stoner_037, . Without the information and / or code they've provided, so many features would've been missing. Of course, and it goes without saying, but without the folks at the modding discord, I wouldn't have known Tekken's dirty little modding secrets. 
+I've stood on the shoulders of these giants from the Tekken modding community while making this addon: Dennis, Reborn, Saiki, Ressen, and  Stoner_037. Without the information and / or code they've provided, so many features would've been missing. Of course, and it goes without saying, but without the folks at the modding discord, I wouldn't have known Tekken's dirty little modding secrets. 
 
 Also, I owe a huge debt of gratitude to the Blender pythonites who helped me understand how to properly define / use custom blender properties and more. Not to mention the countless amounts of code I've stolen from them. Especially from Etherlord, MercyMoon, and Vik.
 
