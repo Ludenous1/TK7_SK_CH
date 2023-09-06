@@ -797,7 +797,7 @@ class SK_CH_VertexGroupMerger(Operator):
         Target = context.scene.vg_list_target.Target
         Remove_Vgs = context.scene.vg_remove
         VG_List = GetVertexGroupList()
-        VertexGroupMerger(VG_List, Target, Remove_Vgs)
+        VertexGroupMerger_ST(VG_List, Target, Remove_Vgs)
 
 
         return {'FINISHED'}
