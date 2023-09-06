@@ -659,7 +659,7 @@ def ArmatureMatchFixer():
 
     bpy.ops.object.mode_set(mode=OgMode)
 
-def VertexGroupMerger(VG_List, Target, Remove_Groups):
+def VertexGroupMerger_ST(VG_List, Target, Remove_Groups):
     Object = bpy.context.active_object
 
     OgMode = Object.mode
