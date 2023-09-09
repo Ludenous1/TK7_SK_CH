@@ -12,7 +12,7 @@ Blender addon to speed up the process of modding rigged characters into Tekken 7
 7. [Skeleton Generator](#skeleton_generator)
 8. [Pose Snapper](#pose_snapper)
 9. [T_poser](#t_poser)
-10. [Bone_Renamer](#boner_renamer)
+10. [Bone Renamer](#boner_renamer)
 11. [Skeleton Simplifier](#skeleton_simplifier)
 12. [Usage demonstation](#demo)
 ---
