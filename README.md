@@ -292,4 +292,4 @@ Merges the weights of bones with certain names onto their parents and cleans up 
 
 
 [^1]: Most of these individuals were ordered according to when their code got fully implemented or when usage permission was granted.
-[^2]: The skeletons must have 2 spine bones and one hip bone, the hand bones should be the furthest on the x axis, the feet bones should be the lowest bones and above the world origin, and there should be only 2 bones in chain moving from the shoulders to the hands as well as moving from the hip to the feet (a regular biped rig). 
+[^2]: The skeletons must have 2 spine bones and one hip bone, the hand bones should be the furthest on the x axis, the feet bones should be the lowest bones above the world origin, and there should be only 2 bones in chain moving from the shoulders to the hands as well as moving from the hip to the feet (a regular biped rig with 5 fingers on each hand just like God intended). 
