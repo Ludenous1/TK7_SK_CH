@@ -73,7 +73,7 @@ These include some tools that are commonly used throughout the modding process.
 <details>
   <summary>Details</summary>
   
-+ `Scene setup`: Adjusts the scene units based on the info Dennis provided on the original [custom mesh guide](https://tekkenmods.com/guide/51/importing-custom-meshes-to-tekken-7-using-blender). 
++ `Scene setup`: Adjusts the scene units based on the info Dennis provided on the original [custom mesh import guide](https://tekkenmods.com/guide/51/importing-custom-meshes-to-tekken-7-using-blender). 
 + `FBX Export`: Exports an active armature with the appropriate export settings for Tekken7 as long as the blend file is saved and there's only one armature on the scene.
 + `Merge bones to`: Merges the weights of the bones to each bones' `parents` or to the `active` bone (the last selected bone). The bones need to be selected in edit mode.
 + `Apply Pose`: Applies the pose of the active armature. 
@@ -114,7 +114,7 @@ Merges the vertex groups for the the active mesh. It is the UI implementation of
 ---
 <a name="skeleton_generator"></a>
 ### Skeleton Generator
-Generate skeletons for Tekken characters without any meshes. Credit to Saiki (and by extension to Ressen) for the bone roll [fix guide](https://tekkenmods.com/guide/42/fix-bone-roll-issue-without-3ds-max-for-rigging-updated) which helped lead to the development of this module.
+Generate skeletons for Tekken characters without any meshes. Credit to Saiki (and by extension to Ressen) for the [bone roll fix guide](https://tekkenmods.com/guide/42/fix-bone-roll-issue-without-3ds-max-for-rigging-updated) which helped lead to the development of this module.
  
 ![Sk_gen](https://user-images.githubusercontent.com/99399209/188280510-d6884bc1-e1f6-496b-94b7-e8743fd81711.gif)
 
