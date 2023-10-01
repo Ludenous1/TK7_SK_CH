@@ -26,7 +26,7 @@ I owe a lot to the following members of the Tekken modding community who provide
 * **Ressen**
 * **Stoner_037**
  
-I also owe a a lot to the following members from the Blender development community:
+I also owe a lot to the following members from the Blender development community:
 * [**Etherlord**](https://etherlord.gumroad.com/)
 * MercyMoon
 * Vik
