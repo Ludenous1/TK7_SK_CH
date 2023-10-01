@@ -30,12 +30,17 @@ class Character_Modding(Tekke7Panel, Panel):
         r1c1.operator("object.tk7_scene_setup", text='Scene setup', icon='PREFERENCES')
         r1c2 = r.column(align=True)
         r1c2.operator('object.tk7_export', text='FBX Export', icon='EXPORT')
-        
+
+        r2 = col.row() # Start a row
+        r2.label(text='Export by:')
+        r2c2 = r2.column(align=True) 
+        r2c2.prop(context.scene, "fbx_exp_enum", text="")
 
         # row.label(text="", icon='ERROR')
         layout.separator()
         row = layout.row(align=True)
         row.label(text='Quick Tools:')
+        
 
         row = layout.row(align=True)
         row.operator('object.sk_bonemerger', text='Merge bones to ', icon = 'GROUP_BONE')

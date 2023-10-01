@@ -82,132 +82,186 @@ Bonedict = {
 
 #___________________For the FBX exporter__________________
 
-
-def Find_IO_SCENE_FBX_File():
-    for mod in addon_utils.modules():
-        mod_info = addon_utils.module_bl_info(mod)
-        if(mod_info['name'] == 'FBX format'):
-            mod_path = os.path.dirname(mod.__file__)
-
-            return os.path.join(mod_path, "export_fbx_bin.py")
-
-    raise FileNotFoundError("Could not find the addon io_scene_fbx")
-
-
-def Read_Lines_From_export_fbx_bin(filepath):
+class FBX_Exporter():
     
-    ImportantLines = []
-    Indices = []
-    
-    with open(filepath,"r") as f:
-        Counter = 0
-        lines = f.readlines()
-        for Lindx,line in enumerate(lines):
-            if "elif ob_obj.type == 'EMPTY' or ob_obj.type == 'ARMATURE':" in line:
-                ImportantLines.append(lines[Lindx].strip())
-                ImportantLines.append(lines[Lindx+1].strip())
-                ImportantLines.append(lines[Lindx+2].strip())
-                
-                break
-                
-#                print(lines[Lindx][15], lines[Lindx+1], lines[Lindx+2])
-#            ConvLine = LineInfoConverterForRenamerPresets(line)
-#            if len(ConvLine) == 2:
-#                context.scene.bone_rename_list.add()
-#                bpy.context.scene.bone_rename_list[Counter].Current_Name = ConvLine[0]
-#                bpy.context.scene.bone_rename_list[Counter].New_Name = ConvLine[1]
-#                Counter +=1 
+    def Find_IO_SCENE_FBX_File():
+        for mod in addon_utils.modules():
+            mod_info = addon_utils.module_bl_info(mod)
+            if(mod_info['name'] == 'FBX format'):
+                mod_path = os.path.dirname(mod.__file__)
 
-#C:\Program Files\Blender Foundation\Blender 3.2\3.2\scripts\addons\io_scene_fbx
+                return os.path.join(mod_path, "export_fbx_bin.py")
 
-#elif ob_obj.type == 'EMPTY' or ob_obj.type == 'ARMATURE':
-
-    return ImportantLines
-
-def export_fbx_bin_linecheck(lines):
-    count = 0
-    for line in lines:
-        if line.startswith('#'):
-            count += 1
-            
-    if count == 0 and len(lines) == 3:
-        #Not touched
-        return False
-    
-    elif count == 3 and len(lines) == 3:
-        return True
-    
-    elif count == 0 and len(lines) == 0:
-        #Incase user deletes the lines completely
-        return True
-
-    else:
-        raise Exception("Something is missing / wrong with the built-in FBX exporter")   
+        raise FileNotFoundError("Could not find the addon io_scene_fbx")
 
 
-def Root_bone_FBX_edit(SK,FBX_script_test):
-    
-    bpy.ops.object.mode_set(mode='EDIT')
-    
-    Og_SK_Name = SK.name
-    SKDict = {bone.name: bone for bone in  SK.data.edit_bones}
-    
-    if FBX_script_test == True:
-        if "MODEL_00" in SKDict:
-            pass
-        else:
-            SK.data.edit_bones.new("MODEL_00")
-            
-        for bone in SK.data.edit_bones:
-            if bone.parent == None and bone.name != "MODEL_00":
-                bone.parent = SKDict["MODEL_00"]
+    def Read_Lines_From_export_fbx_bin(filepath):
+        
+        ImportantLines = []
+        Indices = []
+        
+        with open(filepath,"r") as f:
+            Counter = 0
+            lines = f.readlines()
+            for Lindx,line in enumerate(lines):
+                if "elif ob_obj.type == 'EMPTY' or ob_obj.type == 'ARMATURE':" in line:
+                    ImportantLines.append(lines[Lindx].strip())
+                    ImportantLines.append(lines[Lindx+1].strip())
+                    ImportantLines.append(lines[Lindx+2].strip())
                     
-#        pass
-    elif FBX_script_test == False:
-        if "MODEL_00" in SKDict:
-            SK.data.edit_bones.remove(SKDict["MODEL_00"])
+                    break
+                    
+    #                print(lines[Lindx][15], lines[Lindx+1], lines[Lindx+2])
+    #            ConvLine = LineInfoConverterForRenamerPresets(line)
+    #            if len(ConvLine) == 2:
+    #                context.scene.bone_rename_list.add()
+    #                bpy.context.scene.bone_rename_list[Counter].Current_Name = ConvLine[0]
+    #                bpy.context.scene.bone_rename_list[Counter].New_Name = ConvLine[1]
+    #                Counter +=1 
 
-        SK.name = "MODEL_00"
+    #C:\Program Files\Blender Foundation\Blender 3.2\3.2\scripts\addons\io_scene_fbx
 
-    bpy.ops.object.mode_set(mode='OBJECT')
-    return(Og_SK_Name)
+    #elif ob_obj.type == 'EMPTY' or ob_obj.type == 'ARMATURE':
 
-def Armature_Object_Restore(SK,Og_Name):
-    
-    bpy.ops.object.mode_set(mode='EDIT')
+        return ImportantLines
 
-    SK.data.edit_bones.new("MODEL_00")
-    SK.name = Og_Name
-
-    bpy.ops.object.mode_set(mode='OBJECT')
-
-
-    
-    
-    
-def Test_SK_Type(SK):
-    
-    bpy.ops.object.mode_set(mode='EDIT')
-    
-    SKDict = {bone.name: bone for bone in  SK.data.edit_bones}
+    def export_fbx_bin_linecheck(lines):
+        count = 0
+        for line in lines:
+            if line.startswith('#'):
+                count += 1
+                
+        if count == 0 and len(lines) == 3:
+            #Not touched
+            return False
         
-    if ("Spine1" not in SKDict) or ("Spine2" not in SKDict):
-        raise Exception("The skeleton is missing the Spine1 and / or Spine2 bone(s)")
-    else:
-        RefVec =   SKDict["Spine1"].head - SKDict["Spine2"].head
+        elif count == 3 and len(lines) == 3:
+            return True
         
-        if isclose(RefVec.dot(SKDict["Spine1"].vector),0,abs_tol=0.0001):
-            print("PSK")
-            Result = "PSK"
-            
+        elif count == 0 and len(lines) == 0:
+            #Incase user deletes the lines completely
+            return True
+
         else:
-            print("glTF")
-            Result = "glTF"
-            
-             
-    bpy.ops.object.mode_set(mode='OBJECT')
+            raise Exception("Something is missing / wrong with the built-in FBX exporter")   
+
+
+    def Root_bone_FBX_edit(SK,FBX_script_test):
+        
+        bpy.ops.object.mode_set(mode='EDIT')
+        
+        Og_SK_Name = SK.name
+        SKDict = {bone.name: bone for bone in  SK.data.edit_bones}
+        
+        if FBX_script_test == True:
+            if "MODEL_00" in SKDict:
+                pass
+            else:
+                SK.data.edit_bones.new("MODEL_00")
+                
+            for bone in SK.data.edit_bones:
+                if bone.parent == None and bone.name != "MODEL_00":
+                    bone.parent = SKDict["MODEL_00"]
+                        
+    #        pass
+        elif FBX_script_test == False:
+            if "MODEL_00" in SKDict:
+                SK.data.edit_bones.remove(SKDict["MODEL_00"])
+
+            SK.name = "MODEL_00"
+
+        bpy.ops.object.mode_set(mode='OBJECT')
+        return(Og_SK_Name)
+
+    def Armature_Object_Restore(SK,Og_Name):
+        
+        bpy.ops.object.mode_set(mode='EDIT')
+
+        SK.data.edit_bones.new("MODEL_00")
+        SK.data.edit_bones["MODEL_00"].length = 0.05 #Required otherwise the bone won't be created
+        SK.data.edit_bones["MODEL_00"].parent = None
+        SK.data.edit_bones["BODY_SCALE__group"].parent = SK.data.edit_bones["MODEL_00"]
+        SK.data.edit_bones["EDIT__null"].parent = SK.data.edit_bones["MODEL_00"]
+
+
+        SK.name = Og_Name
+
+        bpy.ops.object.mode_set(mode='OBJECT')
+
+    def Sort_All_Objs(All_Objects):
+        
+        Mesh_Objs = []
+        Armature_Objs = []
+
+        for obj in All_Objects:
+            if obj.type == 'MESH':
+                Mesh_Objs.append(obj)
+            elif obj.type == 'ARMATURE':
+                Armature_Objs.append(obj)
+
+        return Mesh_Objs, Armature_Objs
     
-    return Result
+    def Unhide_All_Objs(All_Objects):
+            Hidden_Objects = []
+            for obj in All_Objects:
+                if obj.hide_viewport == True:
+                    Hidden_Objects.append(obj)
+                obj.hide_viewport = False
+                obj.hide_set(False)
+
+            return Hidden_Objects
+
+    def Hide_Objects_back(All_Objects, Hidden_Objects):
+            for obj in All_Objects:
+                if obj in Hidden_Objects:
+                    obj.hide_viewport = True
+                    obj.hide_set(True)
+
+    def Select_and_Assign(Object, Setting):
+            Object.select_set(True)
+
+            if Setting == 'Mesh':
+                Object.parent.select_set(True)
+                bpy.context.view_layer.objects.active = Object.parent
+
+                return Object.name, Object.parent
+
+            elif Setting == 'Armature':
+                for obj in Object.children:
+                      obj.select_set(True)
+                      bpy.context.view_layer.objects.active = Object
+                return Object.name, Object
+
+
+    
+
+
+        
+        
+        
+    def Test_SK_Type(SK):
+        
+        bpy.ops.object.mode_set(mode='EDIT')
+        
+        SKDict = {bone.name: bone for bone in  SK.data.edit_bones}
+            
+        if ("Spine1" not in SKDict) or ("Spine2" not in SKDict):
+            raise Exception("The skeleton is missing the Spine1 and / or Spine2 bone(s)")
+        else:
+            RefVec =   SKDict["Spine1"].head - SKDict["Spine2"].head
+            
+            if isclose(RefVec.dot(SKDict["Spine1"].vector),0,abs_tol=0.0001):
+                print("PSK")
+                Result = "PSK"
+                
+            else:
+                print("glTF")
+                Result = "glTF"
+                
+                
+        bpy.ops.object.mode_set(mode='OBJECT')
+        
+        return Result
 
 #    isclose(QuatVec.length, 0,abs_tol = 0.0001)
 

@@ -33,7 +33,7 @@ class SK_CH_BlenderScene(Operator):
    
     
 class SK_CH_Export(Operator):
-    """Applies the proper export settings for a selected armature. The blend file needs to be saved and the armature should be the only skeleton on the scene. The FBX will be at the same location as the project's saved blend file"""
+    """Exports all objects on the scene each onto a separate FBX file with the same name either based on separate meshes or armatures. The blend file needs to be saved and the FBX file(s) will be at the same location as the project's saved blend file"""
     bl_idname = "object.tk7_export"
     bl_label = "Character Export"
     # bl_options = {'REGISTER', 'UNDO'}
@@ -45,16 +45,16 @@ class SK_CH_Export(Operator):
 
         
         if obj is not None:
-            if obj.type == 'ARMATURE' and len(Objs)==1:
-                if obj.mode == 'OBJECT':
-                    if bpy.data.filepath != '':
-                        return True
-        
+            #if obj.type == 'ARMATURE' and len(Objs)==1:
+            if obj.mode == 'OBJECT':
+                if bpy.data.filepath != '':
+                    return True
+    
 
         return False
 
     def execute(self, context):
-        TekkenFBXexporter()
+        TekkenFBXexporter(context.scene.fbx_exp_enum)
         return {'FINISHED'}
 
 

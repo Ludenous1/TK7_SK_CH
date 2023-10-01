@@ -45,15 +45,24 @@ def TekkenSceneSetup():
 
 
 
-def TekkenFBXexporter():
+def TekkenFBXexporter(FBX_Exp_Enum):
 
     #TODO: No UV--->
     #TODO: Max material count--->
     #TODO: Check for mesh parts with no weights--->
 
- 
+    All_Objects = bpy.data.objects
 
-    SK = bpy.context.active_object
+
+    #Prepare the viewport
+    Active_Obj = bpy.context.active_object
+    Selected_Objs = bpy.context.selected_objects
+    Hidden_Objects = FBX_Exporter.Unhide_All_Objs(All_Objects)
+    bpy.ops.object.select_all(action='DESELECT')
+
+
+
+    
 
 
     #Check for unweighted verts
@@ -67,55 +76,63 @@ def TekkenFBXexporter():
     #Check scale of armature (requires a tekken reference and some tolerence)
     
 
+    
+    FBX_script_path = FBX_Exporter.Find_IO_SCENE_FBX_File()
 
-    FBX_script_path = Find_IO_SCENE_FBX_File()
-
-    Imp_lines = Read_Lines_From_export_fbx_bin(FBX_script_path)
-
-    # print(Implines)
-
-    FBX_script_test = export_fbx_bin_linecheck(Imp_lines)
-
-    # print(export_fbx_bin_linecheck(Implines))
+    Imp_lines = FBX_Exporter.Read_Lines_From_export_fbx_bin(FBX_script_path)
 
 
-    # bpy.app.version_string
+
+    FBX_script_test = FBX_Exporter.export_fbx_bin_linecheck(Imp_lines)
 
 
-    # bpy.path.abspath("//")
 
-    # print(bpy.path.abspath("//"))
+    # filename, file_extension = os.path.splitext(bpy.path.basename(bpy.data.filepath))
 
-    # bpy.data.filepath
 
-    # print (bpy.path.basename(bpy.data.filepath))
+    
+    
 
-    filename, file_extension = os.path.splitext(bpy.path.basename(bpy.data.filepath))
+    Exp_Settings = ['Mesh', 'Armature']
 
-    # print(filename)
+    Setting = Exp_Settings[int(FBX_Exp_Enum)]
 
-    SK_Og_Name = Root_bone_FBX_edit(SK,FBX_script_test)
+    Mesh_Objs, Armature_Objs = FBX_Exporter.Sort_All_Objs(All_Objects)
 
-    Result = Test_SK_Type(SK)
+    if Setting == 'Mesh':
+        Export_Group = Mesh_Objs
 
-    File_Path = os.path.join(bpy.path.abspath("//") ,filename +'.fbx')
+    elif Setting == 'Armature':
+        Export_Group = Armature_Objs
 
-    # bpy.ops.object.select_all(action='DESELECT')
 
-    # SK.select_set(True)
+    for obj in Export_Group:
 
-    # for mesh in SK.children:
-        
-    #     mesh.select_set(True)
+        filename, SK = FBX_Exporter.Select_and_Assign(obj, Setting)
 
-    if Result == "glTF":
-        bpy.ops.export_scene.fbx(filepath=File_Path, check_existing=True, filter_glob='*.fbx', use_selection=False, use_active_collection=False, global_scale=1.0, apply_unit_scale=True, apply_scale_options='FBX_SCALE_NONE', bake_space_transform=False, object_types={'ARMATURE', 'CAMERA', 'EMPTY', 'LIGHT', 'MESH', 'OTHER'}, use_mesh_modifiers=True, use_mesh_modifiers_render=True, mesh_smooth_type='FACE', use_subsurf=False, use_mesh_edges=False, use_tspace=True, use_custom_props=False, add_leaf_bones=False, primary_bone_axis='X', secondary_bone_axis='-Y', use_armature_deform_only=True, armature_nodetype='NULL', bake_anim=False, bake_anim_use_all_bones=True, bake_anim_use_nla_strips=True, bake_anim_use_all_actions=True, bake_anim_force_startend_keying=True, bake_anim_step=1.0, bake_anim_simplify_factor=1.0, path_mode='AUTO', embed_textures=False, batch_mode='OFF', use_batch_own_dir=True, use_metadata=True, axis_forward='-Z', axis_up='Y')
-        
-    elif Result == "PSK":
-        bpy.ops.export_scene.fbx(filepath=File_Path, check_existing=True, filter_glob='*.fbx', use_selection=False, use_active_collection=False, global_scale=1.0, apply_unit_scale=True, apply_scale_options='FBX_SCALE_NONE', bake_space_transform=False, object_types={'ARMATURE', 'CAMERA', 'EMPTY', 'LIGHT', 'MESH', 'OTHER'}, use_mesh_modifiers=True, use_mesh_modifiers_render=True, mesh_smooth_type='FACE', use_subsurf=False, use_mesh_edges=False, use_tspace=True, use_custom_props=False, add_leaf_bones=False, primary_bone_axis='Y', secondary_bone_axis='X', use_armature_deform_only=True, armature_nodetype='NULL', bake_anim=False, bake_anim_use_all_bones=True, bake_anim_use_nla_strips=True, bake_anim_use_all_actions=True, bake_anim_force_startend_keying=True, bake_anim_step=1.0, bake_anim_simplify_factor=1.0, path_mode='AUTO', embed_textures=False, batch_mode='OFF', use_batch_own_dir=True, use_metadata=True, axis_forward='-Z', axis_up='Y')
+        SK_Og_Name = FBX_Exporter.Root_bone_FBX_edit(SK,FBX_script_test)
+
+        Result = FBX_Exporter.Test_SK_Type(SK)
+
+        File_Path = os.path.join(bpy.path.abspath("//") ,filename +'.fbx')
+
+        if Result == "glTF":
+            bpy.ops.export_scene.fbx(filepath=File_Path, check_existing=True, filter_glob='*.fbx', use_selection=True, use_active_collection=False, global_scale=1.0, apply_unit_scale=True, apply_scale_options='FBX_SCALE_NONE', bake_space_transform=False, object_types={'ARMATURE', 'CAMERA', 'EMPTY', 'LIGHT', 'MESH', 'OTHER'}, use_mesh_modifiers=True, use_mesh_modifiers_render=True, mesh_smooth_type='FACE', use_subsurf=False, use_mesh_edges=False, use_tspace=True, use_custom_props=False, add_leaf_bones=False, primary_bone_axis='X', secondary_bone_axis='-Y', use_armature_deform_only=True, armature_nodetype='NULL', bake_anim=False, bake_anim_use_all_bones=True, bake_anim_use_nla_strips=True, bake_anim_use_all_actions=True, bake_anim_force_startend_keying=True, bake_anim_step=1.0, bake_anim_simplify_factor=1.0, path_mode='AUTO', embed_textures=False, batch_mode='OFF', use_batch_own_dir=True, use_metadata=True, axis_forward='-Z', axis_up='Y')
+            
+        elif Result == "PSK":
+            bpy.ops.export_scene.fbx(filepath=File_Path, check_existing=True, filter_glob='*.fbx', use_selection=True, use_active_collection=False, global_scale=1.0, apply_unit_scale=True, apply_scale_options='FBX_SCALE_NONE', bake_space_transform=False, object_types={'ARMATURE', 'CAMERA', 'EMPTY', 'LIGHT', 'MESH', 'OTHER'}, use_mesh_modifiers=True, use_mesh_modifiers_render=True, mesh_smooth_type='FACE', use_subsurf=False, use_mesh_edges=False, use_tspace=True, use_custom_props=False, add_leaf_bones=False, primary_bone_axis='Y', secondary_bone_axis='X', use_armature_deform_only=True, armature_nodetype='NULL', bake_anim=False, bake_anim_use_all_bones=True, bake_anim_use_nla_strips=True, bake_anim_use_all_actions=True, bake_anim_force_startend_keying=True, bake_anim_step=1.0, bake_anim_simplify_factor=1.0, path_mode='AUTO', embed_textures=False, batch_mode='OFF', use_batch_own_dir=True, use_metadata=True, axis_forward='-Z', axis_up='Y')
 
     # if FBX_script_test == False:
-    #     Armature_Object_Restore(SK, SK_Og_Name)  
+        FBX_Exporter.Armature_Object_Restore(SK, SK_Og_Name)
+
+        bpy.ops.object.select_all(action='DESELECT')
+
+
+    #Restore selected, active objects, and hidden objects
+    for obj in Selected_Objs:
+        obj.select_set(True)
+    bpy.context.view_layer.objects.active = Active_Obj  
+    FBX_Exporter.Hide_Objects_back(All_Objects, Hidden_Objects)
 
 def ApplyPose():
     
