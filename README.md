@@ -55,11 +55,12 @@ If you happen to run into any inconveniences while using the addon, you have [my
 ---
 <a name="update"></a>
 ### Update
-1. Save current Blender file.
+1. Save current Blender file if you want to keep any changes.
 2. Open the Preferences window in Blender (Edit>Preferences) and select the Add-ons tab.
 3. Search for the addon by typing 'TK7_SK_CH' on the search box.
 4. Expand the addon's preferences.
 5. Click on 'Check now for tk7_sk_ch update'.
+6. If it says a new version is available, click on update now to said version.
    
 ![AddonUpdater](https://github.com/Ludenous1/TK7_SK_CH/assets/99399209/7bdc4929-0daf-401b-97d5-2530fa87673f)
 
@@ -75,7 +76,7 @@ These include some tools that are commonly used throughout the modding process.
   <summary>Details</summary>
   
 + `Scene setup`: Adjusts the scene units based on the info Dennis provided on the original [custom mesh import guide](https://tekkenmods.com/guide/51/importing-custom-meshes-to-tekken-7-using-blender). 
-+ `FBX Export`: Exports all objects on the scene with the appropriate export settings for Tekken7 as long as the blend file is saved. It creates a separate FBX file for each Armature or Mesh based what's selected.
++ `FBX Export`: Exports all objects on the scene with the appropriate export settings for Tekken7 as long as the blend file is saved. It creates a separate FBX file for each Armature or Mesh based on the `Export by` option.
 + `Merge bones to`: Merges the weights of the bones to each bones' `parents` or to the `active` bone (the last selected bone). The bones need to be selected in edit mode.
 + `Apply Pose`: Applies the pose of the active armature. 
 + `Fix bones`: Copies the bone properties in edit mode from a selected reference armature onto the last selected armature.
