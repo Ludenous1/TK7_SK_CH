@@ -68,13 +68,14 @@ If you happen to run into any inconveniences while using the addon, you have [my
 ### Quick Tools
 These include some tools that are commonly used throughout the modding process.
 
-![image](https://user-images.githubusercontent.com/99399209/190008787-be57df7e-77ee-4171-8b4e-743b48b9d15a.png)
+![image](https://github.com/Ludenous1/TK7_SK_CH/assets/99399209/57e0800d-b984-4548-847e-a9fedcce9175)
+
 
 <details>
   <summary>Details</summary>
   
 + `Scene setup`: Adjusts the scene units based on the info Dennis provided on the original [custom mesh import guide](https://tekkenmods.com/guide/51/importing-custom-meshes-to-tekken-7-using-blender). 
-+ `FBX Export`: Exports an active armature with the appropriate export settings for Tekken7 as long as the blend file is saved and there's only one armature on the scene.
++ `FBX Export`: Exports all objects on the scene with the appropriate export settings for Tekken7 as long as the blend file is saved. It creates a separate FBX file for each Armature or Mesh based what's selected.
 + `Merge bones to`: Merges the weights of the bones to each bones' `parents` or to the `active` bone (the last selected bone). The bones need to be selected in edit mode.
 + `Apply Pose`: Applies the pose of the active armature. 
 + `Fix bones`: Copies the bone properties in edit mode from a selected reference armature onto the last selected armature.
