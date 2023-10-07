@@ -51,13 +51,15 @@ def TekkenFBXexporter(FBX_Exp_Enum):
     #TODO: Max material count--->
     #TODO: Check for mesh parts with no weights--->
 
+    view_layer = bpy.context.view_layer
     All_Objects = bpy.data.objects
-
 
     #Prepare the viewport
     Active_Obj = bpy.context.active_object
     Selected_Objs = bpy.context.selected_objects
+    Excluded_Cols, Hide_Viewport = FBX_Exporter.Unhide_All_Collections(view_layer)
     Hidden_Objects = FBX_Exporter.Unhide_All_Objs(All_Objects)
+    print(Hidden_Objects)
     bpy.ops.object.select_all(action='DESELECT')
 
 
@@ -131,8 +133,11 @@ def TekkenFBXexporter(FBX_Exp_Enum):
     #Restore selected, active objects, and hidden objects
     for obj in Selected_Objs:
         obj.select_set(True)
-    bpy.context.view_layer.objects.active = Active_Obj  
+    bpy.context.view_layer.objects.active = Active_Obj
+    FBX_Exporter.Rehide_All_Collections(view_layer, Excluded_Cols, Hide_Viewport)
     FBX_Exporter.Hide_Objects_back(All_Objects, Hidden_Objects)
+    
+    
 
 def ApplyPose():
     

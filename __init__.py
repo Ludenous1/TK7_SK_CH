@@ -23,7 +23,7 @@ bl_info = {
     "author" : "Ludenous",
     "description" : "Blender Addon for porting rigged characters into Tekken 7",
     "blender" : (2, 93, 0),
-    "version" : (0, 3, 0),
+    "version" : (0, 3, 1),
     "location" : "View3D",
     "warning" : "",
     "wiki_url":    "https://github.com/Ludenous1/TK7_SK_CH",

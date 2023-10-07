@@ -204,7 +204,7 @@ class FBX_Exporter():
     def Unhide_All_Objs(All_Objects):
             Hidden_Objects = []
             for obj in All_Objects:
-                if obj.hide_viewport == True:
+                if obj.visible_get() == False:
                     Hidden_Objects.append(obj)
                 obj.hide_viewport = False
                 obj.hide_set(False)
@@ -214,7 +214,7 @@ class FBX_Exporter():
     def Hide_Objects_back(All_Objects, Hidden_Objects):
             for obj in All_Objects:
                 if obj in Hidden_Objects:
-                    obj.hide_viewport = True
+                    # obj.hide_viewport = True #This completely hides the object even if user tries to unhide it (DO NOT USE)
                     obj.hide_set(True)
 
     def Select_and_Assign(Object, Setting):
@@ -231,14 +231,43 @@ class FBX_Exporter():
                       obj.select_set(True)
                       bpy.context.view_layer.objects.active = Object
                 return Object.name, Object
+            
+    #Unhide all collections
+    def Unhide_All_Collections(view_layer):
+        def get_all_children(col):
+            yield col
+            for child in col.children:
+                yield from get_all_children(child)
 
+        Hide_Viewport = []
+        Excluded_Cols = []
 
+        for layer_col in reversed(list(get_all_children(view_layer.layer_collection))):
+            if layer_col.exclude == True:
+                Excluded_Cols.append(layer_col.name)
+                layer_col.exclude = False
+                
+            if layer_col.hide_viewport == True:
+                Hide_Viewport.append(layer_col.name)
+                layer_col.hide_viewport = False
+                
+        return Excluded_Cols, Hide_Viewport
     
+    #hide all collections
+    def Rehide_All_Collections(view_layer, Excluded_Cols, Hide_Viewport):
+        def get_all_children(col):
+            yield col
+            for child in col.children:
+                yield from get_all_children(child)
 
+        
+        for layer_col in list(get_all_children(view_layer.layer_collection)):
+            if layer_col.name in Excluded_Cols:
+                layer_col.exclude = True
+            if layer_col.name in Hide_Viewport:
+                layer_col.hide_viewport = True
 
-        
-        
-        
+ 
     def Test_SK_Type(SK):
         
         bpy.ops.object.mode_set(mode='EDIT')
