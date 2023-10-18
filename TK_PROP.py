@@ -9,7 +9,7 @@ from bpy.props import EnumProperty, PointerProperty, StringProperty, IntProperty
 
 from.TK_PROP_FX import *
 
-#___________________Bone Renamer______________________
+#___________________FBX Exporter______________________
 class ExporterSavePath(PropertyGroup):
     """Group of properties representing an item in the list."""
 
