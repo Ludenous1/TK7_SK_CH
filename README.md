@@ -14,7 +14,7 @@ Blender addon to speed up the process of modding rigged characters into Tekken 7
 9. [T_poser](#t_poser)
 10. [Bone Renamer](#boner_renamer)
 11. [Skeleton Simplifier](#skeleton_simplifier)
-12. [Usage demonstation](#demo)
+12. [Usage demonstration](#demo)
 ---
 
 <a name="credits"></a>
@@ -76,7 +76,7 @@ These include some tools that are commonly used throughout the modding process.
   <summary>Details</summary>
   
 + `Scene setup`: Adjusts the scene units based on the info Dennis provided on the original [custom mesh import guide](https://tekkenmods.com/guide/51/importing-custom-meshes-to-tekken-7-using-blender). 
-+ `FBX Export`: Exports all objects on the scene with the appropriate export settings for Tekken7 as long as the blend file is saved. It creates a separate FBX file for each Armature or Mesh based on the `Export by` option.
++ `FBX Export`: Exports all character models within enabled collections with the appropriate export settings for Tekken7 and stores them at the selected path. It creates a separate FBX file for each Armature or Mesh based on the `Export by` option.
 + `Merge bones to`: Merges the weights of the bones to each bones' `parents` or to the `active` bone (the last selected bone). The bones need to be selected in edit mode.
 + `Apply Pose`: Applies the pose of the active armature. 
 + `Fix bones`: Copies the bone properties in edit mode from a selected reference armature onto the last selected armature.
