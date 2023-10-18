@@ -41,13 +41,15 @@ class SK_CH_Export(Operator):
     @classmethod
     def poll(cls, context):
         obj = context.active_object
-        Objs = [object for object in bpy.data.objects if (object.type == 'ARMATURE')]
+        context.scene.fbx_exp_enum
+        Objs=[ob for ob in bpy.context.view_layer.objects if ob.visible_get() and (ob.type == 'ARMATURE')]
 
         
-        if obj is not None:
+        if Objs is not None:
             #if obj.type == 'ARMATURE' and len(Objs)==1:
-            if obj.mode == 'OBJECT':
-                if bpy.data.filepath != '':
+            if context.mode == 'OBJECT':
+                if context.scene.fbx_exp_path.user_file_path  != '':
+
                     return True
     
 

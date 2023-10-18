@@ -8,12 +8,20 @@ from bpy.types import PropertyGroup
 from bpy.props import EnumProperty, PointerProperty, StringProperty, IntProperty
 
 from.TK_PROP_FX import *
-# from.TK_FX import *
 
-# def lol():
-#     print("Update!!!!")
+#___________________Bone Renamer______________________
+class ExporterSavePath(PropertyGroup):
+    """Group of properties representing an item in the list."""
 
-# class ListItem(PropertyGroup):
+    
+    user_file_path: StringProperty(
+        name = "",
+        description="Choose a directory to save the output files",
+        default="",
+        maxlen=1023,
+        subtype='DIR_PATH')
+          
+
 #___________________Bone Renamer______________________
 
 class BoneRenameListItem(PropertyGroup):

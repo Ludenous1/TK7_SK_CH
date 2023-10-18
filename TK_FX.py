@@ -15,6 +15,7 @@ from pathlib import Path
 import mathutils
 import time
 
+
 from.TK_SK_CH import *
 
 
@@ -54,12 +55,16 @@ def TekkenFBXexporter(FBX_Exp_Enum):
     view_layer = bpy.context.view_layer
     All_Objects = bpy.data.objects
 
+    #Check if path exists
+    if not os.path.exists(bpy.context.scene.fbx_exp_path.user_file_path):
+        raise FileNotFoundError("The path specified is invalid")
+
     #Prepare the viewport
     Active_Obj = bpy.context.active_object
     Selected_Objs = bpy.context.selected_objects
     Excluded_Cols, Hide_Viewport = FBX_Exporter.Unhide_All_Collections(view_layer)
     Hidden_Objects = FBX_Exporter.Unhide_All_Objs(All_Objects)
-    print(Hidden_Objects)
+    print(Excluded_Cols)
     bpy.ops.object.select_all(action='DESELECT')
 
 
@@ -110,24 +115,32 @@ def TekkenFBXexporter(FBX_Exp_Enum):
 
     for obj in Export_Group:
 
-        filename, SK = FBX_Exporter.Select_and_Assign(obj, Setting)
+        Coll_name = [col.name for col in obj.users_collection]
+        print(Coll_name)
 
-        SK_Og_Name = FBX_Exporter.Root_bone_FBX_edit(SK,FBX_script_test)
+        if any(name in Coll_name for name in Excluded_Cols): # Ignore objects within disabled collections
+            pass
 
-        Result = FBX_Exporter.Test_SK_Type(SK)
+        else: # Only export objects within enabled collections
+            filename, SK = FBX_Exporter.Select_and_Assign(obj, Setting)
 
-        File_Path = os.path.join(bpy.path.abspath("//") ,filename +'.fbx')
+            SK_Og_Name = FBX_Exporter.Root_bone_FBX_edit(SK,FBX_script_test)
 
-        if Result == "glTF":
-            bpy.ops.export_scene.fbx(filepath=File_Path, check_existing=True, filter_glob='*.fbx', use_selection=True, use_active_collection=False, global_scale=1.0, apply_unit_scale=True, apply_scale_options='FBX_SCALE_NONE', bake_space_transform=False, object_types={'ARMATURE', 'CAMERA', 'EMPTY', 'LIGHT', 'MESH', 'OTHER'}, use_mesh_modifiers=True, use_mesh_modifiers_render=True, mesh_smooth_type='FACE', use_subsurf=False, use_mesh_edges=False, use_tspace=True, use_custom_props=False, add_leaf_bones=False, primary_bone_axis='X', secondary_bone_axis='-Y', use_armature_deform_only=True, armature_nodetype='NULL', bake_anim=False, bake_anim_use_all_bones=True, bake_anim_use_nla_strips=True, bake_anim_use_all_actions=True, bake_anim_force_startend_keying=True, bake_anim_step=1.0, bake_anim_simplify_factor=1.0, path_mode='AUTO', embed_textures=False, batch_mode='OFF', use_batch_own_dir=True, use_metadata=True, axis_forward='-Z', axis_up='Y')
-            
-        elif Result == "PSK":
-            bpy.ops.export_scene.fbx(filepath=File_Path, check_existing=True, filter_glob='*.fbx', use_selection=True, use_active_collection=False, global_scale=1.0, apply_unit_scale=True, apply_scale_options='FBX_SCALE_NONE', bake_space_transform=False, object_types={'ARMATURE', 'CAMERA', 'EMPTY', 'LIGHT', 'MESH', 'OTHER'}, use_mesh_modifiers=True, use_mesh_modifiers_render=True, mesh_smooth_type='FACE', use_subsurf=False, use_mesh_edges=False, use_tspace=True, use_custom_props=False, add_leaf_bones=False, primary_bone_axis='Y', secondary_bone_axis='X', use_armature_deform_only=True, armature_nodetype='NULL', bake_anim=False, bake_anim_use_all_bones=True, bake_anim_use_nla_strips=True, bake_anim_use_all_actions=True, bake_anim_force_startend_keying=True, bake_anim_step=1.0, bake_anim_simplify_factor=1.0, path_mode='AUTO', embed_textures=False, batch_mode='OFF', use_batch_own_dir=True, use_metadata=True, axis_forward='-Z', axis_up='Y')
+            Result = FBX_Exporter.Test_SK_Type(SK)
 
-    # if FBX_script_test == False:
-        FBX_Exporter.Armature_Object_Restore(SK, SK_Og_Name)
+            # File_Path = os.path.join(bpy.path.abspath("//") ,filename +'.fbx')
+            File_Path = os.path.join(bpy.context.scene.fbx_exp_path.user_file_path ,filename +'.fbx')
 
-        bpy.ops.object.select_all(action='DESELECT')
+            if Result == "glTF":
+                bpy.ops.export_scene.fbx(filepath=File_Path, check_existing=True, filter_glob='*.fbx', use_selection=True, use_active_collection=False, global_scale=1.0, apply_unit_scale=True, apply_scale_options='FBX_SCALE_NONE', bake_space_transform=False, object_types={'ARMATURE', 'CAMERA', 'EMPTY', 'LIGHT', 'MESH', 'OTHER'}, use_mesh_modifiers=True, use_mesh_modifiers_render=True, mesh_smooth_type='FACE', use_subsurf=False, use_mesh_edges=False, use_tspace=True, use_custom_props=False, add_leaf_bones=False, primary_bone_axis='X', secondary_bone_axis='-Y', use_armature_deform_only=True, armature_nodetype='NULL', bake_anim=False, bake_anim_use_all_bones=True, bake_anim_use_nla_strips=True, bake_anim_use_all_actions=True, bake_anim_force_startend_keying=True, bake_anim_step=1.0, bake_anim_simplify_factor=1.0, path_mode='AUTO', embed_textures=False, batch_mode='OFF', use_batch_own_dir=True, use_metadata=True, axis_forward='-Z', axis_up='Y')
+                
+            elif Result == "PSK":
+                bpy.ops.export_scene.fbx(filepath=File_Path, check_existing=True, filter_glob='*.fbx', use_selection=True, use_active_collection=False, global_scale=1.0, apply_unit_scale=True, apply_scale_options='FBX_SCALE_NONE', bake_space_transform=False, object_types={'ARMATURE', 'CAMERA', 'EMPTY', 'LIGHT', 'MESH', 'OTHER'}, use_mesh_modifiers=True, use_mesh_modifiers_render=True, mesh_smooth_type='FACE', use_subsurf=False, use_mesh_edges=False, use_tspace=True, use_custom_props=False, add_leaf_bones=False, primary_bone_axis='Y', secondary_bone_axis='X', use_armature_deform_only=True, armature_nodetype='NULL', bake_anim=False, bake_anim_use_all_bones=True, bake_anim_use_nla_strips=True, bake_anim_use_all_actions=True, bake_anim_force_startend_keying=True, bake_anim_step=1.0, bake_anim_simplify_factor=1.0, path_mode='AUTO', embed_textures=False, batch_mode='OFF', use_batch_own_dir=True, use_metadata=True, axis_forward='-Z', axis_up='Y')
+
+        # if FBX_script_test == False:
+            FBX_Exporter.Armature_Object_Restore(SK, SK_Og_Name)
+
+            bpy.ops.object.select_all(action='DESELECT')
 
 
     #Restore selected, active objects, and hidden objects

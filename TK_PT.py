@@ -32,14 +32,26 @@ class Character_Modding(Tekke7Panel, Panel):
         r1c2.operator('object.tk7_export', text='FBX Export', icon='EXPORT')
 
         r2 = col.row() # Start a row
-        r2.label(text='Export by:')
-        r2c2 = r2.column(align=True) 
-        r2c2.prop(context.scene, "fbx_exp_enum", text="")
+        # r2.label(text='Export by:')     
+        r2.prop(context.scene, "fbx_exp_enum", text="Settings")
+        r2.prop(context.scene.fbx_exp_path, "user_file_path", text="")
+        # r2c2.use_property_split = True
+
+        # row = layout.row(align=True)
+        # row.prop(context.scene, "sk_gen_char_enum", text="Mode")
+        # row.prop(context.scene, "sk_gen_opt1_enum", text="")
+        # row.prop(context.scene, "sk_gen_opt2_enum", text="")
 
         # row.label(text="", icon='ERROR')
         layout.separator()
         row = layout.row(align=True)
-        row.label(text='Quick Tools:')
+        row.label(text='Quick Tools:') 
+        op = row.operator(
+            'wm.url_open',
+            text='',
+            icon='QUESTION'
+            )
+        op.url = 'https://github.com/Ludenous1/TK7_SK_CH#quick-tools'
         
 
         row = layout.row(align=True)
@@ -202,7 +214,19 @@ class SK_TOOLS_PT_PANEL(Tekke7Panel, Panel):
 class SK_GEN_PT_PANEL(Tekke7Panel, Panel):
     bl_parent_id = "TEKKEN7_PT_CHARACTER"
     bl_label = "Skeleton Generator"
-    
+
+    # def draw_header(self, context):
+        
+    #     layout = self.layout
+
+    #     self.layout.label(text="  ")
+
+    #     op = layout.operator(
+    #         'wm.url_open',
+    #         text='',
+    #         icon='QUESTION'
+    #         )
+    #     op.url = 'https://github.com/Ludenous1/TK7_SK_CH#skeleton-generator'
 
     def draw(self, context):
         layout = self.layout
@@ -222,6 +246,18 @@ class SK_TPOSER_PT_PANEL(Tekke7Panel, Panel):
     bl_parent_id = "TEKKEN7_PT_CHARACTER"
     bl_label = "T-Poser"
     
+    # def draw_header(self, context):
+        
+    #     layout = self.layout
+
+    #     self.layout.label(text="  ")
+
+    #     op = layout.operator(
+    #         'wm.url_open',
+    #         text='',
+    #         icon='QUESTION'
+    #         )
+    #     op.url = 'https://github.com/Ludenous1/TK7_SK_CH#t_poser'
 
     def draw(self, context):
         layout = self.layout
@@ -254,6 +290,18 @@ class SK_POSE_SNAP_PT_PANEL(Tekke7Panel, Panel):
     bl_parent_id = "TEKKEN7_PT_CHARACTER"
     bl_label = "Pose Snapper"
     
+    # def draw_header(self, context):
+        
+    #     layout = self.layout
+
+    #     self.layout.label(text="  ")
+
+    #     op = layout.operator(
+    #         'wm.url_open',
+    #         text='',
+    #         icon='QUESTION'
+    #         )
+    #     op.url = 'https://github.com/Ludenous1/TK7_SK_CH#pose-snapper'
 
     def draw(self, context):
         layout = self.layout
@@ -298,6 +346,19 @@ class SK_POSE_SNAP_PT_PANEL(Tekke7Panel, Panel):
 class RENAMER_PT_PANEL(Tekke7Panel, Panel):
     bl_parent_id = "TEKKEN7_PT_CHARACTER"
     bl_label = "Bone Renamer"
+
+    # def draw_header(self, context):
+        
+    #     layout = self.layout
+
+    #     self.layout.label(text="  ")
+
+    #     op = layout.operator(
+    #         'wm.url_open',
+    #         text='',
+    #         icon='QUESTION'
+    #         )
+    #     op.url = 'https://github.com/Ludenous1/TK7_SK_CH#bone_renamer'
 
     def draw(self, context):
         layout = self.layout
@@ -456,6 +517,19 @@ class SIMPLIFIER_PT_PANEL(Tekke7Panel, Panel):
     bl_parent_id = "TEKKEN7_PT_CHARACTER"
     bl_label = "Skeleton Simplifier"
 
+    # def draw_header(self, context):
+        
+    #     layout = self.layout
+
+    #     self.layout.label(text="  ")
+
+    #     op = layout.operator(
+    #         'wm.url_open',
+    #         text='',
+    #         icon='QUESTION'
+    #         )
+    #     op.url = 'https://github.com/Ludenous1/TK7_SK_CH#skeleton-simplifier'
+
     def draw(self, context):
         layout = self.layout
         
@@ -508,6 +582,19 @@ class VGMERGER_PT_PANEL(Tekke7Panel, Panel):
     #         if obj.type == 'MESH':
     #             if obj.mode == 'OBJECT':
     #                 return True
+
+    # def draw_header(self, context):
+        
+    #     layout = self.layout
+
+    #     self.layout.label(text="  ")
+
+    #     op = layout.operator(
+    #         'wm.url_open',
+    #         text='',
+    #         icon='QUESTION'
+    #         )
+    #     op.url = 'https://github.com/Ludenous1/TK7_SK_CH#vertex-group-merger'
 
     def draw(self, context):
         layout = self.layout

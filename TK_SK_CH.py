@@ -158,6 +158,8 @@ class FBX_Exporter():
                 pass
             else:
                 SK.data.edit_bones.new("MODEL_00")
+                SK.data.edit_bones["MODEL_00"].length = 0.05 #Required otherwise the bone won't be created
+                SK.data.edit_bones["MODEL_00"].parent = None
                 
             for bone in SK.data.edit_bones:
                 if bone.parent == None and bone.name != "MODEL_00":
@@ -220,17 +222,22 @@ class FBX_Exporter():
     def Select_and_Assign(Object, Setting):
             Object.select_set(True)
 
-            if Setting == 'Mesh':
+            if Setting == 'Mesh' and Object.parent is not None:
                 Object.parent.select_set(True)
                 bpy.context.view_layer.objects.active = Object.parent
 
                 return Object.name, Object.parent
 
-            elif Setting == 'Armature':
+            elif Setting == 'Armature' and Object.children is not None:
                 for obj in Object.children:
                       obj.select_set(True)
                       bpy.context.view_layer.objects.active = Object
                 return Object.name, Object
+            
+            else:
+                raise Exception("Armatures and/or meshes are not parented properly or are completely missing from the scene")
+            
+            
             
     #Unhide all collections
     def Unhide_All_Collections(view_layer):

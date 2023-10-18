@@ -23,7 +23,7 @@ bl_info = {
     "author" : "Ludenous",
     "description" : "Blender Addon for porting rigged characters into Tekken 7",
     "blender" : (2, 93, 0),
-    "version" : (0, 3, 1),
+    "version" : (0, 3, 2),
     "location" : "View3D",
     "warning" : "",
     "wiki_url":    "https://github.com/Ludenous1/TK7_SK_CH",
@@ -161,6 +161,7 @@ classes = (
     MY_UL_VG_List,
 
     # ____PropertyGroups_______
+    ExporterSavePath,
     BoneParent,
 
 
@@ -187,6 +188,8 @@ def register():
         bpy.utils.register_class(cls)
 #__________________Main tools_________________________
     bpy.types.Scene.fbx_exp_enum = EnumProperty(items=Generate_Enum_for_FBX_Exporter)
+
+    bpy.types.Scene.fbx_exp_path =  PointerProperty(type = ExporterSavePath)  
 
     bpy.types.Scene.bone_mrg_enum = EnumProperty(items=Generate_Enum_for_BoneMerger)
 
@@ -276,6 +279,8 @@ def unregister():
 
 #________________Main tools______________________________
     del bpy.types.Scene.fbx_exp_enum
+
+    del bpy.types.Scene.fbx_exp_path
    
     del bpy.types.Scene.bone_mrg_enum 
 
