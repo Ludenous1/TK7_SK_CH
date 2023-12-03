@@ -179,11 +179,17 @@ class FBX_Exporter():
         
         bpy.ops.object.mode_set(mode='EDIT')
 
+        SKDict = {bone.name: bone for bone in  SK.data.edit_bones}
+
         SK.data.edit_bones.new("MODEL_00")
         SK.data.edit_bones["MODEL_00"].length = 0.05 #Required otherwise the bone won't be created
         SK.data.edit_bones["MODEL_00"].parent = None
-        SK.data.edit_bones["BODY_SCALE__group"].parent = SK.data.edit_bones["MODEL_00"]
-        SK.data.edit_bones["EDIT__null"].parent = SK.data.edit_bones["MODEL_00"]
+        if "BODY_SCALE__group" in SKDict:
+            SK.data.edit_bones["BODY_SCALE__group"].parent = SK.data.edit_bones["MODEL_00"]
+        else:
+            raise Exception("BODY_SCALE__group bone is missing")
+        if "EDIT__null" in SKDict:
+            SK.data.edit_bones["EDIT__null"].parent = SK.data.edit_bones["MODEL_00"]
 
 
         SK.name = Og_Name

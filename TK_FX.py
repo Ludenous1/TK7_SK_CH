@@ -657,7 +657,7 @@ def Pose_Snapper(autoscale, mode_enum):
 
     OgMode = SK.mode
 
-    AplPose(SK) #I don't trust people to do the write thing
+    # AplPose(SK) #I don't trust people to do the write thing
 
     # ref = SK_CH_mar_bdf_higeuncle
     for obj in bpy.context.selected_objects:
