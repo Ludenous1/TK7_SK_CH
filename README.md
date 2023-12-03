@@ -38,9 +38,9 @@ If you happen to run into any inconveniences while using the addon, you have [my
 
 <a name="compatibility"></a>
 ## Compatibility
-| Blender version | 2.91 | 2.93 | 3.0 |  3.1 | 3.2 | 3.3 | 3.5 |3.6 |
-| ------------- | ------------- | ------------- | ------------- |------------- |------------- |------------- |------------- |------------- |
-| Compatible | :negative_squared_cross_mark:| :heavy_check_mark:  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Blender version | 2.91 | 2.93 | 3.0 |  3.1 | 3.2 | 3.3 | 3.5 |3.6 | 4.0 |
+| ------------- | ------------- | ------------- | ------------- |------------- |------------- |------------- |------------- |------------- | ------------- |
+| Compatible | :negative_squared_cross_mark:| :heavy_check_mark:  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 
 ---
@@ -55,6 +55,7 @@ If you happen to run into any inconveniences while using the addon, you have [my
 ---
 <a name="update"></a>
 ### Update
+The addon might get updates frequently. To make sure you're using the latest version:
 1. Save current Blender file if you want to keep any changes.
 2. Open the Preferences window in Blender (Edit>Preferences) and select the Add-ons tab.
 3. Search for the addon by typing 'TK7_SK_CH' on the search box.
@@ -239,7 +240,7 @@ Renames the bones for the active skeleton according to the current selected pres
    
    Options:
    + ![image](https://user-images.githubusercontent.com/99399209/197341581-9fd7be25-c5d5-47dd-ab80-22fccc1482cf.png)
-`Auto bone matching`: Autofills the selected list based on detected matching bones (Optional and Experimental. It only works for custom skeleton structures with certain features[^2]).
+`Auto bone matching`: Autofills the selected list based on detected matching bones (Optional and Experimental. It only works for custom skeleton structures with certain features[^2][^3]).
    + - [ ] **Merge bones with same / similar names**:  Merges bone weights for the bones that end up with the a same or similar name. The parent would be the first renamed bone if the new bone names are identical. If the new bone name is the same as that of an existing bone, the bone weights are still going to get merged even if they're aren't both shown on the list (Optional, Off by default)
 
   Conditions for proper activation:
@@ -295,3 +296,4 @@ Merges the weights of bones with certain names onto their parents and cleans up 
 
 [^1]: Most of these individuals were ordered according to when their code got fully implemented or when usage permission was granted.
 [^2]: The skeletons must have 2 spine bones and one hip bone, the hand bones should be the furthest on the x axis, the feet bones should be the lowest bones above the world origin, and there should be only 2 bones in chain moving from the shoulders to the hands as well as moving from the hip to the feet (a regular biped rig with 5 fingers on each hand). 
+[^3]: `Auto bone matching` also completely changes the current active list (or renamer script).
