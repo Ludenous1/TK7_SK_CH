@@ -23,7 +23,7 @@ bl_info = {
     "author" : "Ludenous",
     "description" : "Blender Addon for porting rigged characters into Tekken 7",
     "blender" : (2, 93, 0),
-    "version" : (0, 3, 3),
+    "version" : (0, 3, 4),
     "location" : "View3D",
     "warning" : "",
     "wiki_url":    "https://github.com/Ludenous1/TK7_SK_CH",
@@ -137,6 +137,9 @@ classes = (
     SK_CH_BoneRenamerListPopulate,
     LIST_OT_BoneRename_NewItem,
     LIST_OT_BoneRename_DeleteItem,
+    Bone_Renamer_Current_Name_Selector,
+    Bone_Renamer_New_Name_Selector,
+    SK_CH_BoneRenamerListDuplicate,
 
     SK_CH_BoneRenamer,
     # LIST_OT_MoveItem,

@@ -374,7 +374,9 @@ class RENAMER_PT_PANEL(Tekke7Panel, Panel):
 
         if CheckPresetNameMatch():
             row.operator("bone_renamer_preset.add", text="", icon="ADD")
-            row.operator("bone_renamer_preset.remove", text="", icon="REMOVE")
+            row.separator()
+
+            row.operator("bone_renamer_preset.remove", text="", icon="TRASH")
         else:
             row.operator("bone_renamer_preset.load", text="Load", icon="FILE_TICK")
         
@@ -395,8 +397,11 @@ class RENAMER_PT_PANEL(Tekke7Panel, Panel):
         ####____________Default template list__________
         scene = context.scene
         obj = context.active_object
+        Arm_Objs = [ob.type for ob in context.selected_objects if ob.type=='ARMATURE']
 
-
+        for Selected_obj in bpy.context.selected_objects:
+            if Selected_obj  != obj  and Selected_obj.type == 'ARMATURE':
+                refSK = Selected_obj
 
         row = layout.row()
         row.template_list("MY_UL_BoneRenameList", "The_List", scene,
@@ -414,16 +419,28 @@ class RENAMER_PT_PANEL(Tekke7Panel, Panel):
         #Insert autopopulate here
         col.operator('bone_rename_list.populate', text='', icon="SYSTEM")
 
+        col.separator()
+        #Insert autopopulate here
+        col.operator('bone_rename_list.duplicate', text='', icon="DUPLICATE")
+
         if scene.bone_rename_list_index >= 0 and scene.bone_rename_list:
             item = scene.bone_rename_list[scene.bone_rename_list_index]
 
             row = layout.row()
             if obj is not None and obj.type == 'ARMATURE' and obj in bpy.context.selected_objects:
                 row.prop_search(item, "Current_Name", bpy.context.active_object.data, "bones")
+
             else:
                 row.prop(item, "Current_Name")
+            
+            #row.operator('object.br_current_selector', text='', icon = 'RESTRICT_SELECT_OFF')
 
-            row.prop(item, "New_Name")
+            if obj is not None and obj.type == 'ARMATURE' and obj in bpy.context.selected_objects and len(Arm_Objs)==2:
+                row.prop_search(item, "New_Name", refSK.data, "bones")
+            else:
+                row.prop(item, "New_Name")
+            #row.operator('object.br_new_selector', text='', icon = 'RESTRICT_SELECT_OFF')
+
             row = layout.row()
             
 

@@ -579,7 +579,30 @@ def RenamerListPopulate():
         bpy.context.scene.bone_rename_list[-1].Current_Name = ''
         bpy.context.scene.bone_rename_list[-1].New_Name = item
         
+def RenamerListSave():
+    Current_List = bpy.context.scene.bone_rename_list
 
+    Saved_List = []
+
+    for indx, Bone_Names in enumerate(Current_List):
+        Saved_List.append([Bone_Names.Current_Name, Bone_Names.New_Name])
+
+    return Saved_List
+
+
+
+def RenamerListDuplicate(Saved_List):
+
+    ClearBoneRenameList()    
+
+    for indx,bonename in enumerate(Saved_List):
+
+        bpy.context.scene.bone_rename_list.add()
+        bpy.context.scene.bone_rename_list[indx].Current_Name = bonename[0]
+        bpy.context.scene.bone_rename_list[indx].New_Name = bonename[1]
+
+
+    
 
 
 def FillNewPreset():
@@ -614,9 +637,14 @@ def BoneRenamerPresetSelection(self, context):
             if len(ConvLine) == 2:
                 context.scene.bone_rename_list.add()
 
+                List_Item = bpy.context.scene.bone_rename_list[Counter]
+
                 print("Adding more lines to rename list...", time.time() - startTime )
-                bpy.context.scene.bone_rename_list[Counter].Current_Name = ConvLine[0]
-                bpy.context.scene.bone_rename_list[Counter].New_Name = ConvLine[1]
+                # bpy.context.scene.bone_rename_list[Counter].Current_Name = ConvLine[0]
+                # bpy.context.scene.bone_rename_list[Counter].New_Name = ConvLine[1]
+                List_Item["Current_Name"] = ConvLine[0]
+                List_Item["New_Name"] = ConvLine[1]
+
                 Counter +=1 
 
     print("Done", time.time() - startTime )

@@ -1,6 +1,6 @@
 # Contains operators used for the panel (TK_PT.py) and relies on the functions from TK_FX.py
-#bl_idname should all be in lowercase for blender 2.8->3.1
-#Dev note: Had a really weird issue where I was able to access TK_PROP_FX through TK_PROP 
+# bl_idname should all be in lowercase for blender 2.8->3.1
+# Dev note: Had a really weird issue where I was able to access TK_PROP_FX through TK_PROP 
 
 # from re import T
 import bpy
@@ -472,9 +472,9 @@ class Bone_Renamer_Preset_Add_Operator(bpy.types.Operator):
 
 
 class Bone_Renamer_Preset_Remove_Operator(bpy.types.Operator):
-    """Delete an entire renaming list. Deleted list won't be retrievable"""
+    """Delete the entire list. Deleted list won't be retrievable"""
     bl_idname = "bone_renamer_preset.remove"
-    bl_label = "Remove bone renamer preset"
+    bl_label = "Delete list"
     # bl_options = {'REGISTER', 'UNDO'}
 
     @classmethod
@@ -498,6 +498,67 @@ class Bone_Renamer_Preset_Remove_Operator(bpy.types.Operator):
             elif bpy.context.scene.preset_enum != '0' and len(context.scene.preset_collection) > 0 and EnumInt <= len(context.scene.preset_collection):
                 bpy.context.scene.preset_enum = str(EnumInt - 1) 
 
+        return {'FINISHED'}
+    
+    def invoke(self, context, event):
+        return context.window_manager.invoke_confirm(self, event)
+
+class Bone_Renamer_Current_Name_Selector(Operator):
+    """Copies the name of the active bone selected in edit mode as the current bone name"""
+    bl_idname = "object.br_current_selector"
+    bl_label = "Copy active bone name"
+    bl_options = {'REGISTER', 'UNDO'}
+
+    @classmethod
+    def poll(cls, context): #Skeleton edit mode poll for one selected object
+        obj = context.active_object
+        obtypes = [ob.type for ob in context.selected_objects if ob.type=='ARMATURE']
+
+
+        if obj is not None:
+            if obj.type == 'ARMATURE':
+                if obj.mode == 'EDIT':
+                    if len(obtypes)<=2:
+                        if (len(context.selected_bones)!=0):
+                            return True
+        
+
+        return False
+
+
+    def execute(self, context):
+            
+        Current_Name_SelectBone()
+        # bpy.ops.wm.simplifier('INVOKE_DEFAULT') #ops followed by bl_idname to invoke it
+        return {'FINISHED'}
+    
+class Bone_Renamer_New_Name_Selector(Operator):
+    """Copies the name of the active bone selected in edit mode as the new bone name"""
+    bl_idname = "object.br_new_selector"
+    bl_label = "Copy active bone name"
+    bl_options = {'REGISTER', 'UNDO'}
+
+    @classmethod
+    def poll(cls, context): #Skeleton edit mode poll for one selected object
+        obj = context.active_object
+        obtypes = [ob.type for ob in context.selected_objects if ob.type=='ARMATURE']
+
+
+        if obj is not None:
+            if obj.type == 'ARMATURE':
+                if obj.mode == 'EDIT':
+                    if len(obtypes)<=2:
+                        if (len(context.selected_bones)!=0):
+                            return True
+        
+
+        return False
+
+
+    def execute(self, context):
+            
+        New_Name_SelectBone()
+        # bpy.ops.wm.simplifier('INVOKE_DEFAULT') #ops followed by bl_idname to invoke it
         return {'FINISHED'}
 
 
@@ -619,7 +680,7 @@ class SK_CH_BoneRenamer(Operator):
 class SK_CH_BoneRenamerListPopulate(Operator):
     """Autofill the currently chosen list based on the selected skeleton's structure as long as the skeleton type is supported."""
     bl_idname = "bone_rename_list.populate"
-    bl_label = "Autofill"
+    bl_label = "Autofill (Experimental)"
     bl_options = {'REGISTER', 'UNDO'}
 
     @classmethod
@@ -643,6 +704,48 @@ class SK_CH_BoneRenamerListPopulate(Operator):
         # Simplifier()
         # bpy.ops.wm.simplifier('INVOKE_DEFAULT') #ops followed by bl_idname to invoke it
         return {'FINISHED'}
+    
+
+class SK_CH_BoneRenamerListDuplicate(Operator):
+    """Duplicate the currently chosen list."""
+    bl_idname = "bone_rename_list.duplicate"
+    bl_label = "Duplicate"
+    bl_options = {'REGISTER', 'UNDO'}
+
+    @classmethod
+    def poll(cls, context): #Skeleton edit mode poll for one selected object
+        
+
+
+        if context.scene.preset_enum   != '' and CheckPresetNameMatch():
+                    # if len(context.selected_objects)==2:
+            return True
+        
+
+        return False
+
+
+    def execute(self, context):
+        Current_List_Name = bpy.context.scene.preset_collection[int(bpy.context.scene.preset_enum)].RenameListPreset
+
+        Saved_List=RenamerListSave()
+
+        print(Saved_List)
+
+        New_List = context.scene.preset_collection.add()
+        # Test_Number.number = random.randint(1, 4)
+
+        Number = len(context.scene.preset_collection)-1
+        bpy.context.scene.preset_enum = str(Number)
+
+        New_List.RenameListPreset = Current_List_Name + "_Copy"
+
+        # Test()
+        RenamerListDuplicate(Saved_List)
+        # Simplifier()
+        # bpy.ops.wm.simplifier('INVOKE_DEFAULT') #ops followed by bl_idname to invoke it
+        return {'FINISHED'}
+
 
 
 

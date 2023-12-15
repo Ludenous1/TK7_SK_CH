@@ -257,6 +257,52 @@ def BnRemover():
     BoneSubstrgList = ["adj", "unused", "ctr", "roll" , "ROLL", "offset", "twist", "fix", "joint", "null"]
     TekkenExtraBoneRemover(SK, BoneSubstrgList)
 
+def Current_Name_SelectBone():
+# Dev notes active object is affected by active bone (active bone determines active object)
+    
+    #TODO: test if bones belong to the same object--->Done through operator poll
+    SK = bpy.context.active_object
+    OgMode = SK.mode
+
+    ActiveBone = bpy.context.object.data.edit_bones.active #active in edit mode
+    indx = bpy.context.scene.bone_rename_list_index
+    bpy.context.scene.bone_rename_list[indx].Current_Name = ActiveBone.name
+
+
+
+    print(ActiveBone.name)
+
+
+    # Get_active_bone_name(ActiveBone)
+    
+    # Adjuster(SK, ref)
+
+    bpy.ops.object.mode_set(mode=OgMode)
+
+def New_Name_SelectBone():
+# Dev notes active object is affected by active bone (active bone determines active object)
+    
+    #TODO: test if bones belong to the same object--->Done through operator poll
+    SK = bpy.context.active_object
+    OgMode = SK.mode
+
+    ActiveBone = bpy.context.object.data.edit_bones.active #active in edit mode
+    indx = bpy.context.scene.bone_rename_list_index
+    bpy.context.scene.bone_rename_list[indx].New_Name = ActiveBone.name
+
+
+
+
+    print(ActiveBone.name)
+
+
+    # Get_active_bone_name(ActiveBone)
+    
+    # Adjuster(SK, ref)
+
+    bpy.ops.object.mode_set(mode=OgMode)
+
+
 
 def BoneMergeActive():
 
@@ -279,6 +325,7 @@ def BoneMergeActive():
     ActiveBone = bpy.context.object.data.edit_bones.active #active in edit mode
     
     Bonelst = bpy.context.selected_bones
+    
 
     BoneNmlst = []
     for Sbone in bpy.context.selected_bones:
@@ -455,6 +502,9 @@ def RenamerListPopulateFx():
     bpy.ops.object.mode_set(mode=OgMode)
 
     return UpdatedMatches
+
+
+# def RenamerListDuplicateFx():
         
 
 def T_Poser(FixArmature, Connect_Bones, FixFingerTips, Tpose_Spine):

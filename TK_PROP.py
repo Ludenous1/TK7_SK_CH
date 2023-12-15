@@ -32,6 +32,7 @@ class BoneRenameListItem(PropertyGroup):
            description="The current name of the bone/vertex group",
            default="",#,
            update=BoneNameUpdateFunction)
+    
 
     New_Name: StringProperty(
            name="New Name",
