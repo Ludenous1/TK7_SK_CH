@@ -231,17 +231,21 @@ Renames the bones for the active skeleton according to the current selected pres
 <details>
   <summary>Details</summary>
   
-  ![image](https://user-images.githubusercontent.com/99399209/190012511-8fcbf0b8-a24b-4fbe-8ca5-6ae5754cfce9.png)
+  ![Renamer](https://github.com/Ludenous1/TK7_SK_CH/assets/99399209/eeae8e6a-4ebb-4438-9aa2-0cd3f2083df8)
+
   
    What it does:
    + Renames the bones of an active armature.
    + Stores renaming lists as presets for later use.
    + Allows modifying the renaming list through the UI.
+   + Bone names can be searched from an active and another selected armature.
    
    Options:
    + ![image](https://user-images.githubusercontent.com/99399209/197341581-9fd7be25-c5d5-47dd-ab80-22fccc1482cf.png)
 `Auto bone matching`: Autofills the selected list based on detected matching bones (Optional and Experimental. It only works for custom skeleton structures with certain features[^2][^3]).
-   + - [ ] **Merge bones with same / similar names**:  Merges bone weights for the bones that end up with the a same or similar name. The parent would be the first renamed bone if the new bone names are identical. If the new bone name is the same as that of an existing bone, the bone weights are still going to get merged even if they're aren't both shown on the list (Optional, Off by default)
+   + ![image](https://github.com/Ludenous1/TK7_SK_CH/assets/99399209/1dd6e876-ddab-4bd2-bce3-5d292e68aa33)
+`Duplicate`: Creates a full copy of the current list.
+   + - [ ] **Merge bones with same / similar names**:  Merges bone weights for the bones that end up with the a same or similar name. The parent would be the first renamed bone if the new bone names are identical. If the new bone name is the same as that of an existing bone, the bone weights are still going to get merged even if they're aren't both shown on the list (Optional, Off by default).
 
   Conditions for proper activation:
   + Object mode or edit mode.
@@ -296,4 +300,4 @@ Merges the weights of bones with certain names onto their parents and cleans up 
 
 [^1]: Most of these individuals were ordered according to when their code got fully implemented or when usage permission was granted.
 [^2]: The skeletons must have 2 spine bones and one hip bone, the hand bones should be the furthest on the x axis, the feet bones should be the lowest bones above the world origin, and there should be only 2 bones in chain moving from the shoulders to the hands as well as moving from the hip to the feet (a regular biped rig with 5 fingers on each hand). 
-[^3]: `Auto bone matching` also completely changes the current active list (or renamer script).
+[^3]: `Auto bone matching` also completely changes the current active list / script.
