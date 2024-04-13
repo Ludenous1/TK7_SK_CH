@@ -38,9 +38,9 @@ If you happen to run into any inconveniences while using the addon, you have [my
 
 <a name="compatibility"></a>
 ## Compatibility
-| Blender version | 2.91 | 2.93 | 3.0 |  3.1 | 3.2 | 3.3 | 3.5 |3.6 | 4.0 |
-| ------------- | ------------- | ------------- | ------------- |------------- |------------- |------------- |------------- |------------- | ------------- |
-| Compatible | :negative_squared_cross_mark:| :heavy_check_mark:  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+| Blender version | 2.91 | 2.93 | 3.0 |  3.1 | 3.2 | 3.3 | 3.5 |3.6 | 4.0 |4.1 |
+| ------------- | ------------- | ------------- | ------------- |------------- |------------- |------------- |------------- |------------- | ------------- | ------------- |
+| Compatible | :negative_squared_cross_mark:| :heavy_check_mark:  | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
 
 
 ---
