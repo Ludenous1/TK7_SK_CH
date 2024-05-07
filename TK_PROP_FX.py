@@ -138,8 +138,25 @@ def Find_Missing_File_Name(FolderName,Preset_Name_Collection):
             return FileName
 #_______________________________________________________
 
-
+####
 #______________For Main tools____________________________
+def Generate_Enum_for_Game_Setting(self, context):
+    
+    
+    Enum_items = ['Tekken 7', 'Tekken 8']
+    Enums = []
+    
+    for indx, item in enumerate(Enum_items):
+        
+        data = str(item)
+        Strindx = str(indx)
+        item = (Strindx, data, '')
+        
+        Enums.append(item)
+        
+    return Enums
+
+
 def Generate_Enum_for_FBX_Exporter(self, context):
     
     
