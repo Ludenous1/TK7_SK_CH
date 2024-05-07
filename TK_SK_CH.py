@@ -195,7 +195,7 @@ class FBX_Exporter():
                 Root_bones.append(bone.name)
 
             if len(Root_bones)>1:
-                raise Exception("Skeleton contains multiple root bones")
+                raise Exception(f'The armature called {SK.name} contains multiple root bones')
                     
         Root_bone_name = Root_bones[0]
 
