@@ -43,7 +43,7 @@ class Character_Modding(Tekke7Panel,Panel):
         r1c1 = r.column(align=True) #start a column
         r1c1.operator("object.tk7_scene_setup", text='Scene setup', icon='PREFERENCES')
    
-        layout.separator()
+        r.separator()
 
         r2 = col.row() # Start a row
         r2.label(text='Export settings:') 
@@ -248,20 +248,16 @@ class SK_GEN_PT_PANEL(Tekke7Panel, Panel):
     # bl_options = {"HEADER_LAYOUT_EXPAND"}
 
 
-    # @classmethod
-    # def poll(cls, context):
-    #     obj = context.active_object
-    #     context.scene.fbx_exp_enum
-    #     Objs=[ob for ob in bpy.context.view_layer.objects if ob.visible_get() and (ob.type == 'ARMATURE')]
-
-        
-    #     if context.scene.fbx_exp_enum == '0':
+    @classmethod
+    def poll(self, context):
+      
+        if context.scene.tk_game == '0':
 
 
-    #         return True
+            return True
     
 
-    #     return False
+        return False
 
     def draw_header(self, context):
         
@@ -298,6 +294,16 @@ class SK_TPOSER_PT_PANEL(Tekke7Panel, Panel):
     # bl_parent_id = "TEKKEN7_PT_CHARACTER"
     bl_label = ""
 
+    @classmethod
+    def poll(self, context):
+      
+        if context.scene.tk_game == '0':
+
+
+            return True
+    
+
+        return False
 
     
     def draw_header(self, context):
