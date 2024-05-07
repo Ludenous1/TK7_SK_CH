@@ -33,7 +33,7 @@ class SK_CH_BlenderScene(Operator):
    
     
 class SK_CH_Export(Operator):
-    """Exports all objects on the scene each onto a separate FBX file with the same name either based on separate meshes or armatures. The blend file needs to be saved and the FBX file(s) will be at the same location as the project's saved blend file"""
+    """Exports all objects on the scene each onto a separate FBX file with the same name either based on the meshes or the armatures on the scene."""
     bl_idname = "object.tk7_export"
     bl_label = "Character Export"
     # bl_options = {'REGISTER', 'UNDO'}
@@ -56,7 +56,7 @@ class SK_CH_Export(Operator):
         return False
 
     def execute(self, context):
-        TekkenFBXexporter(context.scene.fbx_exp_enum)
+        TekkenFBXexporter(context.scene.tk_game, context.scene.fbx_exp_enum, context.scene.tk_import_type)
         return {'FINISHED'}
 
 

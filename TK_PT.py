@@ -12,11 +12,24 @@ class Tekke7Panel:
     bl_space_type = "VIEW_3D"
     bl_region_type = "UI"
     bl_category = "TK7_SK_CH"
-    bl_options = {"DEFAULT_CLOSED"}
+    # bl_options = {"DEFAULT_CLOSED"}
+    bl_options = {"HEADER_LAYOUT_EXPAND"}
+    
 
-class Character_Modding(Tekke7Panel, Panel):
+class Character_Modding(Tekke7Panel,Panel):
     bl_idname = "TEKKEN7_PT_CHARACTER"
-    bl_label = "Character modding"
+    bl_label = ""
+
+    # bl_space_type = "VIEW_3D"
+    # bl_region_type = "UI"
+    # bl_category = "TK7_SK_CH"
+    # bl_options = {"DEFAULT_CLOSED"}
+    def draw_header(self, context):
+        
+        layout = self.layout
+
+        # self.layout.label(text="Skeleton Generator")
+        layout.prop(context.scene, "tk_game", text="")
 
     def draw(self, context):
         layout = self.layout
@@ -26,16 +39,33 @@ class Character_Modding(Tekke7Panel, Panel):
 #        col.label(text='Import:')
         # c = col.column()
         r = col.row() # Start a row
+        
         r1c1 = r.column(align=True) #start a column
         r1c1.operator("object.tk7_scene_setup", text='Scene setup', icon='PREFERENCES')
-        r1c2 = r.column(align=True)
-        r1c2.operator('object.tk7_export', text='FBX Export', icon='EXPORT')
+   
+        layout.separator()
 
         r2 = col.row() # Start a row
+        r2.label(text='Export settings:') 
+
+        layout.separator()
+
+        r3 = col.row() # Start a row
         # r2.label(text='Export by:')     
-        r2.prop(context.scene, "fbx_exp_enum", text="Settings")
-        r2.prop(context.scene.fbx_exp_path, "user_file_path", text="")
+        r3.prop(context.scene, "fbx_exp_enum", text="Name by")
+
+        r4 = col.row() # Start a row
+        # r2.label(text='Export by:') 
+        # if len(context.scene.tk_game) == '1':    
+        r4.prop(context.scene, "tk_import_type", text="Import type")
+
+
+        r5 = col.row() # Start a row
+        r5.prop(context.scene.fbx_exp_path, "user_file_path", text="Output Folder")
         # r2c2.use_property_split = True
+
+        r6 = col.row() # Start a row
+        r6.operator('object.tk7_export', text='FBX Export', icon='EXPORT')
 
         # row = layout.row(align=True)
         # row.prop(context.scene, "sk_gen_char_enum", text="Mode")
@@ -45,7 +75,7 @@ class Character_Modding(Tekke7Panel, Panel):
         # row.label(text="", icon='ERROR')
         layout.separator()
         row = layout.row(align=True)
-        row.label(text='Quick Tools:') 
+        row.label(text='Skeleton Tools:') 
         op = row.operator(
             'wm.url_open',
             text='',
@@ -113,6 +143,7 @@ class SK_TOOLS_PT_PANEL(Tekke7Panel, Panel):
     bl_idname = "TEKKEN7_PT_SK_TOOLS"
     bl_parent_id = "TEKKEN7_PT_CHARACTER"
     bl_label = "Skeleton Tools"
+    
     
 
     def draw(self, context):
@@ -212,21 +243,42 @@ class SK_TOOLS_PT_PANEL(Tekke7Panel, Panel):
 
 
 class SK_GEN_PT_PANEL(Tekke7Panel, Panel):
-    bl_parent_id = "TEKKEN7_PT_CHARACTER"
-    bl_label = "Skeleton Generator"
+    # bl_parent_id = "TEKKEN7_PT_CHARACTER"
+    bl_label = ""
+    # bl_options = {"HEADER_LAYOUT_EXPAND"}
 
-    # def draw_header(self, context):
+
+    # @classmethod
+    # def poll(cls, context):
+    #     obj = context.active_object
+    #     context.scene.fbx_exp_enum
+    #     Objs=[ob for ob in bpy.context.view_layer.objects if ob.visible_get() and (ob.type == 'ARMATURE')]
+
         
-    #     layout = self.layout
+    #     if context.scene.fbx_exp_enum == '0':
 
-    #     self.layout.label(text="  ")
 
-    #     op = layout.operator(
-    #         'wm.url_open',
-    #         text='',
-    #         icon='QUESTION'
-    #         )
-    #     op.url = 'https://github.com/Ludenous1/TK7_SK_CH#skeleton-generator'
+    #         return True
+    
+
+    #     return False
+
+    def draw_header(self, context):
+        
+        layout = self.layout
+
+        self.layout.label(text="Skeleton Generator")
+
+        # self.layout.label(text=" ")
+
+        op = layout.operator(
+            'wm.url_open',
+            text='',
+            icon='QUESTION'
+            )
+        op.url = 'https://github.com/Ludenous1/TK7_SK_CH#skeleton-generator'
+
+        
 
     def draw(self, context):
         layout = self.layout
@@ -243,21 +295,23 @@ class SK_GEN_PT_PANEL(Tekke7Panel, Panel):
 
 
 class SK_TPOSER_PT_PANEL(Tekke7Panel, Panel):
-    bl_parent_id = "TEKKEN7_PT_CHARACTER"
-    bl_label = "T-Poser"
+    # bl_parent_id = "TEKKEN7_PT_CHARACTER"
+    bl_label = ""
+
+
     
-    # def draw_header(self, context):
+    def draw_header(self, context):
         
-    #     layout = self.layout
+        layout = self.layout
 
-    #     self.layout.label(text="  ")
+        self.layout.label(text="Tposer")
 
-    #     op = layout.operator(
-    #         'wm.url_open',
-    #         text='',
-    #         icon='QUESTION'
-    #         )
-    #     op.url = 'https://github.com/Ludenous1/TK7_SK_CH#t_poser'
+        op = layout.operator(
+            'wm.url_open',
+            text='',
+            icon='QUESTION'
+            )
+        op.url = 'https://github.com/Ludenous1/TK7_SK_CH#t_poser'
 
     def draw(self, context):
         layout = self.layout
@@ -287,21 +341,21 @@ class SK_TPOSER_PT_PANEL(Tekke7Panel, Panel):
 
 
 class SK_POSE_SNAP_PT_PANEL(Tekke7Panel, Panel):
-    bl_parent_id = "TEKKEN7_PT_CHARACTER"
-    bl_label = "Pose Snapper"
+    # bl_parent_id = "TEKKEN7_PT_CHARACTER"
+    bl_label = ""
     
-    # def draw_header(self, context):
+    def draw_header(self, context):
         
-    #     layout = self.layout
+        layout = self.layout
 
-    #     self.layout.label(text="  ")
+        self.layout.label(text="Pose Snapper")
 
-    #     op = layout.operator(
-    #         'wm.url_open',
-    #         text='',
-    #         icon='QUESTION'
-    #         )
-    #     op.url = 'https://github.com/Ludenous1/TK7_SK_CH#pose-snapper'
+        op = layout.operator(
+            'wm.url_open',
+            text='',
+            icon='QUESTION'
+            )
+        op.url = 'https://github.com/Ludenous1/TK7_SK_CH#pose-snapper'
 
     def draw(self, context):
         layout = self.layout
@@ -344,21 +398,25 @@ class SK_POSE_SNAP_PT_PANEL(Tekke7Panel, Panel):
 
 
 class RENAMER_PT_PANEL(Tekke7Panel, Panel):
-    bl_parent_id = "TEKKEN7_PT_CHARACTER"
-    bl_label = "Bone Renamer"
+    # bl_parent_id = "TEKKEN7_PT_CHARACTER"
+    bl_label = ""
+    # bl_options = {"DEFAULT_CLOSED"}
 
-    # def draw_header(self, context):
+    def draw_header(self, context):
         
-    #     layout = self.layout
+        layout = self.layout
+        
+        self.layout.label(text="Bone Renamer")
 
-    #     self.layout.label(text="  ")
+        op = layout.operator(
+            'wm.url_open',
+            text='',
+            icon='QUESTION'
+            )
+        op.url = 'https://github.com/Ludenous1/TK7_SK_CH#bone_renamer'
 
-    #     op = layout.operator(
-    #         'wm.url_open',
-    #         text='',
-    #         icon='QUESTION'
-    #         )
-    #     op.url = 'https://github.com/Ludenous1/TK7_SK_CH#bone_renamer'
+        # layout.direction = 'VERTICAL'
+       
 
     def draw(self, context):
         layout = self.layout
@@ -531,21 +589,21 @@ class SKTOOLS_PT_PANEL(Tekke7Panel, Panel):
 #        r = c.row(align=True)
 
 class SIMPLIFIER_PT_PANEL(Tekke7Panel, Panel):
-    bl_parent_id = "TEKKEN7_PT_CHARACTER"
-    bl_label = "Skeleton Simplifier"
+    # bl_parent_id = "TEKKEN7_PT_CHARACTER"
+    bl_label = ""
 
-    # def draw_header(self, context):
+    def draw_header(self, context):
         
-    #     layout = self.layout
+        layout = self.layout
 
-    #     self.layout.label(text="  ")
+        self.layout.label(text="Skeleton Simplifier")
 
-    #     op = layout.operator(
-    #         'wm.url_open',
-    #         text='',
-    #         icon='QUESTION'
-    #         )
-    #     op.url = 'https://github.com/Ludenous1/TK7_SK_CH#skeleton-simplifier'
+        op = layout.operator(
+            'wm.url_open',
+            text='',
+            icon='QUESTION'
+            )
+        op.url = 'https://github.com/Ludenous1/TK7_SK_CH#skeleton-simplifier'
 
     def draw(self, context):
         layout = self.layout
@@ -588,8 +646,8 @@ class SIMPLIFIER_PT_PANEL(Tekke7Panel, Panel):
         
 
 class VGMERGER_PT_PANEL(Tekke7Panel, Panel):
-    bl_parent_id = "TEKKEN7_PT_CHARACTER"
-    bl_label = "Vertex Group Merger"
+    # bl_parent_id = "TEKKEN7_PT_CHARACTER"
+    bl_label = ""
 
     # @classmethod
     # def poll(cls, context):
@@ -600,18 +658,18 @@ class VGMERGER_PT_PANEL(Tekke7Panel, Panel):
     #             if obj.mode == 'OBJECT':
     #                 return True
 
-    # def draw_header(self, context):
+    def draw_header(self, context):
         
-    #     layout = self.layout
+        layout = self.layout
 
-    #     self.layout.label(text="  ")
+        self.layout.label(text="Vertex Group Merger")
 
-    #     op = layout.operator(
-    #         'wm.url_open',
-    #         text='',
-    #         icon='QUESTION'
-    #         )
-    #     op.url = 'https://github.com/Ludenous1/TK7_SK_CH#vertex-group-merger'
+        op = layout.operator(
+            'wm.url_open',
+            text='',
+            icon='QUESTION'
+            )
+        op.url = 'https://github.com/Ludenous1/TK7_SK_CH#vertex-group-merger'
 
     def draw(self, context):
         layout = self.layout

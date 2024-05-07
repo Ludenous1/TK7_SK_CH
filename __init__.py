@@ -190,6 +190,10 @@ def register():
     for cls in classes:
         bpy.utils.register_class(cls)
 #__________________Main tools_________________________
+    bpy.types.Scene.tk_game = EnumProperty(items=Generate_Enum_for_Game_Setting)
+
+    bpy.types.Scene.tk_import_type = EnumProperty(items=Generate_Enum_for_SK_Gen_Opt1)
+    
     bpy.types.Scene.fbx_exp_enum = EnumProperty(items=Generate_Enum_for_FBX_Exporter)
 
     bpy.types.Scene.fbx_exp_path =  PointerProperty(type = ExporterSavePath)  
@@ -281,6 +285,10 @@ def unregister():
         bpy.app.handlers.depsgraph_update_post.remove(check_ob_in_scene)
 
 #________________Main tools______________________________
+    del bpy.types.Scene.tk_game
+
+    del bpy.types.Scene.tk_import_type
+    
     del bpy.types.Scene.fbx_exp_enum
 
     del bpy.types.Scene.fbx_exp_path

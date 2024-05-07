@@ -46,7 +46,7 @@ def TekkenSceneSetup():
 
 
 
-def TekkenFBXexporter(FBX_Exp_Enum):
+def TekkenFBXexporter(Game_enum, FBX_Exp_Enum, Import_type_enum):
 
     #TODO: No UV--->
     #TODO: Max material count--->
@@ -99,10 +99,15 @@ def TekkenFBXexporter(FBX_Exp_Enum):
 
     
     
-
+    Games = ['Tekken 7', 'Tekken 8']
     Exp_Settings = ['Mesh', 'Armature']
+    Import_types = ['glTF', 'Psk']
 
+
+    Game = Games[int(Game_enum)]
     Setting = Exp_Settings[int(FBX_Exp_Enum)]
+    Import_type = Import_types[int(Import_type_enum)]
+    
 
     Mesh_Objs, Armature_Objs = FBX_Exporter.Sort_All_Objs(All_Objects)
 
@@ -125,8 +130,10 @@ def TekkenFBXexporter(FBX_Exp_Enum):
             filename, SK = FBX_Exporter.Select_and_Assign(obj, Setting)
 
             SK_Og_Name = FBX_Exporter.Root_bone_FBX_edit(SK,FBX_script_test)
-
-            Result = FBX_Exporter.Test_SK_Type(SK)
+            # if Game == "Tekken 7":
+            #     Result = FBX_Exporter.Test_SK_Type(SK)
+            # else:
+            Result = Import_type
 
             # File_Path = os.path.join(bpy.path.abspath("//") ,filename +'.fbx')
             File_Path = os.path.join(bpy.context.scene.fbx_exp_path.user_file_path ,filename +'.fbx')
@@ -134,7 +141,7 @@ def TekkenFBXexporter(FBX_Exp_Enum):
             if Result == "glTF":
                 bpy.ops.export_scene.fbx(filepath=File_Path, check_existing=True, filter_glob='*.fbx', use_selection=True, use_active_collection=False, global_scale=1.0, apply_unit_scale=True, apply_scale_options='FBX_SCALE_NONE', bake_space_transform=False, object_types={'ARMATURE', 'CAMERA', 'EMPTY', 'LIGHT', 'MESH', 'OTHER'}, use_mesh_modifiers=True, use_mesh_modifiers_render=True, mesh_smooth_type='FACE', use_subsurf=False, use_mesh_edges=False, use_tspace=True, use_custom_props=False, add_leaf_bones=False, primary_bone_axis='X', secondary_bone_axis='-Y', use_armature_deform_only=True, armature_nodetype='NULL', bake_anim=False, bake_anim_use_all_bones=True, bake_anim_use_nla_strips=True, bake_anim_use_all_actions=True, bake_anim_force_startend_keying=True, bake_anim_step=1.0, bake_anim_simplify_factor=1.0, path_mode='AUTO', embed_textures=False, batch_mode='OFF', use_batch_own_dir=True, use_metadata=True, axis_forward='-Z', axis_up='Y')
                 
-            elif Result == "PSK":
+            elif Result == "Psk":
                 bpy.ops.export_scene.fbx(filepath=File_Path, check_existing=True, filter_glob='*.fbx', use_selection=True, use_active_collection=False, global_scale=1.0, apply_unit_scale=True, apply_scale_options='FBX_SCALE_NONE', bake_space_transform=False, object_types={'ARMATURE', 'CAMERA', 'EMPTY', 'LIGHT', 'MESH', 'OTHER'}, use_mesh_modifiers=True, use_mesh_modifiers_render=True, mesh_smooth_type='FACE', use_subsurf=False, use_mesh_edges=False, use_tspace=True, use_custom_props=False, add_leaf_bones=False, primary_bone_axis='Y', secondary_bone_axis='X', use_armature_deform_only=True, armature_nodetype='NULL', bake_anim=False, bake_anim_use_all_bones=True, bake_anim_use_nla_strips=True, bake_anim_use_all_actions=True, bake_anim_force_startend_keying=True, bake_anim_step=1.0, bake_anim_simplify_factor=1.0, path_mode='AUTO', embed_textures=False, batch_mode='OFF', use_batch_own_dir=True, use_metadata=True, axis_forward='-Z', axis_up='Y')
 
         # if FBX_script_test == False:

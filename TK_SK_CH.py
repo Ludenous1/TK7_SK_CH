@@ -145,32 +145,69 @@ class FBX_Exporter():
         else:
             raise Exception("Something is missing / wrong with the built-in FBX exporter")   
 
+    def Root_bone_FBX_edit_Tk(SK,FBX_script_test, game):
+        
+        bpy.ops.object.mode_set(mode='EDIT')        
+        
+        if game == 'Tekken 7':
+            root_bone = "MODEL_00"
+        elif game == 'Tekken 8':
+            root_bone = 'Root'
+            #TODO: Add Root_prp
 
-    def Root_bone_FBX_edit(SK,FBX_script_test):
-        
-        bpy.ops.object.mode_set(mode='EDIT')
-        
         Og_SK_Name = SK.name
         SKDict = {bone.name: bone for bone in  SK.data.edit_bones}
         
         if FBX_script_test == True:
-            if "MODEL_00" in SKDict:
+            if root_bone in SKDict:
                 pass
             else:
-                SK.data.edit_bones.new("MODEL_00")
-                SK.data.edit_bones["MODEL_00"].length = 0.05 #Required otherwise the bone won't be created
-                SK.data.edit_bones["MODEL_00"].parent = None
+                SK.data.edit_bones.new(root_bone)
+                SK.data.edit_bones[root_bone].length = 0.05 #Required otherwise the bone won't be created
+                SK.data.edit_bones[root_bone].parent = None
                 
             for bone in SK.data.edit_bones:
-                if bone.parent == None and bone.name != "MODEL_00":
-                    bone.parent = SKDict["MODEL_00"]
+                if bone.parent == None and bone.name != root_bone:
+                    bone.parent = SKDict[root_bone]
                         
     #        pass
         elif FBX_script_test == False:
-            if "MODEL_00" in SKDict:
-                SK.data.edit_bones.remove(SKDict["MODEL_00"])
+            if root_bone in SKDict:
+                SK.data.edit_bones.remove(SKDict[root_bone])
 
-            SK.name = "MODEL_00"
+            SK.name = root_bone
+
+        bpy.ops.object.mode_set(mode='OBJECT')
+        return(Og_SK_Name)
+    
+
+    def Root_bone_FBX_edit(SK,FBX_script_test):
+        
+        bpy.ops.object.mode_set(mode='EDIT')        
+        
+        Og_SK_Name = SK.name
+        SKDict = {bone.name: bone for bone in  SK.data.edit_bones}
+        Root_bones = []
+
+        #Search for root bones
+        for bone in SK.data.edit_bones:
+            if bone.parent == None :
+                Root_bones.append(bone.name)
+
+            if len(Root_bones)>1:
+                raise Exception("Skeleton contains multiple root bones")
+                    
+        Root_bone_name = Root_bones[0]
+
+        if FBX_script_test == True:
+            pass
+     
+    #        pass
+        elif FBX_script_test == False:
+            if Root_bone_name in SKDict:
+                SK.data.edit_bones.remove(SKDict[Root_bone_name])
+
+            SK.name = Root_bone_name
 
         bpy.ops.object.mode_set(mode='OBJECT')
         return(Og_SK_Name)
@@ -179,18 +216,19 @@ class FBX_Exporter():
         
         bpy.ops.object.mode_set(mode='EDIT')
 
-        SKDict = {bone.name: bone for bone in  SK.data.edit_bones}
+        # SKDict = {bone.name: bone for bone in  SK.data.edit_bones}
 
-        SK.data.edit_bones.new("MODEL_00")
-        SK.data.edit_bones["MODEL_00"].length = 0.05 #Required otherwise the bone won't be created
-        SK.data.edit_bones["MODEL_00"].parent = None
-        if "BODY_SCALE__group" in SKDict:
-            SK.data.edit_bones["BODY_SCALE__group"].parent = SK.data.edit_bones["MODEL_00"]
-        else:
-            raise Exception("BODY_SCALE__group bone is missing")
-        if "EDIT__null" in SKDict:
-            SK.data.edit_bones["EDIT__null"].parent = SK.data.edit_bones["MODEL_00"]
+        # for bone in SK.data.edit_bones:
+        #     if bone.parent == None :
+        #         Root_bone = bone.name
 
+        SK.data.edit_bones.new(SK.name)
+        SK.data.edit_bones[SK.name].length = 0.05 #Required otherwise the bone won't be created
+        SK.data.edit_bones[SK.name].parent = None
+
+        for bone in SK.data.edit_bones:
+            if bone.parent == None and bone.name != SK.name:
+                bone.parent = SK.data.edit_bones[SK.name]
 
         SK.name = Og_Name
 
@@ -281,29 +319,32 @@ class FBX_Exporter():
                 layer_col.hide_viewport = True
 
  
-    def Test_SK_Type(SK):
+    def Test_SK_Type(SK, game):
         
         bpy.ops.object.mode_set(mode='EDIT')
         
         SKDict = {bone.name: bone for bone in  SK.data.edit_bones}
-            
-        if ("Spine1" not in SKDict) or ("Spine2" not in SKDict):
-            raise Exception("The skeleton is missing the Spine1 and / or Spine2 bone(s)")
-        else:
-            RefVec =   SKDict["Spine1"].head - SKDict["Spine2"].head
-            
-            if isclose(RefVec.dot(SKDict["Spine1"].vector),0,abs_tol=0.0001):
-                print("PSK")
-                Result = "PSK"
-                
-            else:
-                print("glTF")
-                Result = "glTF"
-                
-                
-        bpy.ops.object.mode_set(mode='OBJECT')
         
-        return Result
+        if game == "Tekken 7":
+            if ("Spine1" not in SKDict) or ("Spine2" not in SKDict):
+                raise Exception("The skeleton is missing the Spine1 and / or Spine2 bone(s)")
+            else:
+                RefVec =   SKDict["Spine1"].head - SKDict["Spine2"].head
+                
+                if isclose(RefVec.dot(SKDict["Spine1"].vector),0,abs_tol=0.0001):
+                    print("PSK")
+                    Result = "Psk"
+                    
+                else:
+                    print("glTF")
+                    Result = "glTF"
+                    
+                    
+            bpy.ops.object.mode_set(mode='OBJECT')
+            
+            return Result
+        else:
+            return "PSK"
 
 #    isclose(QuatVec.length, 0,abs_tol = 0.0001)
 
