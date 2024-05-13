@@ -23,7 +23,7 @@ bl_info = {
     "author" : "Ludenous",
     "description" : "Blender Addon for porting rigged characters into Tekken 7",
     "blender" : (2, 93, 0),
-    "version" : (0, 3, 6),
+    "version" : (0, 3, 7),
     "location" : "View3D",
     "warning" : "",
     "wiki_url":    "https://github.com/Ludenous1/TK7_SK_CH",
@@ -40,6 +40,7 @@ from.TK_OP import *
 from.TK_UI import *
 from.TK_PROP import *
 from.TK_PROP_FX import *
+from.Vis_UV import *
 
 from . import addon_updater_ops
 
@@ -84,25 +85,45 @@ class UpdaterPreferences(bpy.types.AddonPreferences):
     def draw(self, context):
         """Draw Method."""
         addon_updater_ops.update_settings_ui(self, context)
+        
 
 
 
 classes = (
     # ____Panels_______
     Character_Modding,
+    EXP_SCENE_PT_PANEL,
+    PT_SK_TOOLS,
+    RENAMER_PT_PANEL,
     VGMERGER_PT_PANEL,
     SK_GEN_PT_PANEL,
     SK_POSE_SNAP_PT_PANEL,
     SK_TPOSER_PT_PANEL,
 
-    RENAMER_PT_PANEL,
+    
 
     
     
 
-    # SKTOOLS_PT_PANEL,
+    
 
     SIMPLIFIER_PT_PANEL,
+
+    VISUALUV_PT_3d_view,
+    VISUALUV_PT_2d_view,
+    VISUALUV_OT_update,
+    VISUALUV_OT_toggle_texture,
+    VISUALUV_OT_toggle_stretching,
+    VISUALUV_OT_toggle_islands,
+    VISUALUV_OT_toggle_normals,
+    VISUALUV_OT_toggle_overlap,
+    VISUALUV_OT_overlay,
+    VISUALUV_ObjectProperties,
+    VISUALUV_WindowManagerProperties,
+
+
+    # VISUALUV_PT_3d_view,
+    # VISUALUV_PT_2d_view,
 
     # MESHTOOLS_PT_PANEL, 
 
@@ -189,8 +210,13 @@ classes = (
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)
+
+#__________________Vis UV_____________________________
+    bpy.types.Object.visualuv = PointerProperty(type=VISUALUV_ObjectProperties)
+    bpy.types.WindowManager.visualuv = PointerProperty(type=VISUALUV_WindowManagerProperties)
+
 #__________________Main tools_________________________
-    bpy.types.Scene.tk_game = EnumProperty(items=Generate_Enum_for_Game_Setting)
+    bpy.types.Scene.tk_main_menu = EnumProperty(items=Generate_Enum_for_Main_Menu)
 
     bpy.types.Scene.tk_import_type = EnumProperty(items=Generate_Enum_for_SK_Gen_Opt1)
     
@@ -284,8 +310,12 @@ def unregister():
     if check_ob_in_scene in bpy.app.handlers.depsgraph_update_post:
         bpy.app.handlers.depsgraph_update_post.remove(check_ob_in_scene)
 
+#__________________Vis UV_____________________________
+    del bpy.types.WindowManager.visualuv
+    del bpy.types.Object.visualuv
+
 #________________Main tools______________________________
-    del bpy.types.Scene.tk_game
+    del bpy.types.Scene.tk_main_menu 
 
     del bpy.types.Scene.tk_import_type
     

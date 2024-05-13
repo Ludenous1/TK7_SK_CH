@@ -5,6 +5,9 @@ from bpy.types import Panel
 
 # from.TK_UI import *
 from.TK_PROP_FX import *
+from . import addon_updater_ops
+# from .__init__ import bl_info
+
 #asd
 #______________________________Panel Classes_____________________________________
 
@@ -15,10 +18,10 @@ class Tekke7Panel:
     # bl_options = {"DEFAULT_CLOSED"}
     bl_options = {"HEADER_LAYOUT_EXPAND"}
     
-
 class Character_Modding(Tekke7Panel,Panel):
     bl_idname = "TEKKEN7_PT_CHARACTER"
     bl_label = ""
+    # bl_options = {"DEFAULT_CLOSED"}
 
     # bl_space_type = "VIEW_3D"
     # bl_region_type = "UI"
@@ -29,10 +32,51 @@ class Character_Modding(Tekke7Panel,Panel):
         layout = self.layout
 
         # self.layout.label(text="Skeleton Generator")
-        layout.prop(context.scene, "tk_game", text="")
+        layout.prop(context.scene, "tk_main_menu", text="Lol",expand = True)
+
+    def draw(self, context):
+
+        # layout = self.layout
+        # layout.label(bl_info["version"])
+        addon_updater_ops.update_settings_ui(self, context)
+
+        
+
+class EXP_SCENE_PT_PANEL(Tekke7Panel, Panel):
+    # bl_idname = "TEKKEN7_PT_SK_TOOLS"
+    bl_label = ""
+
+    @classmethod
+    def poll(self, context):
+      
+        if context.scene.tk_main_menu  == '0' or context.scene.tk_main_menu  == '1':
+
+
+            return True
+    
+
+        return False
+
+
+    def draw_header(self, context):
+        
+        layout = self.layout
+
+        self.layout.label(text="Scene and export settings")
+
+        # self.layout.label(text=" ")
+
+        op = layout.operator(
+            'wm.url_open',
+            text='',
+            icon='QUESTION'
+            )
+        op.url = 'https://github.com/Ludenous1/TK7_SK_CH#quick-tools'
+
 
     def draw(self, context):
         layout = self.layout
+
 #        layout.label(text="This is the main panel.")
         col = layout.column()
 
@@ -52,36 +96,59 @@ class Character_Modding(Tekke7Panel,Panel):
 
         r3 = col.row() # Start a row
         # r2.label(text='Export by:')     
-        r3.prop(context.scene, "fbx_exp_enum", text="Name by")
+        r3.prop(context.scene, "fbx_exp_enum", text="Name by ", expand = True)
 
         r4 = col.row() # Start a row
         # r2.label(text='Export by:') 
-        # if len(context.scene.tk_game) == '1':    
-        r4.prop(context.scene, "tk_import_type", text="Import type")
+        # if len(context.scene.tk_main_menu ) == '1':    
+        r4.prop(context.scene, "tk_import_type", text="Import type ", expand = True)
 
 
         r5 = col.row() # Start a row
-        r5.prop(context.scene.fbx_exp_path, "user_file_path", text="Output Folder")
+        r5.prop(context.scene.fbx_exp_path, "user_file_path", text="Output Folder ")
         # r2c2.use_property_split = True
 
         r6 = col.row() # Start a row
         r6.operator('object.tk7_export', text='FBX Export', icon='EXPORT')
 
-        # row = layout.row(align=True)
-        # row.prop(context.scene, "sk_gen_char_enum", text="Mode")
-        # row.prop(context.scene, "sk_gen_opt1_enum", text="")
-        # row.prop(context.scene, "sk_gen_opt2_enum", text="")
+       
 
-        # row.label(text="", icon='ERROR')
-        layout.separator()
-        row = layout.row(align=True)
-        row.label(text='Skeleton Tools:') 
-        op = row.operator(
+
+
+class PT_SK_TOOLS(Tekke7Panel, Panel):
+    # bl_idname = "TEKKEN7_PT_SK_TOOLS"
+    bl_label = ""
+
+    @classmethod
+    def poll(self, context):
+      
+        if context.scene.tk_main_menu  == '2': #or context.scene.tk_main_menu  == '1':
+
+
+            return True
+    
+
+        return False
+
+
+    def draw_header(self, context):
+        
+        layout = self.layout
+
+        self.layout.label(text="Skeleton Tools")
+
+        # self.layout.label(text=" ")
+
+        op = layout.operator(
             'wm.url_open',
             text='',
             icon='QUESTION'
             )
         op.url = 'https://github.com/Ludenous1/TK7_SK_CH#quick-tools'
+
+
+    def draw(self, context):
+        layout = self.layout
         
 
         row = layout.row(align=True)
@@ -114,131 +181,7 @@ class Character_Modding(Tekke7Panel,Panel):
         sub = row.row(align=True)
         sub.enabled = False
         sub.prop(context.scene, "sk_to_isolate" , icon='ARMATURE_DATA')
-        
 
-
-
-        # r = col.row(align=True)
-        # r2 = r.column(align=True)
-        
-        # r2.operator('object.sk_bnremove', text='Remove bones')
-
-        # r = col.row(align=True)
-        # r2 = r.column(align=True)
-        # r2.operator('object.sk_bonerename', text='Rename')
-
-
-        # r = col.row(align=True)
-        # r2 = r.column(align=True)
-        # r2.operator('object.sk_bonemergeparent', text='MergeParent')
-
-        # r = col.row(align=True)
-        # r2 = r.column(align=True)
-        # r2.operator('object.sk_posmove', text='PosMove')
-
-
-
-#Not really used / deprecated
-class SK_TOOLS_PT_PANEL(Tekke7Panel, Panel):
-    bl_idname = "TEKKEN7_PT_SK_TOOLS"
-    bl_parent_id = "TEKKEN7_PT_CHARACTER"
-    bl_label = "Skeleton Tools"
-    
-    
-
-    def draw(self, context):
-        layout = self.layout
-
-
-        row = layout.row(align=True)
-        row.label(text='Quick Tools:')
-        row.label(text="", icon='ERROR')
-
-        row = layout.row(align=True)
-        row.operator('object.tk7_sk_generator', text='Merge bones to ', icon = 'OUTLINER_OB_ARMATURE')
-
-        row.prop(context.scene, "sk_gen_char_enum", text="")
-
-        row = layout.row(align=True)
-        row.operator('object.sk_bonefix', text='Fix bones to match ', icon = 'OUTLINER_OB_ARMATURE')
-
-        row.prop(context.scene, "sk_gen_char_enum", text="")
-
-        row = layout.row(align=True)
-        row.operator('object.sk_applypose', text='Apply Pose', icon = 'ARMATURE_DATA')
-
-
-#         row = layout.row(align=True)
-#         row.label(text='Skeleton Generator:')
-
-#         row = layout.row(align=True)
-#         row.prop(context.scene, "sk_gen_char_enum", text="Mode")
-#         row.prop(context.scene, "sk_gen_opt1_enum", text="")
-#         row.prop(context.scene, "sk_gen_opt2_enum", text="")
-
-#         row = layout.row(align=True)
-#         row.operator('object.tk7_sk_generator', text='Generate Skeleton', icon = 'OUTLINER_OB_ARMATURE')
-
-#         layout.separator()
-#         layout.separator()
-
-#         row = layout.row(align=True)
-#         row.label(text='T-Poser:')
-#         row = layout.row(align=True)
-#         row.prop(context.scene, 'bone_R_Mrg', text='Fix armature')
-#         #TODO: Add the active thing here
-#         row = layout.row(align=True)
-#         row.prop(context.scene, 'bone_R_Mrg', text='Fix finger tips')
-#         row = layout.row(align=True)
-#         row.operator('object.tk7_sk_generator', text='T Pose', icon = 'OUTLINER_OB_ARMATURE')
-
-#         layout.separator()
-#         layout.separator()
-
-#         row = layout.row(align=True)
-#         row.label(text='Pose snapper:')
-#         row = layout.row(align=True)
-#         row.prop(context.scene, 'bone_R_Mrg', text='Autoscale')
-
-#         row = layout.row(align=True)
-#         row.prop(context.scene, "sk_gen_char_enum", text="Mode")
-
-#         row = layout.row(align=True)
-#         row.operator('object.tk7_sk_generator', text='Snap bones', icon = 'OUTLINER_OB_ARMATURE')
-
-#         layout.separator()
-#         layout.separator()
-
-
-# #        layout.label(text="Second Sub Panel of Panel 1.")
-#         # col = layout.column()
-#         # col.separator()
-#         # row.separator()
-
-
-#         # row.label(text='Select the armatures:')
- 
-#         row = layout.row(align=True)
-#         row.label(text='Other Tools:')
-
-#         row = layout.row(align=True)
-#         row.operator('object.tk7_sk_generator', text='Merge bones to ', icon = 'OUTLINER_OB_ARMATURE')
-
-#         row.prop(context.scene, "sk_gen_char_enum", text="")
-
-#         row = layout.row(align=True)
-#         row.operator('object.sk_applypose', text='Apply Pose', icon = 'ARMATURE_DATA')
-
-
-#         # c = col.column(align=True)
-#         # r = c.row(align=True)
-#         # r.operator('object.sk_applypose', text='Apply Pose', icon = 'ARMATURE_DATA')
-
-#         # col.separator()
-
-#         # c = col.column(align=True)
-#         # r = c.row(align=True)
-#         # r.operator('object.sk_bonemergeparent', text='Merge Selected bones to ', icon = 'ARMATURE_DATA')
 
 
 
@@ -251,7 +194,7 @@ class SK_GEN_PT_PANEL(Tekke7Panel, Panel):
     @classmethod
     def poll(self, context):
       
-        if context.scene.tk_game == '0':
+        if context.scene.tk_main_menu  == '0':
 
 
             return True
@@ -297,7 +240,7 @@ class SK_TPOSER_PT_PANEL(Tekke7Panel, Panel):
     @classmethod
     def poll(self, context):
       
-        if context.scene.tk_game == '0':
+        if context.scene.tk_main_menu  == '0':
 
 
             return True
@@ -350,6 +293,18 @@ class SK_POSE_SNAP_PT_PANEL(Tekke7Panel, Panel):
     # bl_parent_id = "TEKKEN7_PT_CHARACTER"
     bl_label = ""
     
+    @classmethod
+    def poll(self, context):
+      
+        if context.scene.tk_main_menu  == '0':
+
+
+            return True
+    
+
+        return False
+
+
     def draw_header(self, context):
         
         layout = self.layout
@@ -407,6 +362,18 @@ class RENAMER_PT_PANEL(Tekke7Panel, Panel):
     # bl_parent_id = "TEKKEN7_PT_CHARACTER"
     bl_label = ""
     # bl_options = {"DEFAULT_CLOSED"}
+
+    @classmethod
+    def poll(self, context):
+      
+        if context.scene.tk_main_menu  == '2':
+
+
+            return True
+    
+
+        return False
+
 
     def draw_header(self, context):
         
@@ -598,6 +565,17 @@ class SIMPLIFIER_PT_PANEL(Tekke7Panel, Panel):
     # bl_parent_id = "TEKKEN7_PT_CHARACTER"
     bl_label = ""
 
+    @classmethod
+    def poll(self, context):
+      
+        if context.scene.tk_main_menu  == '2':
+
+
+            return True
+    
+
+        return False
+
     def draw_header(self, context):
         
         layout = self.layout
@@ -654,6 +632,17 @@ class SIMPLIFIER_PT_PANEL(Tekke7Panel, Panel):
 class VGMERGER_PT_PANEL(Tekke7Panel, Panel):
     # bl_parent_id = "TEKKEN7_PT_CHARACTER"
     bl_label = ""
+
+    @classmethod
+    def poll(self, context):
+      
+        if context.scene.tk_main_menu  == '2':
+
+
+            return True
+    
+
+        return False
 
     # @classmethod
     # def poll(cls, context):

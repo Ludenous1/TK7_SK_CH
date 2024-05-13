@@ -46,7 +46,7 @@ def TekkenSceneSetup():
 
 
 
-def TekkenFBXexporter(Game_enum, FBX_Exp_Enum, Import_type_enum):
+def TekkenFBXexporter(FBX_Exp_Enum, Import_type_enum):
 
     #TODO: No UV--->
     #TODO: Max material count--->
@@ -99,12 +99,12 @@ def TekkenFBXexporter(Game_enum, FBX_Exp_Enum, Import_type_enum):
 
     
     
-    Games = ['Tekken 7', 'Tekken 8']
+    # Games = ['Tekken 7', 'Tekken 8']
     Exp_Settings = ['Mesh', 'Armature']
     Import_types = ['glTF', 'Psk']
 
 
-    Game = Games[int(Game_enum)]
+    # Game = Games[int(Game_enum)]
     Setting = Exp_Settings[int(FBX_Exp_Enum)]
     Import_type = Import_types[int(Import_type_enum)]
     

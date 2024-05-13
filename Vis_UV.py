@@ -189,9 +189,16 @@ class VisualUVPanel():
 class VISUALUV_PT_3d_view(bpy.types.Panel, VisualUVPanel):
     bl_label = "VisualUV Overlays"
     bl_idname = "VISUALUV_PT_uv_tool_menu3d"
-    bl_space_type = 'VIEW_3D'
-    bl_region_type = 'UI'
-    bl_category = 'VisualUV'
+    # bl_space_type = 'VIEW_3D'
+    # bl_region_type = 'UI'
+    # bl_category = 'VisualUV'
+
+    bl_space_type = "VIEW_3D"
+    bl_region_type = "UI"
+    bl_category = "TK7_SK_CH"
+    # bl_options = {"DEFAULT_CLOSED"}
+    bl_options = {"HEADER_LAYOUT_EXPAND"}
+
 
     def draw(self, context):
         layout = self.layout
@@ -202,7 +209,7 @@ class VISUALUV_PT_2d_view(bpy.types.Panel,VisualUVPanel):
     bl_idname = "VISUALUV_PT_uv_tool_menu2d"
     bl_space_type = 'IMAGE_EDITOR'
     bl_region_type = 'UI'
-    bl_category = 'VisualUV'
+    bl_category = "TK7_SK_CH"
 
     def draw(self, context):
         layout = self.layout

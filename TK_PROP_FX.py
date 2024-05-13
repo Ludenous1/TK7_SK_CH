@@ -140,10 +140,10 @@ def Find_Missing_File_Name(FolderName,Preset_Name_Collection):
 
 ####
 #______________For Main tools____________________________
-def Generate_Enum_for_Game_Setting(self, context):
+def Generate_Enum_for_Main_Menu(self, context):
     
     
-    Enum_items = ['Tekken 7', 'Tekken 8']
+    Enum_items = ['Tk 7', 'Tk 8', 'Other']
     Enums = []
     
     for indx, item in enumerate(Enum_items):

@@ -56,7 +56,7 @@ class SK_CH_Export(Operator):
         return False
 
     def execute(self, context):
-        TekkenFBXexporter(context.scene.tk_game, context.scene.fbx_exp_enum, context.scene.tk_import_type)
+        TekkenFBXexporter( context.scene.fbx_exp_enum, context.scene.tk_import_type)
         return {'FINISHED'}
 
 
