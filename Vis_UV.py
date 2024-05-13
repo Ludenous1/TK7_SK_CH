@@ -199,13 +199,24 @@ class VISUALUV_PT_3d_view(bpy.types.Panel, VisualUVPanel):
     # bl_options = {"DEFAULT_CLOSED"}
     bl_options = {"HEADER_LAYOUT_EXPAND"}
 
+    @classmethod
+    def poll(self, context):
+      
+        if context.scene.tk_main_menu  == '2':
+
+
+            return True
+    
+
+        return False
+
 
     def draw(self, context):
         layout = self.layout
         self.draw_ui(layout, context, False)
 
 class VISUALUV_PT_2d_view(bpy.types.Panel,VisualUVPanel):
-    bl_label = "VisualUV Overlays"
+    bl_label = "UV Overlay"
     bl_idname = "VISUALUV_PT_uv_tool_menu2d"
     bl_space_type = 'IMAGE_EDITOR'
     bl_region_type = 'UI'

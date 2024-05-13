@@ -109,7 +109,7 @@ classes = (
 
     SIMPLIFIER_PT_PANEL,
 
-    VISUALUV_PT_3d_view,
+    # VISUALUV_PT_3d_view,
     VISUALUV_PT_2d_view,
     VISUALUV_OT_update,
     VISUALUV_OT_toggle_texture,
