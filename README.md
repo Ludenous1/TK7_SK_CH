@@ -19,7 +19,6 @@ Blender addon to speed up the process of modding rigged characters into Tekken 7
 
 <a name="credits"></a>
 ## Credits
-The addon borrows from Samuel Bílek's [**Visual_UV addon**](https://gitlab.fi.muni.cz/xbilek2/visual-uv/-/tree/main) and from CGCookie's [**blender-addon-updater**](https://github.com/CGCookie/blender-addon-updater)
 
 I owe a lot to the following members of the Tekken modding community who provided their code and/or info which shaped the addon you see before you:
 * [**Dennis**](https://github.com/DennisStanistan)
@@ -35,6 +34,8 @@ I also owe a lot to the following members from the Blender development community
 
 
 If you happen to run into any inconveniences while using the addon, you have [my thick-headedness](https://github.com/Ludenous1) to thank for that[^1]. 
+
+The addon borrows from Samuel Bílek's [**Visual_UV addon**](https://gitlab.fi.muni.cz/xbilek2/visual-uv/-/tree/main) and from CGCookie's [**blender-addon-updater**](https://github.com/CGCookie/blender-addon-updater)
 
 ---
 
