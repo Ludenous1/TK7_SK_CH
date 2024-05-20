@@ -188,6 +188,7 @@ class FBX_Exporter():
         Og_SK_Name = SK.name
         SKDict = {bone.name: bone for bone in  SK.data.edit_bones}
         Root_bones = []
+        Bones_Changed = True
 
         #Search for root bones
         for bone in SK.data.edit_bones:
@@ -200,7 +201,7 @@ class FBX_Exporter():
         Root_bone_name = Root_bones[0]
 
         if FBX_script_test == True:
-            pass
+            Bones_Changed = False
      
     #        pass
         elif FBX_script_test == False:
@@ -210,7 +211,7 @@ class FBX_Exporter():
             SK.name = Root_bone_name
 
         bpy.ops.object.mode_set(mode='OBJECT')
-        return(Og_SK_Name)
+        return(Og_SK_Name, Bones_Changed)
 
     def Armature_Object_Restore(SK,Og_Name):
         
